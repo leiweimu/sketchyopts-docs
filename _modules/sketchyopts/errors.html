@@ -275,8 +275,12 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for sketchyopts.errors</h1><div class="highlight"><pre>
-<span></span><span class="k">class</span> <span class="nc">SketchyOptsError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+<span></span><span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
+
+
+<span class="k">class</span> <span class="nc">SketchyOptsError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">error_page</span> <span class="o">=</span> <span class="s2">&quot;https://udellgroup.github.io/sketchyopts/api/errors.html&quot;</span>
         <span class="n">module_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span>
         <span class="n">class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
@@ -287,19 +291,35 @@ document.write(`
 <div class="viewcode-block" id="InputDimError">
 <a class="viewcode-back" href="../../api/sketchyopts.errors.html#sketchyopts.errors.InputDimError">[docs]</a>
 <span class="k">class</span> <span class="nc">InputDimError</span><span class="p">(</span><span class="n">SketchyOptsError</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Incorrect Input Dimension.</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_name</span><span class="p">,</span> <span class="n">actual_dim</span><span class="p">,</span> <span class="n">required_dim</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Input </span><span class="si">{</span><span class="n">input_name</span><span class="si">}</span><span class="s2"> is expected to have dimension </span><span class="si">{</span><span class="n">required_dim</span><span class="si">}</span><span class="s2"> but has </span><span class="si">{</span><span class="n">actual_dim</span><span class="si">}</span><span class="s2">.&quot;</span>
-        <span class="p">)</span></div>
+<span class="sd">    This error occurs when an argument of a function has unexpected dimension.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">input_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">actual_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">required_dim</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">required_dim</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">required_dim</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Input </span><span class="si">{</span><span class="n">input_name</span><span class="si">}</span><span class="s2"> is expected to have any dimension in </span><span class="si">{</span><span class="n">required_dim</span><span class="si">}</span><span class="s2"> but has </span><span class="si">{</span><span class="n">actual_dim</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Input </span><span class="si">{</span><span class="n">input_name</span><span class="si">}</span><span class="s2"> is expected to have dimension </span><span class="si">{</span><span class="n">required_dim</span><span class="si">}</span><span class="s2"> but has </span><span class="si">{</span><span class="n">actual_dim</span><span class="si">}</span><span class="s2">.&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="MatrixNotSquareError">
 <a class="viewcode-back" href="../../api/sketchyopts.errors.html#sketchyopts.errors.MatrixNotSquareError">[docs]</a>
 <span class="k">class</span> <span class="nc">MatrixNotSquareError</span><span class="p">(</span><span class="n">SketchyOptsError</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Non-square Matrix Error.</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_name</span><span class="p">,</span> <span class="n">actual_shape</span><span class="p">):</span>
+<span class="sd">    This error occurs when an argument representing a non-square matrix gets passed to a function that expects a square matrix.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">actual_shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Input </span><span class="si">{</span><span class="n">input_name</span><span class="si">}</span><span class="s2"> is expected to be a square matrix but has shape </span><span class="si">{</span><span class="n">actual_shape</span><span class="si">}</span><span class="s2">.&quot;</span>
         <span class="p">)</span></div>
