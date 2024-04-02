@@ -51,7 +51,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/sketchyopts.solver';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Error Messages" href="sketchyopts.errors.html" />
+    <link rel="next" title="Utilities" href="sketchyopts.util.html" />
     <link rel="prev" title="Preconditioners" href="sketchyopts.preconditioner.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -157,6 +157,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Solvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.util.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.errors.html">Error Messages</a></li>
 </ul>
 
@@ -325,6 +326,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.nystrom_pcg"><code class="docutils literal notranslate"><span class="pre">nystrom_pcg()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchysgd">SketchySGD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.sketchysgd"><code class="docutils literal notranslate"><span class="pre">sketchysgd()</span></code></a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -341,7 +346,10 @@ document.write(`
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.solver.nystrom_pcg" title="sketchyopts.solver.nystrom_pcg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nystrom_pcg</span></code></a>(A, b, mu, rank, key, *[, x0, ...])</p></td>
-<td><p>Nyström preconditioned conjugate gradient (Nyström PCG).</p></td>
+<td><p>The Nyström preconditioned conjugate gradient method (Nyström PCG).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.solver.sketchysgd" title="sketchyopts.solver.sketchysgd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sketchysgd</span></code></a>(rank, rho, update_freq, seed, f, *)</p></td>
+<td><p>The SketchySGD optimizer.</p></td>
 </tr>
 </tbody>
 </table>
@@ -350,15 +358,15 @@ document.write(`
 <dl class="py function">
 <dt class="sig sig-object py" id="sketchyopts.solver.nystrom_pcg">
 <span class="sig-prename descclassname"><span class="pre">sketchyopts.solver.</span></span><span class="sig-name descname"><span class="pre">nystrom_pcg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver.html#nystrom_pcg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.nystrom_pcg" title="Link to this definition">#</a></dt>
-<dd><p>Nyström preconditioned conjugate gradient (Nyström PCG).</p>
+<dd><p>The Nyström preconditioned conjugate gradient method (Nyström PCG).</p>
 <p>The function solves the regularized linear system <span class="math">\((A + \mu I)x = b\)</span> using Nyström PCG.</p>
-<p>The algorithm uses randomized Nyström preconditioner by implicitly applying</p>
+<p>Nyström PCG uses randomized Nyström preconditioner by implicitly applying</p>
 <div class="math">
 \[P^{-1} = (\hat{\lambda}_{l} + \mu) U (\hat{\Lambda} + \mu I)^{-1} U^{T} + (I - U U^{T})
 
 \]</div>
 <p>where <span class="math">\(U\)</span> and <span class="math">\(\hat{\Lambda}\)</span> are from rank-<span class="math">\(l\)</span> randomized Nyström approximation (here <span class="math">\(\hat{\lambda}_{l}\)</span> is the <span class="math">\(l\)</span><sup>th</sup> diagonal entry of <span class="math">\(\hat{\Lambda}\)</span>).</p>
-<p>The algorithm terminates if the <span class="math">\(\ell_2\)</span>-norm of the residual <span class="math">\(b - (A + \mu I)\hat{x}\)</span> is within the specified tolerance or it has reached the maximal number of iterations.</p>
+<p>Nyström PCG terminates if the <span class="math">\(\ell_2\)</span>-norm of the residual <span class="math">\(b - (A + \mu I)\hat{x}\)</span> is within the specified tolerance or it has reached the maximal number of iterations.</p>
 <p class="rubric">References</p>
 <ul class="simple">
 <li><p>Z. Frangella, J. A. Tropp, and M. Udell, <a class="reference external" href="https://epubs.siam.org/doi/10.1137/21M1466244">Randomized Nyström preconditioning</a>. SIAM Journal on Matrix Analysis and Applications, vol. 44, iss. 2, 2023, pp. 718-752.</p></li>
@@ -393,6 +401,61 @@ document.write(`
 </dd></dl>
 
 </section>
+<section id="sketchysgd">
+<h2>SketchySGD<a class="headerlink" href="#sketchysgd" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.solver.sketchysgd">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.solver.</span></span><span class="sig-name descname"><span class="pre">sketchysgd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rank</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver.html#sketchysgd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.sketchysgd" title="Link to this definition">#</a></dt>
+<dd><p>The SketchySGD optimizer.</p>
+<p>SketchySGD is a stochastic quasi-Newton method that uses sketching to approximate the curvature of the loss function. It maintains a preconditioner for SGD using randomized low-rank Nyström approximations to the subsampled Hessian and automatically selects an appropriate learning whenever it updates the preconditioner.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sketchyopts</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">optax</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">jax</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># simple quadratic function</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">solver</span> <span class="o">=</span> <span class="n">sketchyopts</span><span class="o">.</span><span class="n">sketchysgd</span><span class="p">(</span><span class="n">rank</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">update_freq</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Objective function: &#39;</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+<span class="go">Objective function:  14.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">opt_state</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+<span class="gp">... </span> <span class="n">grad</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f</span><span class="p">)(</span><span class="n">params</span><span class="p">)</span>
+<span class="gp">... </span> <span class="n">updates</span><span class="p">,</span> <span class="n">opt_state</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+<span class="gp">... </span> <span class="n">params</span> <span class="o">=</span> <span class="n">optax</span><span class="o">.</span><span class="n">apply_updates</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">updates</span><span class="p">)</span>
+<span class="gp">... </span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Objective function: </span><span class="si">{:.2E}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">params</span><span class="p">)))</span>
+<span class="go">Objective function: 2.63E-12</span>
+<span class="go">Objective function: 6.37E-25</span>
+<span class="go">Objective function: 1.75E-37</span>
+<span class="go">Objective function: 0.00E+00</span>
+<span class="go">Objective function: 0.00E+00</span>
+</pre></div>
+</div>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Z. Frangella, P. Rathore, S. Zhao, and M. Udell, <a class="reference external" href="https://arxiv.org/abs/2211.08597">SketchySGD: Reliable Stochastic Optimization via Randomized Curvature Estimates</a>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rank</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Rank of the preconditioner.</p></li>
+<li><p><strong>rho</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Regularization parameter (with non-negative value).</p></li>
+<li><p><strong>update_freq</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – A non-negative integer that specifies the update frequency of the preconditioner. When set to <code class="docutils literal notranslate"><span class="pre">0</span></code> or <span class="math">\(\infty\)</span> (<em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">jax.numpy.inf</span></code> or <code class="docutils literal notranslate"><span class="pre">numpy.inf</span></code>), the optimizer uses constant preconditioner that is constructed at the beginning of the optimization process.</p></li>
+<li><p><strong>seed</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – An integer used as a seed to generate random numbers.</p></li>
+<li><p><strong>f</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">Concatenate</span></code>[<a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.ParamSpec" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParamSpec</span></code></a>(<code class="docutils literal notranslate"><span class="pre">P</span></code>, bound= <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)]], <a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a>]</span>) – A scalar-valued loss/objective function to be optimized. The function needs to have the optimization variable as its first argument.</p></li>
+<li><p><strong>learning_rate</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Step size for applying updates (default <code class="docutils literal notranslate"><span class="pre">None</span></code>). It can either be a fixed scalar value or a schedule based on step count. When set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, the algorithm adaptively chooses a learning rate whenever the preconditioner is updated.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">GradientTransformation</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The corresponding <a class="reference external" href="https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformation">GradientTransformation</a> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -416,11 +479,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="sketchyopts.errors.html"
+       href="sketchyopts.util.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Error Messages</p>
+        <p class="prev-next-title">Utilities</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -442,6 +505,10 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nystrom-pcg">Nyström PCG</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.nystrom_pcg"><code class="docutils literal notranslate"><span class="pre">nystrom_pcg()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchysgd">SketchySGD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.sketchysgd"><code class="docutils literal notranslate"><span class="pre">sketchysgd()</span></code></a></li>
 </ul>
 </li>
 </ul>

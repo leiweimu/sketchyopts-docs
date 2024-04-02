@@ -51,7 +51,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/sketchyopts.errors';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Solvers" href="sketchyopts.solver.html" />
+    <link rel="prev" title="Utilities" href="sketchyopts.util.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -156,6 +156,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.solver.html">Solvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.util.html">Utilities</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Error Messages</a></li>
 </ul>
 
@@ -321,8 +322,8 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-errors">Input Errors</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.errors.InputDimError"><code class="docutils literal notranslate"><span class="pre">InputDimError()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.errors.MatrixNotSquareError"><code class="docutils literal notranslate"><span class="pre">MatrixNotSquareError()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.errors.InputDimError"><code class="docutils literal notranslate"><span class="pre">InputDimError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.errors.MatrixNotSquareError"><code class="docutils literal notranslate"><span class="pre">MatrixNotSquareError</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -352,16 +353,16 @@ document.write(`
 </table>
 <section id="input-errors">
 <h2>Input Errors<a class="headerlink" href="#input-errors" title="Link to this heading">#</a></h2>
-<dl class="py function">
+<dl class="py class">
 <dt class="sig sig-object py" id="sketchyopts.errors.InputDimError">
-<span class="sig-prename descclassname"><span class="pre">sketchyopts.errors.</span></span><span class="sig-name descname"><span class="pre">InputDimError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_dim</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/errors.html#InputDimError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.errors.InputDimError" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.errors.</span></span><span class="sig-name descname"><span class="pre">InputDimError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required_dim</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/errors.html#InputDimError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.errors.InputDimError" title="Link to this definition">#</a></dt>
 <dd><p>Incorrect Input Dimension.</p>
 <p>This error occurs when an argument of a function has unexpected dimension.</p>
 </dd></dl>
 
-<dl class="py function">
+<dl class="py class">
 <dt class="sig sig-object py" id="sketchyopts.errors.MatrixNotSquareError">
-<span class="sig-prename descclassname"><span class="pre">sketchyopts.errors.</span></span><span class="sig-name descname"><span class="pre">MatrixNotSquareError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/errors.html#MatrixNotSquareError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.errors.MatrixNotSquareError" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.errors.</span></span><span class="sig-name descname"><span class="pre">MatrixNotSquareError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual_shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/errors.html#MatrixNotSquareError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.errors.MatrixNotSquareError" title="Link to this definition">#</a></dt>
 <dd><p>Non-square Matrix Error.</p>
 <p>This error occurs when an argument representing a non-square matrix gets passed to a function that expects a square matrix.</p>
 </dd></dl>
@@ -381,12 +382,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="sketchyopts.solver.html"
+       href="sketchyopts.util.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Solvers</p>
+        <p class="prev-next-title">Utilities</p>
       </div>
     </a>
 </div>
@@ -406,8 +407,8 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-errors">Input Errors</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.errors.InputDimError"><code class="docutils literal notranslate"><span class="pre">InputDimError()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.errors.MatrixNotSquareError"><code class="docutils literal notranslate"><span class="pre">MatrixNotSquareError()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.errors.InputDimError"><code class="docutils literal notranslate"><span class="pre">InputDimError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.errors.MatrixNotSquareError"><code class="docutils literal notranslate"><span class="pre">MatrixNotSquareError</span></code></a></li>
 </ul>
 </li>
 </ul>

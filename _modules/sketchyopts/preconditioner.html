@@ -156,6 +156,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.util.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.errors.html">Error Messages</a></li>
 </ul>
 
@@ -275,22 +276,30 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for sketchyopts.preconditioner</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">jax.random</span>
+<span></span><span class="kn">import</span> <span class="nn">jax</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
 <span class="kn">import</span> <span class="nn">jax.scipy</span> <span class="k">as</span> <span class="nn">jsp</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">optax._src.base</span> <span class="kn">import</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">,</span> <span class="n">EmptyState</span>
+<span class="kn">from</span> <span class="nn">optax._src</span> <span class="kn">import</span> <span class="n">numerics</span>
 
+<span class="kn">from</span> <span class="nn">sketchyopts.util</span> <span class="kn">import</span> <span class="n">LinearOperator</span><span class="p">,</span> <span class="n">HessianLinearOperator</span>
 <span class="kn">from</span> <span class="nn">sketchyopts.errors</span> <span class="kn">import</span> <span class="n">InputDimError</span><span class="p">,</span> <span class="n">MatrixNotSquareError</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">ParamSpec</span><span class="p">,</span> <span class="n">Concatenate</span>
 <span class="kn">from</span> <span class="nn">jax.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
 <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">Array</span>
 
+<span class="n">KeyArray</span> <span class="o">=</span> <span class="n">Array</span>
 <span class="n">KeyArrayLike</span> <span class="o">=</span> <span class="n">ArrayLike</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="rand_nystrom_approx">
 <a class="viewcode-back" href="../../api/sketchyopts.preconditioner.html#sketchyopts.preconditioner.rand_nystrom_approx">[docs]</a>
-<span class="k">def</span> <span class="nf">rand_nystrom_approx</span><span class="p">(</span><span class="n">A</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="n">l</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">KeyArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">rand_nystrom_approx</span><span class="p">(</span>
+    <span class="n">A</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">,</span> <span class="n">LinearOperator</span><span class="p">],</span> <span class="n">l</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">KeyArrayLike</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">]:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Randomized Nyström approximation of a positive-semidefinite matrix.</span>
 
 <span class="sd">    The function computes rank-:math:`l` randomized Nyström approximation of a given positive-semidefinite matrix :math:`A \in \R^{n \times n}`.</span>
@@ -302,7 +311,7 @@ document.write(`
 <span class="sd">      - J\. A. Tropp, A. Yurtsever, M. Udell, and V. Cevher, `Fixed-rank approximation of a positive-semidefinite matrix from streaming data &lt;https://dl.acm.org/doi/10.5555/3294771.3294888&gt;`_, in NIPS, vol. 30, 2017, pp. 1225–1234.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      A: A two-dimensional array representing a positive-semidefinite matrix.</span>
+<span class="sd">      A: A two-dimensional array representing a positive-semidefinite matrix. This can either be an explicit JAX array or an implicit :class:`sketchyopts.util.LinearOperator` object.</span>
 <span class="sd">      l: Rank of the Nyström approximated matrix :math:`\hat{A}_{\mathrm{nys}}` (which coincides with sketch size).</span>
 <span class="sd">      key: A PRNG key used as the random key.</span>
 
@@ -314,13 +323,16 @@ document.write(`
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># dimension check</span>
-    <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InputDimError</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">A</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InputDimError</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">A</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">A</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="n">MatrixNotSquareError</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">MatrixNotSquareError</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
     <span class="c1"># generate randomized sketch</span>
-    <span class="n">Omega</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">A</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="p">))</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">Omega</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">l</span><span class="p">))</span>
     <span class="n">Omega</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">Omega</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;economic&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">Y</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">Omega</span>
     <span class="c1"># shift Y for numerical stability</span>
@@ -332,7 +344,187 @@ document.write(`
     <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">S</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">S</span><span class="p">)</span> <span class="o">-</span> <span class="n">shift</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">U</span><span class="p">,</span> <span class="n">S</span></div>
+
+
+
+<div class="viewcode-block" id="NystromPrecondState">
+<a class="viewcode-back" href="../../api/sketchyopts.preconditioner.html#sketchyopts.preconditioner.NystromPrecondState">[docs]</a>
+<span class="k">class</span> <span class="nc">NystromPrecondState</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;State for the Nyström preconditioner.&quot;&quot;&quot;</span>
+
+    <span class="n">step_count</span><span class="p">:</span> <span class="n">ArrayLike</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Step count (number of executed iterations).&quot;&quot;&quot;</span>
+    <span class="n">U</span><span class="p">:</span> <span class="n">ArrayLike</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Eigenvectors of the preconditioner.&quot;&quot;&quot;</span>
+    <span class="n">S</span><span class="p">:</span> <span class="n">ArrayLike</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Eigenvalues of the preconditioner.&quot;&quot;&quot;</span>
+    <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">]</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Learning rate picked for the preconditioner.&quot;&quot;&quot;</span>
+    <span class="n">key</span><span class="p">:</span> <span class="n">KeyArrayLike</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;PRNG key to be used for updating the preconditioner.&quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="update_nystrom_precond">
+<a class="viewcode-back" href="../../api/sketchyopts.preconditioner.html#sketchyopts.preconditioner.update_nystrom_precond">[docs]</a>
+<span class="k">def</span> <span class="nf">update_nystrom_precond</span><span class="p">(</span>
+    <span class="n">rank</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">update_freq</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">Concatenate</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">P</span><span class="p">],</span> <span class="n">Array</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">adaptive_lr</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Updates Nyström preconditioner.</span>
+
+<span class="sd">    The function updates the preconditioner using randomized low-rank Nyström approximations to the subsampled Hessian and determines appropriate learning rate using randomized powering (if ``adaptive_lr`` is set to ``True``).</span>
+
+<span class="sd">    References:</span>
+<span class="sd">      - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `SketchySGD: Reliable Stochastic Optimization via Randomized Curvature Estimates &lt;https://arxiv.org/abs/2211.08597&gt;`_.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      rank: Rank of the preconditioner.</span>
+<span class="sd">      rho: Regularization parameter (with non-negative value).</span>
+<span class="sd">      update_freq: A non-negative integer that specifies the update frequency of the preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at the beginning of the optimization process.</span>
+<span class="sd">      seed: An integer used as a seed to generate random numbers.</span>
+<span class="sd">      f: A scalar-valued loss/objective function to be optimized. The function needs to have the optimization variable as its first argument.</span>
+<span class="sd">      adaptive_lr: Whether or not to enable automated learning rate selection (default ``True``). When set to ``True``, the algorithm adaptively chooses a learning rate whenever the preconditioner is updated using **Algorithm 2.1** of the referenced paper.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A `GradientTransformationExtraArgs &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformationExtraArgs&gt;`_ object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">init_fn</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">NystromPrecondState</span><span class="p">(</span>
+            <span class="n">step_count</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">([],</span> <span class="n">jnp</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span>
+            <span class="n">U</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">jnp</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">params</span><span class="p">),</span> <span class="n">rank</span><span class="p">]),</span>
+            <span class="n">S</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">rank</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">),</span>
+            <span class="n">learning_rate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="c1"># matrix-vector product for the inverse square-root of preconditioner</span>
+    <span class="k">def</span> <span class="nf">_sqrt_matvec</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="n">UTv</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">v</span>
+        <span class="k">return</span> <span class="n">U</span> <span class="o">@</span> <span class="p">(</span><span class="n">UTv</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">S</span> <span class="o">+</span> <span class="n">rho</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">rho</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">v</span> <span class="o">-</span> <span class="n">U</span> <span class="o">@</span> <span class="n">UTv</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_learning_rate</span><span class="p">(</span><span class="n">H_S</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">H_S</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># stopping criterion</span>
+        <span class="k">def</span> <span class="nf">cond_fun</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">norm_r</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">norm_r</span> <span class="o">&gt;=</span> <span class="n">tol</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">maxiter</span><span class="p">)</span>
+
+        <span class="c1"># power iteration</span>
+        <span class="k">def</span> <span class="nf">body_fun</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="n">y_</span> <span class="o">=</span> <span class="n">_sqrt_matvec</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">y_</span> <span class="o">=</span> <span class="n">H_S</span> <span class="o">@</span> <span class="n">y_</span>
+            <span class="n">y_</span> <span class="o">=</span> <span class="n">_sqrt_matvec</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">y_</span><span class="p">)</span>
+            <span class="n">labda</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_</span><span class="p">)</span>
+            <span class="n">norm_r</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">y_</span> <span class="o">-</span> <span class="n">labda</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y_</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">y_</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">labda</span><span class="p">,</span> <span class="n">norm_r</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1"># initialization</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,))</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">initial_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tol</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">_</span><span class="p">,</span> <span class="n">labda</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span><span class="n">cond_fun</span><span class="p">,</span> <span class="n">body_fun</span><span class="p">,</span> <span class="n">initial_value</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">labda</span>
+
+    <span class="k">def</span> <span class="nf">update_fn</span><span class="p">(</span><span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">chain_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">f_extra_args</span><span class="p">):</span>
+        <span class="k">del</span> <span class="n">chain_state</span>
+        <span class="c1"># increment counter</span>
+        <span class="n">count_inc</span> <span class="o">=</span> <span class="n">numerics</span><span class="o">.</span><span class="n">safe_int32_increment</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">step_count</span><span class="p">)</span>
+        <span class="c1"># update the preconditioner at the beginning and at the specified frequency</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">step_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+            <span class="p">(</span><span class="n">update_freq</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">step_count</span> <span class="o">%</span> <span class="n">update_freq</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">key</span><span class="p">,</span> <span class="n">subkey1</span><span class="p">,</span> <span class="n">subkey2</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">H_S</span> <span class="o">=</span> <span class="n">HessianLinearOperator</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">f_extra_args</span><span class="p">)</span>
+            <span class="n">U</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="n">rand_nystrom_approx</span><span class="p">(</span><span class="n">H_S</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">subkey1</span><span class="p">)</span>
+            <span class="n">learning_rate</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">adaptive_lr</span><span class="p">:</span>
+                <span class="n">learning_rate</span> <span class="o">=</span> <span class="n">_get_learning_rate</span><span class="p">(</span><span class="n">H_S</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">subkey2</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">updates</span><span class="p">,</span> <span class="n">NystromPrecondState</span><span class="p">(</span>
+                <span class="n">step_count</span><span class="o">=</span><span class="n">count_inc</span><span class="p">,</span> <span class="n">U</span><span class="o">=</span><span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span>
+            <span class="p">)</span>
+        <span class="c1"># otherwise keep the preconditioner state as is (except for the step counter)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">updates</span><span class="p">,</span> <span class="n">NystromPrecondState</span><span class="p">(</span>
+                <span class="n">step_count</span><span class="o">=</span><span class="n">count_inc</span><span class="p">,</span>
+                <span class="n">U</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">U</span><span class="p">,</span>
+                <span class="n">S</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">S</span><span class="p">,</span>
+                <span class="n">learning_rate</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">(</span><span class="n">init_fn</span><span class="p">,</span> <span class="n">update_fn</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div>
+
+
+
+<div class="viewcode-block" id="scale_by_nystrom_precond">
+<a class="viewcode-back" href="../../api/sketchyopts.preconditioner.html#sketchyopts.preconditioner.scale_by_nystrom_precond">[docs]</a>
+<span class="k">def</span> <span class="nf">scale_by_nystrom_precond</span><span class="p">(</span>
+    <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">U</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">S</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">ref_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Rescales updates using Nyström preconditioner.</span>
+
+<span class="sd">    The function scales the gradient update using Nyström preconditioner. Specifically, it applies the `matrix inversion lemma &lt;https://en.wikipedia.org/wiki/Woodbury_matrix_identity&gt;`_ and computes the following (**Equation (2.3)** of the referenced paper):</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">      v = U(S + \rho I)^{-1} U^{T} g + \frac{1}{\rho} (g - U U^{T} g)</span>
+
+<span class="sd">    where :math:`g` is the gradient and :math:`v` is the obtained update direction (from rescaling).</span>
+
+<span class="sd">    If the eigendecomposition of the preconditioner is not directly provided (*i.e.* ``U`` and ``S`` are set to ``None``), the function then uses the preconditioner stored in the referenced state to scale the updates.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">      - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `SketchySGD: Reliable Stochastic Optimization via Randomized Curvature Estimates &lt;https://arxiv.org/abs/2211.08597&gt;`_.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      rho: Regularization parameter (with non-negative value).</span>
+<span class="sd">      U: Eigenvectors of the preconditioner.</span>
+<span class="sd">      S: Eigenvalues of the preconditioner.</span>
+<span class="sd">      ref_state: The name of the state in a named chain that provides the preconditioner.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A `GradientTransformationExtraArgs &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformationExtraArgs&gt;`_ object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># isPrecondNotProvided = (U is None) and (S is None)</span>
+
+    <span class="k">def</span> <span class="nf">init_fn</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+        <span class="k">del</span> <span class="n">params</span>
+        <span class="k">return</span> <span class="n">EmptyState</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">update_fn</span><span class="p">(</span><span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chain_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">del</span> <span class="n">params</span>
+        <span class="c1"># get preconditioner from referenced state if preconditioner is not provided</span>
+        <span class="n">ref_U</span> <span class="o">=</span> <span class="n">U</span>
+        <span class="n">ref_S</span> <span class="o">=</span> <span class="n">S</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ref_U</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ref_S</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">ref_U</span> <span class="o">=</span> <span class="n">chain_state</span><span class="p">[</span><span class="n">ref_state</span><span class="p">]</span><span class="o">.</span><span class="n">U</span>  <span class="c1"># type: ignore</span>
+            <span class="n">ref_S</span> <span class="o">=</span> <span class="n">chain_state</span><span class="p">[</span><span class="n">ref_state</span><span class="p">]</span><span class="o">.</span><span class="n">S</span>  <span class="c1"># type: ignore</span>
+        <span class="n">UTg</span> <span class="o">=</span> <span class="n">ref_U</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">updates</span>  <span class="c1"># type: ignore</span>
+        <span class="n">updates</span> <span class="o">=</span> <span class="n">ref_U</span> <span class="o">@</span> <span class="p">(</span><span class="n">UTg</span> <span class="o">/</span> <span class="p">(</span><span class="n">ref_S</span> <span class="o">+</span> <span class="n">rho</span><span class="p">))</span> <span class="o">+</span> <span class="n">updates</span> <span class="o">/</span> <span class="n">rho</span> <span class="o">-</span> <span class="n">ref_U</span> <span class="o">@</span> <span class="n">UTg</span> <span class="o">/</span> <span class="n">rho</span>  <span class="c1"># type: ignore</span>
+        <span class="k">return</span> <span class="n">updates</span><span class="p">,</span> <span class="n">state</span>
+
+    <span class="k">return</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">(</span><span class="n">init_fn</span><span class="p">,</span> <span class="n">update_fn</span><span class="p">)</span></div>
 
 </pre></div>
 

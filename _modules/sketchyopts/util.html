@@ -1,0 +1,534 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sketchyopts.util &#8212; SketchyOpts  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/katex-math.css?v=91adb8b6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=2e2ce55c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="../../_static/katex.min.js?v=48ec3933"></script>
+    <script src="../../_static/auto-render.min.js?v=8b9f325c"></script>
+    <script src="../../_static/katex_autorenderer.js?v=bd6cae8e"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/sketchyopts/util';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SketchyOpts  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.util.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.errors.html">Error Messages</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/udellgroup/sketchyopts" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for sketchyopts.util</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">optax._src.base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">GradientTransformation</span><span class="p">,</span>
+    <span class="n">GradientTransformationExtraArgs</span><span class="p">,</span>
+    <span class="n">with_extra_args_support</span><span class="p">,</span>
+    <span class="n">ScalarOrSchedule</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">optax._src.transform</span> <span class="kn">import</span> <span class="n">scale</span><span class="p">,</span> <span class="n">scale_by_schedule</span><span class="p">,</span> <span class="n">ScaleState</span>
+
+<span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">jax.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">Array</span>
+
+
+<div class="viewcode-block" id="LinearOperator">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.LinearOperator">[docs]</a>
+<span class="k">class</span> <span class="nc">LinearOperator</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Base interface for abstract linear operators.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LinearOperator.__init__">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.LinearOperator.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">ndim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Initialize the linear operator.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">          shape: Shape of the linear operator.</span>
+<span class="sd">          ndim: Dimension of the linear operator.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">=</span> <span class="n">ndim</span></div>
+
+
+<div class="viewcode-block" id="LinearOperator.matmul">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.LinearOperator.matmul">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">matmul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute a matrix-vector or matrix-matrix product between this operator and a JAX array.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">          other: JAX array with matching dimension.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">          A JAX array representing the resulting vector or matrix.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="LinearOperator.__matmul__">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.LinearOperator.__matmul__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__matmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;An alias for function :func:`sketchyopts.util.LinearOperator.matmul`.</span>
+
+<span class="sd">        This overwrites the ``@`` operator.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">other</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="k">class</span> <span class="nc">HessianLinearOperator</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">f_extra_args</span><span class="p">):</span>
+        <span class="n">params_dim</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">params_shape</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+        <span class="n">f_partial</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">f_extra_args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jvp_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">jvp</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">f_partial</span><span class="p">),</span> <span class="p">(</span><span class="n">params</span><span class="p">,),</span> <span class="p">(</span><span class="n">v</span><span class="p">,))[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">params_shape</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="n">params_dim</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">matmul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jvp_func</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jvp_func</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;matmul input operand 1 must have ndim 1 or 2, but it has ndim </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+
+<div class="viewcode-block" id="shareble_state_named_chain">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.shareble_state_named_chain">[docs]</a>
+<span class="k">def</span> <span class="nf">shareble_state_named_chain</span><span class="p">(</span>
+    <span class="o">*</span><span class="n">transforms</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Chains optax gradient transformations with a sharing state.</span>
+
+<span class="sd">    This extends the Optax `named_chain() &lt;https://optax.readthedocs.io/en/latest/api/combining_optimizers.html&gt;`_ by making state of a transformations available to all the succeeding transformations in the chain.</span>
+
+<span class="sd">    The visibility of the chain state is realized by providing the chain state as the third argument to the update function of each transformation. This allows transformation to access the updated state of proceeding transformations as the chain is putting together the complete state by sequentially calling transformation update functions. This also means the transformation must all be `GradientTransformationExtraArgs &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformationExtraArgs&gt;`_ objects themselves.</span>
+
+<span class="sd">    Adapted original Optax ``named_chain()`` docstring below.</span>
+
+<span class="sd">    The `transforms` are ``(name, transformation)`` pairs, constituted of a string</span>
+<span class="sd">    ``name`` and an associated gradient transformation ``transformation``. The</span>
+<span class="sd">    gradient transformation must be an instance of ``GradientTransformationExtraArgs``.</span>
+
+<span class="sd">    Each ``name`` is used as key for the state of the corresponding transformation</span>
+<span class="sd">    within the ``named_chain`` state. Thus the state of the gradient transformation</span>
+<span class="sd">    with a given ``name`` can be retrieved as ``opt_state[name]``.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">      .. code-block:: python</span>
+
+<span class="sd">        # tx1 is a GradientTransformationExtraArgs with no extra_args.</span>
+<span class="sd">        # tx2 is a GradientTransformationExtraArgs that requires `loss`.</span>
+<span class="sd">        # tx3 is a GradientTransformationExtraArgs that requires `temperature`.</span>
+
+<span class="sd">        tx = named_chain((&#39;one&#39;, tx1), (&#39;two&#39;, tx2), (&#39;three&#39;, tx3))</span>
+<span class="sd">        extra_args={&#39;loss&#39;: 0.3, &#39;temperature&#39;: 0.01}</span>
+<span class="sd">        tx.init(params)</span>
+<span class="sd">        tx.update(grads, state, params, **extra_args)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      transforms: An arbitrary number of ``(name, tx)`` pairs, constituted of a string ``name`` and an associated gradient transformation ``tx``. The latter is a `GradientTransformationExtraArgs`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A `GradientTransformationExtraArgs &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformationExtraArgs&gt;`_ object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">transforms</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">names</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Named transformations must have unique names, but got </span><span class="si">{</span><span class="n">names</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">transforms</span> <span class="o">=</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">with_extra_args_support</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">transforms</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
+
+    <span class="k">def</span> <span class="nf">init_fn</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tx</span> <span class="ow">in</span> <span class="n">transforms</span><span class="p">:</span>
+            <span class="n">states</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tx</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">states</span>
+
+    <span class="k">def</span> <span class="nf">update_fn</span><span class="p">(</span><span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_args</span><span class="p">):</span>
+        <span class="n">new_state</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tx</span> <span class="ow">in</span> <span class="n">transforms</span><span class="p">:</span>
+            <span class="n">updates</span><span class="p">,</span> <span class="n">new_state</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tx</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">params</span><span class="p">,</span> <span class="n">chain_state</span><span class="o">=</span><span class="n">new_state</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_args</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">updates</span><span class="p">,</span> <span class="n">new_state</span>
+
+    <span class="k">return</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">(</span><span class="n">init_fn</span><span class="p">,</span> <span class="n">update_fn</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># TODO: make this compatible with schedule</span>
+<div class="viewcode-block" id="scale_by_ref_learning_rate">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.scale_by_ref_learning_rate">[docs]</a>
+<span class="k">def</span> <span class="nf">scale_by_ref_learning_rate</span><span class="p">(</span>
+    <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">ref_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">flip_sign</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Scale by the (referenced) learning rate (either as scalar or as schedule).</span>
+
+<span class="sd">    This function extends the Optax `scale_by_learning_rate() &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.scale_by_learning_rate&gt;`_ by adding an additional ``ref_state`` argument to allow learning rate to be defined in the referenced state of a named chain.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      learning_rate: A scalar corresponding to a scaling factor for updates.</span>
+<span class="sd">      ref_state: The name of the state in a named chain that provides the learning rate.</span>
+<span class="sd">      flip_sign: Whether or not to flip the sign of the update (default ``True``). When set to ``True``, the function scales the update by the negative learning rate.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A `GradientTransformationExtraArgs &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformationExtraArgs&gt;`_ object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">init_fn</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+        <span class="k">del</span> <span class="n">params</span>
+        <span class="k">return</span> <span class="n">ScaleState</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">update_fn</span><span class="p">(</span><span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chain_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">del</span> <span class="n">params</span>
+        <span class="c1"># determine sign</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">flip_sign</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="c1"># use specified learning_rate if exists otherwise use the learning_rate from the referenced chain state</span>
+        <span class="n">lr</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">learning_rate</span>
+            <span class="k">if</span> <span class="n">learning_rate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="n">chain_state</span><span class="p">[</span><span class="n">ref_state</span><span class="p">]</span><span class="o">.</span><span class="n">learning_rate</span>  <span class="c1"># type: ignore</span>
+        <span class="p">)</span>
+        <span class="c1"># make update</span>
+        <span class="n">updates</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">tree_util</span><span class="o">.</span><span class="n">tree_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">m</span> <span class="o">*</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">g</span><span class="p">,</span> <span class="n">updates</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">updates</span><span class="p">,</span> <span class="n">state</span>
+
+    <span class="k">return</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">(</span><span class="n">init_fn</span><span class="p">,</span> <span class="n">update_fn</span><span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

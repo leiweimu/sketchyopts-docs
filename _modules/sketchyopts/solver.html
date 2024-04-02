@@ -156,6 +156,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.util.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.errors.html">Error Messages</a></li>
 </ul>
 
@@ -275,18 +276,28 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for sketchyopts.solver</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
-<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">lax</span>
-<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">jit</span>
+<span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">optax._src.base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ScalarOrSchedule</span><span class="p">,</span>
+    <span class="n">GradientTransformation</span><span class="p">,</span>
+    <span class="n">GradientTransformationExtraArgs</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">sketchyopts.preconditioner</span> <span class="kn">import</span> <span class="n">rand_nystrom_approx</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.preconditioner</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">rand_nystrom_approx</span><span class="p">,</span>
+    <span class="n">update_nystrom_precond</span><span class="p">,</span>
+    <span class="n">scale_by_nystrom_precond</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.util</span> <span class="kn">import</span> <span class="n">shareble_state_named_chain</span><span class="p">,</span> <span class="n">scale_by_ref_learning_rate</span>
 <span class="kn">from</span> <span class="nn">sketchyopts.errors</span> <span class="kn">import</span> <span class="n">InputDimError</span><span class="p">,</span> <span class="n">MatrixNotSquareError</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">ParamSpec</span><span class="p">,</span> <span class="n">Concatenate</span>
 <span class="kn">from</span> <span class="nn">jax.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
 <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">Array</span>
 
 <span class="n">KeyArrayLike</span> <span class="o">=</span> <span class="n">ArrayLike</span>
+<span class="n">P</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="nystrom_pcg">
@@ -302,18 +313,18 @@ document.write(`
     <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
     <span class="n">maxiter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Nyström preconditioned conjugate gradient (Nyström PCG).</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The Nyström preconditioned conjugate gradient method (Nyström PCG).</span>
 
 <span class="sd">    The function solves the regularized linear system :math:`(A + \mu I)x = b` using Nyström PCG.</span>
 
-<span class="sd">    The algorithm uses randomized Nyström preconditioner by implicitly applying</span>
+<span class="sd">    Nyström PCG uses randomized Nyström preconditioner by implicitly applying</span>
 
 <span class="sd">    .. math::</span>
 <span class="sd">      P^{-1} = (\hat{\lambda}_{l} + \mu) U (\hat{\Lambda} + \mu I)^{-1} U^{T} + (I - U U^{T})</span>
 
 <span class="sd">    where :math:`U` and :math:`\hat{\Lambda}` are from rank-:math:`l` randomized Nyström approximation (here :math:`\hat{\lambda}_{l}` is the :math:`l`:sup:`th` diagonal entry of :math:`\hat{\Lambda}`).</span>
 
-<span class="sd">    The algorithm terminates if the :math:`\ell_2`-norm of the residual :math:`b - (A + \mu I)\hat{x}` is within the specified tolerance or it has reached the maximal number of iterations.</span>
+<span class="sd">    Nyström PCG terminates if the :math:`\ell_2`-norm of the residual :math:`b - (A + \mu I)\hat{x}` is within the specified tolerance or it has reached the maximal number of iterations.</span>
 
 <span class="sd">    References:</span>
 <span class="sd">      - Z\. Frangella, J. A. Tropp, and M. Udell, `Randomized Nyström preconditioning &lt;https://epubs.siam.org/doi/10.1137/21M1466244&gt;`_. SIAM Journal on Matrix Analysis and Applications, vol. 44, iss. 2, 2023, pp. 718-752.</span>
@@ -341,26 +352,19 @@ document.write(`
     <span class="n">U</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="n">rand_nystrom_approx</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
 
     <span class="c1"># matrix-vector (or mat-mat for multiple righthand sides) product for regularized linear operator</span>
-    <span class="nd">@jit</span>
+    <span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
     <span class="k">def</span> <span class="nf">regularized_A</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x</span> <span class="o">+</span> <span class="n">mu</span> <span class="o">*</span> <span class="n">x</span>
 
     <span class="c1"># matrix-vector (or mat-mat for multiple righthand sides) product for inverse Nyström preconditioner</span>
-    <span class="nd">@jit</span>
+    <span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
     <span class="k">def</span> <span class="nf">inv_preconditioner</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
         <span class="n">UTx</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">mu</span><span class="p">)</span> <span class="o">*</span> <span class="n">U</span> <span class="o">@</span> <span class="p">(</span><span class="n">UTx</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">S</span> <span class="o">+</span> <span class="n">mu</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">x</span> <span class="o">-</span> <span class="n">U</span> <span class="o">@</span> <span class="n">UTx</span>
 
     <span class="c1"># condition evaluation</span>
     <span class="k">def</span> <span class="nf">cond_fun</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-        <span class="p">(</span>
-            <span class="n">_</span><span class="p">,</span>
-            <span class="n">_</span><span class="p">,</span>
-            <span class="n">_</span><span class="p">,</span>
-            <span class="n">_</span><span class="p">,</span>
-            <span class="n">mask</span><span class="p">,</span>
-            <span class="n">k</span><span class="p">,</span>
-        <span class="p">)</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">k</span> <span class="o">&lt;</span> <span class="n">maxiter</span><span class="p">)</span>
 
     <span class="c1"># PCG iteration</span>
@@ -412,7 +416,7 @@ document.write(`
     <span class="n">mask0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">b</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">initial_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">r0</span><span class="p">,</span> <span class="n">z0</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">mask0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-    <span class="n">x_final</span><span class="p">,</span> <span class="n">r_final</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">mask_final</span><span class="p">,</span> <span class="n">k_final</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span>
+    <span class="n">x_final</span><span class="p">,</span> <span class="n">r_final</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">mask_final</span><span class="p">,</span> <span class="n">k_final</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span>
         <span class="n">cond_fun</span><span class="p">,</span> <span class="n">body_fun</span><span class="p">,</span> <span class="n">initial_value</span>
     <span class="p">)</span>
 
@@ -422,6 +426,74 @@ document.write(`
         <span class="n">r_final</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">r_final</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">x_final</span><span class="p">,</span> <span class="n">r_final</span><span class="p">,</span> <span class="o">~</span><span class="n">mask_final</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">),</span> <span class="n">k_final</span>  <span class="c1"># type: ignore</span></div>
+
+
+
+<div class="viewcode-block" id="sketchysgd">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.sketchysgd">[docs]</a>
+<span class="k">def</span> <span class="nf">sketchysgd</span><span class="p">(</span>
+    <span class="n">rank</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">update_freq</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">Concatenate</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">P</span><span class="p">],</span> <span class="n">Array</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradientTransformation</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchySGD optimizer.</span>
+
+<span class="sd">    SketchySGD is a stochastic quasi-Newton method that uses sketching to approximate the curvature of the loss function. It maintains a preconditioner for SGD using randomized low-rank Nyström approximations to the subsampled Hessian and automatically selects an appropriate learning whenever it updates the preconditioner.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">      &gt;&gt;&gt; import sketchyopts</span>
+<span class="sd">      &gt;&gt;&gt; import optax</span>
+<span class="sd">      &gt;&gt;&gt; import jax</span>
+<span class="sd">      &gt;&gt;&gt; import jax.numpy as jnp</span>
+<span class="sd">      &gt;&gt;&gt; def f(x): return jnp.sum(x ** 2)  # simple quadratic function</span>
+<span class="sd">      &gt;&gt;&gt; solver = sketchyopts.sketchysgd(rank=3, rho=1.0, update_freq=0, seed=0, f=f)</span>
+<span class="sd">      &gt;&gt;&gt; params = jnp.array([1., 2., 3.])</span>
+<span class="sd">      &gt;&gt;&gt; print(&#39;Objective function: &#39;, f(params))</span>
+<span class="sd">      Objective function:  14.0</span>
+<span class="sd">      &gt;&gt;&gt; opt_state = solver.init(params)</span>
+<span class="sd">      &gt;&gt;&gt; for _ in range(5):</span>
+<span class="sd">      ...  grad = jax.grad(f)(params)</span>
+<span class="sd">      ...  updates, opt_state = solver.update(grad, opt_state, params)</span>
+<span class="sd">      ...  params = optax.apply_updates(params, updates)</span>
+<span class="sd">      ...  print(&#39;Objective function: {:.2E}&#39;.format(f(params)))</span>
+<span class="sd">      Objective function: 2.63E-12</span>
+<span class="sd">      Objective function: 6.37E-25</span>
+<span class="sd">      Objective function: 1.75E-37</span>
+<span class="sd">      Objective function: 0.00E+00</span>
+<span class="sd">      Objective function: 0.00E+00</span>
+
+<span class="sd">    References:</span>
+<span class="sd">      - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `SketchySGD: Reliable Stochastic Optimization via Randomized Curvature Estimates &lt;https://arxiv.org/abs/2211.08597&gt;`_.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      rank: Rank of the preconditioner.</span>
+<span class="sd">      rho: Regularization parameter (with non-negative value).</span>
+<span class="sd">      update_freq: A non-negative integer that specifies the update frequency of the preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at the beginning of the optimization process.</span>
+<span class="sd">      seed: An integer used as a seed to generate random numbers.</span>
+<span class="sd">      f: A scalar-valued loss/objective function to be optimized. The function needs to have the optimization variable as its first argument.</span>
+<span class="sd">      learning_rate: Step size for applying updates (default ``None``). It can either be a fixed scalar value or a schedule based on step count. When set to ``None``, the algorithm adaptively chooses a learning rate whenever the preconditioner is updated.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      The corresponding `GradientTransformation &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformation&gt;`_ object.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">shareble_state_named_chain</span><span class="p">(</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;update_precond&quot;</span><span class="p">,</span>
+            <span class="n">update_nystrom_precond</span><span class="p">(</span>
+                <span class="n">rank</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">update_freq</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">adaptive_lr</span><span class="o">=</span><span class="n">learning_rate</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;scale_by_precond&quot;</span><span class="p">,</span> <span class="n">scale_by_nystrom_precond</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">ref_state</span><span class="o">=</span><span class="s2">&quot;update_precond&quot;</span><span class="p">)),</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;scale_by_lr&quot;</span><span class="p">,</span>
+            <span class="n">scale_by_ref_learning_rate</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span> <span class="n">ref_state</span><span class="o">=</span><span class="s2">&quot;update_precond&quot;</span><span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">)</span></div>
 
 </pre></div>
 
