@@ -281,15 +281,30 @@ document.write(`
 <span class="kn">from</span> <span class="nn">optax._src.base</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">GradientTransformation</span><span class="p">,</span>
     <span class="n">GradientTransformationExtraArgs</span><span class="p">,</span>
-    <span class="n">with_extra_args_support</span><span class="p">,</span>
     <span class="n">ScalarOrSchedule</span><span class="p">,</span>
+    <span class="n">OptState</span><span class="p">,</span>
+    <span class="n">Params</span><span class="p">,</span>
+    <span class="n">Updates</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">optax._src.transform</span> <span class="kn">import</span> <span class="n">scale</span><span class="p">,</span> <span class="n">scale_by_schedule</span><span class="p">,</span> <span class="n">ScaleState</span>
+<span class="kn">from</span> <span class="nn">optax._src.transform</span> <span class="kn">import</span> <span class="n">scale</span><span class="p">,</span> <span class="n">scale_by_learning_rate</span><span class="p">,</span> <span class="n">ScaleByScheduleState</span>
+<span class="kn">from</span> <span class="nn">optax._src</span> <span class="kn">import</span> <span class="n">numerics</span>
 
 <span class="kn">import</span> <span class="nn">abc</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">NamedTuple</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">Protocol</span><span class="p">,</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">Mapping</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">from</span> <span class="nn">jax.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
 <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">Array</span>
+<span class="kn">from</span> <span class="nn">chex</span> <span class="kn">import</span> <span class="n">ArrayTree</span>
 
 
 <div class="viewcode-block" id="LinearOperator">
@@ -315,7 +330,8 @@ document.write(`
 <a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.LinearOperator.matmul">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">matmul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute a matrix-vector or matrix-matrix product between this operator and a JAX array.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute a matrix-vector or matrix-matrix product between this operator and</span>
+<span class="sd">        a JAX array.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">          other: JAX array with matching dimension.</span>
@@ -362,42 +378,229 @@ document.write(`
             <span class="p">)</span>
 
 
+<div class="viewcode-block" id="TransformUpdateExtraArgsRefStateFn">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.TransformUpdateExtraArgsRefStateFn">[docs]</a>
+<span class="k">class</span> <span class="nc">TransformUpdateExtraArgsRefStateFn</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;An update function accepting chain state and additional keyword arguments.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TransformUpdateExtraArgsRefStateFn.__call__">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.TransformUpdateExtraArgsRefStateFn.__call__">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">updates</span><span class="p">:</span> <span class="n">Updates</span><span class="p">,</span>
+        <span class="n">state</span><span class="p">:</span> <span class="n">OptState</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Params</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">chain_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">OptState</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">extra_args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Updates</span><span class="p">,</span> <span class="n">OptState</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Update function with chain state and optional extra arguments.</span>
+
+<span class="sd">        For example, an update function that requires an additional loss parameter and</span>
+<span class="sd">        relies on the state of preceding transformations in a named chain could be</span>
+<span class="sd">        expressed as follows:</span>
+
+<span class="sd">        &gt;&gt;&gt; def update(updates, state, params=None, chain_state=None, *, loss, **extra_args):</span>
+<span class="sd">        ...   del extra_args</span>
+<span class="sd">        ...   # use loss value and chain_state</span>
+<span class="sd">        ...   # access state of preceding transformation via chain_state[tx_name]</span>
+
+<span class="sd">        Note that the loss value is keyword only, (it follows a ``*`` in the signature</span>
+<span class="sd">        of the function). This implies users will get explicit errors if they try to use</span>
+<span class="sd">        this gradient transformation without providing the required argument.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">          updates: The gradient updates passed to this transformation.</span>
+<span class="sd">          state: The state associated with this transformation.</span>
+<span class="sd">          params: Optional params.</span>
+<span class="sd">          chain_state: The dictionary containing state of chained transformations.</span>
+<span class="sd">            Also optional.</span>
+<span class="sd">          **extra_args: Additional keyword arguments passed to this transform. All.</span>
+<span class="sd">            implementors of this interface should accept arbitrary keyword arguments,</span>
+<span class="sd">            ignoring those that are not needed for the current transformation.</span>
+<span class="sd">            Transformations that require specific extra args should specify these</span>
+<span class="sd">            using keyword-only arguments.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">          Transformed updates, and an updated value for the state.</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="GradientTransformationExtraArgsRefState">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.GradientTransformationExtraArgsRefState">[docs]</a>
+<span class="k">class</span> <span class="nc">GradientTransformationExtraArgsRefState</span><span class="p">(</span><span class="n">GradientTransformationExtraArgs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A specialization of GradientTransformationExtraArgs that supports chain state.</span>
+
+<span class="sd">    Extends the existing GradientTransformationExtraArgs interface by adding</span>
+<span class="sd">    support for passing chain state (``chain_state``) to the update function.</span>
+
+<span class="sd">    By accepting but not using (ignoring) the chain state in the update function,</span>
+<span class="sd">    any gradient transformation of type</span>
+<span class="sd">    `GradientTransformation &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformation&gt;`_</span>
+<span class="sd">    and</span>
+<span class="sd">    `GradientTransformationExtraArgs &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformationExtraArgs&gt;`_</span>
+<span class="sd">    can be converted to the one that supports chain state. Such conversion is</span>
+<span class="sd">    realized by :func:`sketchyopts.util.with_ref_state_support`.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">      update: Overrides the type signature of the update in the base type to</span>
+<span class="sd">        accept chain state.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">update</span><span class="p">:</span> <span class="n">TransformUpdateExtraArgsRefStateFn</span>  <span class="c1"># type: ignore</span></div>
+
+
+
+<div class="viewcode-block" id="with_ref_state_support">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.with_ref_state_support">[docs]</a>
+<span class="k">def</span> <span class="nf">with_ref_state_support</span><span class="p">(</span>
+    <span class="n">tx</span><span class="p">:</span> <span class="n">GradientTransformation</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradientTransformationExtraArgsRefState</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps a gradient transformation so that the update function takes chain state.</span>
+
+<span class="sd">    This is analogous to</span>
+<span class="sd">    `with_extra_args_support() &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.with_extra_args_support&gt;`_.</span>
+<span class="sd">    Main use of the function is to convert any gradient transformation to an instance of</span>
+<span class="sd">    :class:`sketchyopts.util.GradientTransformationExtraArgsRefState`. This allows the</span>
+<span class="sd">    :func:`sketchyopts.util.shareble_state_named_chain` to work with any transformation</span>
+<span class="sd">    types.</span>
+
+<span class="sd">    The wrapped transformation has its update function compatible with chain state</span>
+<span class="sd">    (``chain_state``) and variable length argument. Any extra argument it previously</span>
+<span class="sd">    takes is also preserved.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      tx: A gradient transformation.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A :class:`sketchyopts.util.GradientTransformationExtraArgsRefState` object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># determine if update function accepts variadic arguments</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">tx</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">has_extra_args</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">VAR_KEYWORD</span>
+    <span class="c1"># obtain argument names and default values</span>
+    <span class="n">arg_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">)]</span>
+    <span class="n">arg_vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">default</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params</span><span class="p">)]</span>
+
+    <span class="c1"># when the transformation is a GradientTransformationExtraArgsRefState object</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">GradientTransformationExtraArgsRefState</span><span class="p">):</span>
+        <span class="c1"># no need to change the update function</span>
+        <span class="k">if</span> <span class="n">has_extra_args</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tx</span>
+        <span class="c1"># append variadic arguments to the existing update function signature</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">arg_names</span> <span class="o">=</span> <span class="n">arg_names</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+            <span class="n">arg_vals</span> <span class="o">=</span> <span class="n">arg_vals</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+
+            <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chain_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_args</span><span class="p">):</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">n</span><span class="p">:</span> <span class="n">extra_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">arg_names</span><span class="p">,</span> <span class="n">arg_vals</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="ow">in</span> <span class="n">extra_args</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">or</span> <span class="p">(</span><span class="n">v</span> <span class="o">!=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">_empty</span><span class="p">)</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">tx</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">chain_state</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">GradientTransformationExtraArgsRefState</span><span class="p">(</span><span class="n">tx</span><span class="o">.</span><span class="n">init</span><span class="p">,</span> <span class="n">update</span><span class="p">)</span>
+
+    <span class="c1"># when the transformation is a GradientTransformationExtraArgs object</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tx</span><span class="p">,</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">):</span>
+        <span class="c1"># add chain state argument to update function</span>
+        <span class="k">if</span> <span class="n">has_extra_args</span><span class="p">:</span>
+
+            <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chain_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_args</span><span class="p">):</span>
+                <span class="k">del</span> <span class="n">chain_state</span>
+                <span class="k">return</span> <span class="n">tx</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_args</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">GradientTransformationExtraArgsRefState</span><span class="p">(</span><span class="n">tx</span><span class="o">.</span><span class="n">init</span><span class="p">,</span> <span class="n">update</span><span class="p">)</span>
+        <span class="c1"># append variadic arguments to the existing update function signature</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">arg_names</span> <span class="o">=</span> <span class="n">arg_names</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+            <span class="n">arg_vals</span> <span class="o">=</span> <span class="n">arg_vals</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+
+            <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chain_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_args</span><span class="p">):</span>
+                <span class="k">del</span> <span class="n">chain_state</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">n</span><span class="p">:</span> <span class="n">extra_args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">arg_names</span><span class="p">,</span> <span class="n">arg_vals</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="ow">in</span> <span class="n">extra_args</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="ow">or</span> <span class="p">(</span><span class="n">v</span> <span class="o">!=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">_empty</span><span class="p">)</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">tx</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">GradientTransformationExtraArgsRefState</span><span class="p">(</span><span class="n">tx</span><span class="o">.</span><span class="n">init</span><span class="p">,</span> <span class="n">update</span><span class="p">)</span>
+
+    <span class="c1"># when the transformation is a GradientTransformation object</span>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chain_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_args</span><span class="p">):</span>
+        <span class="k">del</span> <span class="n">chain_state</span>
+        <span class="k">del</span> <span class="n">extra_args</span>
+        <span class="k">return</span> <span class="n">tx</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">GradientTransformationExtraArgsRefState</span><span class="p">(</span><span class="n">tx</span><span class="o">.</span><span class="n">init</span><span class="p">,</span> <span class="n">update</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="shareble_state_named_chain">
 <a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.shareble_state_named_chain">[docs]</a>
 <span class="k">def</span> <span class="nf">shareble_state_named_chain</span><span class="p">(</span>
-    <span class="o">*</span><span class="n">transforms</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">]</span>
+    <span class="o">*</span><span class="n">transforms</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">GradientTransformation</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Chains optax gradient transformations with a sharing state.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Chains optax gradient transformations with a sharing state.</span>
 
-<span class="sd">    This extends the Optax `named_chain() &lt;https://optax.readthedocs.io/en/latest/api/combining_optimizers.html&gt;`_ by making state of a transformations available to all the succeeding transformations in the chain.</span>
+<span class="sd">    This extends the Optax</span>
+<span class="sd">    `named_chain() &lt;https://optax.readthedocs.io/en/latest/api/combining_optimizers.html&gt;`_</span>
+<span class="sd">    by making state of a transformations available to all the succeeding transformations</span>
+<span class="sd">    in the chain.</span>
 
-<span class="sd">    The visibility of the chain state is realized by providing the chain state as the third argument to the update function of each transformation. This allows transformation to access the updated state of proceeding transformations as the chain is putting together the complete state by sequentially calling transformation update functions. This also means the transformation must all be `GradientTransformationExtraArgs &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformationExtraArgs&gt;`_ objects themselves.</span>
+<span class="sd">    The visibility of the chain state is realized by providing the chain state</span>
+<span class="sd">    (``chain_state``) as the third argument to the update function of each</span>
+<span class="sd">    transformation. This allowstransformation to access the updated state of proceeding</span>
+<span class="sd">    transformations as the chain is putting together the complete state by sequentially</span>
+<span class="sd">    calling transformation update functions. This also means each transformation must</span>
+<span class="sd">    be an object of one of the following:</span>
+
+<span class="sd">    - `GradientTransformation &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformation&gt;`_,</span>
+<span class="sd">    - `GradientTransformationExtraArgs &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformationExtraArgs&gt;`_,</span>
+<span class="sd">    - or :class:`sketchyopts.util.GradientTransformationExtraArgsRefState`</span>
+
+<span class="sd">    ----</span>
 
 <span class="sd">    Adapted original Optax ``named_chain()`` docstring below.</span>
 
-<span class="sd">    The `transforms` are ``(name, transformation)`` pairs, constituted of a string</span>
-<span class="sd">    ``name`` and an associated gradient transformation ``transformation``. The</span>
-<span class="sd">    gradient transformation must be an instance of ``GradientTransformationExtraArgs``.</span>
+<span class="sd">        The `transforms` are ``(name, transformation)`` pairs, constituted of a string</span>
+<span class="sd">        ``name`` and an associated gradient transformation ``transformation``. The</span>
+<span class="sd">        gradient transformation must be an instance of ``GradientTransformation``,</span>
+<span class="sd">        ``GradientTransformationExtraArgs``, or</span>
+<span class="sd">        ``GradientTransformationExtraArgsRefState``.</span>
 
-<span class="sd">    Each ``name`` is used as key for the state of the corresponding transformation</span>
-<span class="sd">    within the ``named_chain`` state. Thus the state of the gradient transformation</span>
-<span class="sd">    with a given ``name`` can be retrieved as ``opt_state[name]``.</span>
+<span class="sd">        Each ``name`` is used as key for the state of the corresponding transformation</span>
+<span class="sd">        within the ``named_chain`` state. Thus the state of the gradient</span>
+<span class="sd">        transformation with a given ``name`` can be retrieved as ``opt_state[name]``.</span>
 
 <span class="sd">    Example:</span>
 
 <span class="sd">      .. code-block:: python</span>
 
-<span class="sd">        # tx1 is a GradientTransformationExtraArgs with no extra_args.</span>
+<span class="sd">        # tx1 is a GradientTransformation with no extra_args.</span>
 <span class="sd">        # tx2 is a GradientTransformationExtraArgs that requires `loss`.</span>
-<span class="sd">        # tx3 is a GradientTransformationExtraArgs that requires `temperature`.</span>
+<span class="sd">        # tx3 is a GradientTransformationExtraArgsRefState that requires `temperature`</span>
+<span class="sd">        #          and uses information from the state of tx2.</span>
+<span class="sd">        #          This can be done by passing the name of tx2 as a string to the</span>
+<span class="sd">        #          transformation at its instantiation (depending on implementation).</span>
+<span class="sd">        #          e.g. tx3 = transform_fn_name(some_args, ref_state=&#39;two&#39;)</span>
 
-<span class="sd">        tx = named_chain((&#39;one&#39;, tx1), (&#39;two&#39;, tx2), (&#39;three&#39;, tx3))</span>
+<span class="sd">        tx = shareble_state_named_chain((&#39;one&#39;, tx1), (&#39;two&#39;, tx2), (&#39;three&#39;, tx3))</span>
 <span class="sd">        extra_args={&#39;loss&#39;: 0.3, &#39;temperature&#39;: 0.01}</span>
 <span class="sd">        tx.init(params)</span>
 <span class="sd">        tx.update(grads, state, params, **extra_args)</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      transforms: An arbitrary number of ``(name, tx)`` pairs, constituted of a string ``name`` and an associated gradient transformation ``tx``. The latter is a `GradientTransformationExtraArgs`.</span>
+<span class="sd">      transforms: An arbitrary number of ``(name, tx)`` pairs, constituted of a string</span>
+<span class="sd">        ``name`` and an associated gradient transformation ``tx``. The latter is one of</span>
+<span class="sd">        `GradientTransformation`, `GradientTransformationExtraArgs`, or</span>
+<span class="sd">        `GradientTransformationExtraArgsRefState`.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">      A `GradientTransformationExtraArgs &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformationExtraArgs&gt;`_ object.</span>
@@ -410,7 +613,7 @@ document.write(`
             <span class="sa">f</span><span class="s2">&quot;Named transformations must have unique names, but got </span><span class="si">{</span><span class="n">names</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
-    <span class="n">transforms</span> <span class="o">=</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">with_extra_args_support</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">transforms</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
+    <span class="n">transforms</span> <span class="o">=</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">with_ref_state_support</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">transforms</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
 
     <span class="k">def</span> <span class="nf">init_fn</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
         <span class="n">states</span> <span class="o">=</span> <span class="p">{}</span>
@@ -422,7 +625,7 @@ document.write(`
         <span class="n">new_state</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tx</span> <span class="ow">in</span> <span class="n">transforms</span><span class="p">:</span>
             <span class="n">updates</span><span class="p">,</span> <span class="n">new_state</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">tx</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-                <span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">params</span><span class="p">,</span> <span class="n">chain_state</span><span class="o">=</span><span class="n">new_state</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_args</span>
+                <span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">params</span><span class="p">,</span> <span class="n">chain_state</span><span class="o">=</span><span class="n">new_state</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_args</span>  <span class="c1"># type: ignore</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">updates</span><span class="p">,</span> <span class="n">new_state</span>
 
@@ -430,47 +633,69 @@ document.write(`
 
 
 
-<span class="c1"># TODO: make this compatible with schedule</span>
 <div class="viewcode-block" id="scale_by_ref_learning_rate">
 <a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.scale_by_ref_learning_rate">[docs]</a>
 <span class="k">def</span> <span class="nf">scale_by_ref_learning_rate</span><span class="p">(</span>
-    <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ScalarOrSchedule</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">ref_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">flip_sign</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">:</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Scale by the (referenced) learning rate (either as scalar or as schedule).</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradientTransformation</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Scales by the (referenced) learning rate (either as scalar or as schedule).</span>
 
-<span class="sd">    This function extends the Optax `scale_by_learning_rate() &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.scale_by_learning_rate&gt;`_ by adding an additional ``ref_state`` argument to allow learning rate to be defined in the referenced state of a named chain.</span>
+<span class="sd">    This function extends the Optax</span>
+<span class="sd">    `scale_by_learning_rate() &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.scale_by_learning_rate&gt;`_</span>
+<span class="sd">    by adding an additional ``ref_state`` argument to allow learning rate to be defined</span>
+<span class="sd">    in the referenced state of a named chain.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      learning_rate: A scalar corresponding to a scaling factor for updates.</span>
+<span class="sd">      learning_rate: Can either be a scalar or a schedule (*i.e.* a callable that maps</span>
+<span class="sd">        an (int) step to a float).</span>
 <span class="sd">      ref_state: The name of the state in a named chain that provides the learning rate.</span>
-<span class="sd">      flip_sign: Whether or not to flip the sign of the update (default ``True``). When set to ``True``, the function scales the update by the negative learning rate.</span>
+<span class="sd">      flip_sign: Whether or not to flip the sign of the update (default ``True``). When</span>
+<span class="sd">        set to ``True``, the function scales the update by the negative learning rate.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">      A `GradientTransformationExtraArgs &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformationExtraArgs&gt;`_ object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="k">if</span> <span class="p">(</span><span class="n">learning_rate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ref_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;learning_rate and ref_state cannot both be None&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">learning_rate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">scale_by_learning_rate</span><span class="p">(</span>
+            <span class="n">learning_rate</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">,</span>
+            <span class="n">flip_sign</span><span class="o">=</span><span class="n">flip_sign</span><span class="p">,</span>
+        <span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">init_fn</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
         <span class="k">del</span> <span class="n">params</span>
-        <span class="k">return</span> <span class="n">ScaleState</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ScaleByScheduleState</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">([],</span> <span class="n">jnp</span><span class="o">.</span><span class="n">int32</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">update_fn</span><span class="p">(</span><span class="n">updates</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chain_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">del</span> <span class="n">params</span>
+        <span class="c1"># validate referenced learning rate</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">chain_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ref_state</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">chain_state</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ref_state does not exist&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;learning_rate&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">chain_state</span><span class="p">[</span><span class="n">ref_state</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;learning_rate is not an attribute of the referenced state&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">chain_state</span><span class="p">[</span><span class="n">ref_state</span><span class="p">]</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chain_state</span><span class="p">[</span><span class="n">ref_state</span><span class="p">]</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">,</span> <span class="n">ScalarOrSchedule</span><span class="p">)):</span>  <span class="c1"># type: ignore</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;learning rate has incompatible type&quot;</span><span class="p">)</span>
         <span class="c1"># determine sign</span>
         <span class="n">m</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">flip_sign</span> <span class="k">else</span> <span class="mi">1</span>
-        <span class="c1"># use specified learning_rate if exists otherwise use the learning_rate from the referenced chain state</span>
-        <span class="n">lr</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">learning_rate</span>
-            <span class="k">if</span> <span class="n">learning_rate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="k">else</span> <span class="n">chain_state</span><span class="p">[</span><span class="n">ref_state</span><span class="p">]</span><span class="o">.</span><span class="n">learning_rate</span>  <span class="c1"># type: ignore</span>
-        <span class="p">)</span>
+        <span class="c1"># use the learning_rate from the referenced chain state</span>
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">chain_state</span><span class="p">[</span><span class="n">ref_state</span><span class="p">]</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">):</span>
+            <span class="n">step_size</span> <span class="o">=</span> <span class="n">chain_state</span><span class="p">[</span><span class="n">ref_state</span><span class="p">]</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">step_size</span> <span class="o">=</span> <span class="n">chain_state</span><span class="p">[</span><span class="n">ref_state</span><span class="p">]</span><span class="o">.</span><span class="n">learning_rate</span>
         <span class="c1"># make update</span>
-        <span class="n">updates</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">tree_util</span><span class="o">.</span><span class="n">tree_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">m</span> <span class="o">*</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">g</span><span class="p">,</span> <span class="n">updates</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">updates</span><span class="p">,</span> <span class="n">state</span>
+        <span class="n">updates</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">tree_util</span><span class="o">.</span><span class="n">tree_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">m</span> <span class="o">*</span> <span class="n">step_size</span> <span class="o">*</span> <span class="n">g</span><span class="p">,</span> <span class="n">updates</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">GradientTransformationExtraArgs</span><span class="p">(</span><span class="n">init_fn</span><span class="p">,</span> <span class="n">update_fn</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">updates</span><span class="p">,</span> <span class="n">ScaleByScheduleState</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="n">numerics</span><span class="o">.</span><span class="n">safe_int32_increment</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">count</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
+
+    <span class="k">return</span> <span class="n">GradientTransformationExtraArgsRefState</span><span class="p">(</span><span class="n">init_fn</span><span class="p">,</span> <span class="n">update_fn</span><span class="p">)</span></div>
 
 </pre></div>
 

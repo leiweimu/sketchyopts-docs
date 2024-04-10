@@ -315,48 +315,64 @@ document.write(`
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The Nyström preconditioned conjugate gradient method (Nyström PCG).</span>
 
-<span class="sd">    The function solves the regularized linear system :math:`(A + \mu I)x = b` using Nyström PCG.</span>
+<span class="sd">    The function solves the regularized linear system :math:`(A + \mu I)x = b` using</span>
+<span class="sd">    Nyström PCG.</span>
 
 <span class="sd">    Nyström PCG uses randomized Nyström preconditioner by implicitly applying</span>
 
 <span class="sd">    .. math::</span>
-<span class="sd">      P^{-1} = (\hat{\lambda}_{l} + \mu) U (\hat{\Lambda} + \mu I)^{-1} U^{T} + (I - U U^{T})</span>
+<span class="sd">        P^{-1} = (\hat{\lambda}_{l} + \mu) U (\hat{\Lambda} + \mu I)^{-1} U^{T} + (I - U U^{T})</span>
 
-<span class="sd">    where :math:`U` and :math:`\hat{\Lambda}` are from rank-:math:`l` randomized Nyström approximation (here :math:`\hat{\lambda}_{l}` is the :math:`l`:sup:`th` diagonal entry of :math:`\hat{\Lambda}`).</span>
+<span class="sd">    where :math:`U` and :math:`\hat{\Lambda}` are from rank-:math:`l` randomized Nyström</span>
+<span class="sd">    approximation (here :math:`\hat{\lambda}_{l}` is the :math:`l`:sup:`th` diagonal</span>
+<span class="sd">    entry of :math:`\hat{\Lambda}`).</span>
 
-<span class="sd">    Nyström PCG terminates if the :math:`\ell_2`-norm of the residual :math:`b - (A + \mu I)\hat{x}` is within the specified tolerance or it has reached the maximal number of iterations.</span>
+<span class="sd">    Nyström PCG terminates if the :math:`\ell_2`-norm of the residual</span>
+<span class="sd">    :math:`b - (A + \mu I)\hat{x}` is within the specified tolerance or it has reached</span>
+<span class="sd">    the maximal number of iterations.</span>
 
 <span class="sd">    References:</span>
 <span class="sd">      - Z\. Frangella, J. A. Tropp, and M. Udell, `Randomized Nyström preconditioning &lt;https://epubs.siam.org/doi/10.1137/21M1466244&gt;`_. SIAM Journal on Matrix Analysis and Applications, vol. 44, iss. 2, 2023, pp. 718-752.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      A: A two-dimensional array representing a positive-semidefinite matrix.</span>
-<span class="sd">      b: A vector or a two-dimensional array giving the righthand side(s) of the regularized linear system.</span>
+<span class="sd">      b: A vector or a two-dimensional array giving the righthand side(s) of the</span>
+<span class="sd">        regularized linear system.</span>
 <span class="sd">      mu: Regularization parameter (with non-negative value).</span>
-<span class="sd">      rank: Rank of the randomized Nyström approximation (which coincides with sketch size).</span>
+<span class="sd">      rank: Rank of the randomized Nyström approximation (which coincides with sketch</span>
+<span class="sd">        size).</span>
 <span class="sd">      key: A PRNG key used as the random key.</span>
-<span class="sd">      x0: Initial guess for the solution (same size as righthand side(s) ``b``; default ``None``). When set to ``None``, the algorithm uses zero vector as starting guess.</span>
+<span class="sd">      x0: Initial guess for the solution (same size as righthand side(s) ``b``; default</span>
+<span class="sd">        ``None``). When set to ``None``, the algorithm uses zero vector as starting</span>
+<span class="sd">        guess.</span>
 <span class="sd">      tol: Solution tolerance (default :math:`10^{-5}`).</span>
-<span class="sd">      maxiter: Maximum number of iterations (default ``None``). When set to ``None``, the algorithm only terminates when the specified tolerance has been achieved. Internally the value gets set to ten times the size of the system.</span>
+<span class="sd">      maxiter: Maximum number of iterations (default ``None``). When set to ``None``,</span>
+<span class="sd">        the algorithm only terminates when the specified tolerance has been achieved.</span>
+<span class="sd">        Internally the value gets set to ten times the size of the system.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">      A four-element tuple containing</span>
 
-<span class="sd">      - **x** – Approximate solution to the regularized linear system. Solution has the same size as righthand side(s) ``b``.</span>
-<span class="sd">      - **r** – Residual of the approximate solution. Residual has the same size as righthand side(s) ``b``.</span>
-<span class="sd">      - **status** – Whether or not the approximate solution has converged for each righthand side. Status has the same size as the number of righthand side(s).</span>
+<span class="sd">      - **x** – Approximate solution to the regularized linear system. Solution has the</span>
+<span class="sd">        same size as righthand side(s) ``b``.</span>
+<span class="sd">      - **r** – Residual of the approximate solution. Residual has the same size as</span>
+<span class="sd">        righthand side(s) ``b``.</span>
+<span class="sd">      - **status** – Whether or not the approximate solution has converged for each</span>
+<span class="sd">        righthand side. Status has the same size as the number of righthand side(s).</span>
 <span class="sd">      - **k** – Total number of iterations to reach to the approximate solution.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># perform randomized Nyström approximation</span>
     <span class="n">U</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="n">rand_nystrom_approx</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
 
-    <span class="c1"># matrix-vector (or mat-mat for multiple righthand sides) product for regularized linear operator</span>
+    <span class="c1"># matrix-vector (or mat-mat for multiple righthand sides) product for regularized</span>
+    <span class="c1"># linear operator</span>
     <span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
     <span class="k">def</span> <span class="nf">regularized_A</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x</span> <span class="o">+</span> <span class="n">mu</span> <span class="o">*</span> <span class="n">x</span>
 
-    <span class="c1"># matrix-vector (or mat-mat for multiple righthand sides) product for inverse Nyström preconditioner</span>
+    <span class="c1"># matrix-vector (or mat-mat for multiple righthand sides) product for inverse</span>
+    <span class="c1"># Nyström preconditioner</span>
     <span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
     <span class="k">def</span> <span class="nf">inv_preconditioner</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
         <span class="n">UTx</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span>
@@ -376,7 +392,8 @@ document.write(`
         <span class="n">rs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="p">[:,],</span> <span class="n">jnp</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
         <span class="n">zs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="p">[:,],</span> <span class="n">jnp</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
         <span class="n">ps</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">[:,],</span> <span class="n">jnp</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-        <span class="c1"># perform update on selected columns and ignore padded columns (i.e. with NaN values)</span>
+        <span class="c1"># perform update on selected columns and ignore padded columns</span>
+        <span class="c1"># (i.e. with NaN values)</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">regularized_A</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span>
         <span class="n">gamma</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rs</span> <span class="o">*</span> <span class="n">zs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="n">gamma</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ps</span> <span class="o">*</span> <span class="n">v</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -442,7 +459,10 @@ document.write(`
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradientTransformation</span><span class="p">:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchySGD optimizer.</span>
 
-<span class="sd">    SketchySGD is a stochastic quasi-Newton method that uses sketching to approximate the curvature of the loss function. It maintains a preconditioner for SGD using randomized low-rank Nyström approximations to the subsampled Hessian and automatically selects an appropriate learning whenever it updates the preconditioner.</span>
+<span class="sd">    SketchySGD is a stochastic quasi-Newton method that uses sketching to approximate the</span>
+<span class="sd">    curvature of the loss function. It maintains a preconditioner for SGD using</span>
+<span class="sd">    randomized low-rank Nyström approximations to the subsampled Hessian and</span>
+<span class="sd">    automatically selects an appropriate learning whenever it updates the preconditioner.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">      &gt;&gt;&gt; import sketchyopts</span>
@@ -472,10 +492,16 @@ document.write(`
 <span class="sd">    Args:</span>
 <span class="sd">      rank: Rank of the preconditioner.</span>
 <span class="sd">      rho: Regularization parameter (with non-negative value).</span>
-<span class="sd">      update_freq: A non-negative integer that specifies the update frequency of the preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at the beginning of the optimization process.</span>
+<span class="sd">      update_freq: A non-negative integer that specifies the update frequency of the</span>
+<span class="sd">        preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or</span>
+<span class="sd">        ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at</span>
+<span class="sd">        the beginning of the optimization process.</span>
 <span class="sd">      seed: An integer used as a seed to generate random numbers.</span>
-<span class="sd">      f: A scalar-valued loss/objective function to be optimized. The function needs to have the optimization variable as its first argument.</span>
-<span class="sd">      learning_rate: Step size for applying updates (default ``None``). It can either be a fixed scalar value or a schedule based on step count. When set to ``None``, the algorithm adaptively chooses a learning rate whenever the preconditioner is updated.</span>
+<span class="sd">      f: A scalar-valued loss/objective function to be optimized. The function needs to</span>
+<span class="sd">        have the optimization variable as its first argument.</span>
+<span class="sd">      learning_rate: Step size for applying updates (default ``None``). It can either be</span>
+<span class="sd">        a fixed scalar value or a schedule based on step count. When set to ``None``, the</span>
+<span class="sd">        algorithm adaptively chooses a learning rate whenever the preconditioner is updated.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">      The corresponding `GradientTransformation &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformation&gt;`_ object.</span>
