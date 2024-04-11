@@ -329,6 +329,11 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.LinearOperator.matmul"><code class="docutils literal notranslate"><span class="pre">LinearOperator.matmul()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.HessianLinearOperator"><code class="docutils literal notranslate"><span class="pre">HessianLinearOperator</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.HessianLinearOperator.__init__"><code class="docutils literal notranslate"><span class="pre">HessianLinearOperator.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.HessianLinearOperator.matmul"><code class="docutils literal notranslate"><span class="pre">HessianLinearOperator.matmul()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transformations">Transformations</a><ul class="nav section-nav flex-column">
@@ -372,19 +377,22 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.LinearOperator" title="sketchyopts.util.LinearOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinearOperator</span></code></a>(shape, ndim)</p></td>
 <td><p>Base interface for abstract linear operators.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.TransformUpdateExtraArgsRefStateFn" title="sketchyopts.util.TransformUpdateExtraArgsRefStateFn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransformUpdateExtraArgsRefStateFn</span></code></a>(*args, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.HessianLinearOperator" title="sketchyopts.util.HessianLinearOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HessianLinearOperator</span></code></a>(f, params, **f_extra_args)</p></td>
+<td><p>Hessian operator for computing hessian-vector-product without explicitly forming the Hessian matrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.TransformUpdateExtraArgsRefStateFn" title="sketchyopts.util.TransformUpdateExtraArgsRefStateFn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TransformUpdateExtraArgsRefStateFn</span></code></a>(*args, ...)</p></td>
 <td><p>An update function accepting chain state and additional keyword arguments.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.GradientTransformationExtraArgsRefState" title="sketchyopts.util.GradientTransformationExtraArgsRefState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GradientTransformationExtraArgsRefState</span></code></a>(...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.GradientTransformationExtraArgsRefState" title="sketchyopts.util.GradientTransformationExtraArgsRefState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GradientTransformationExtraArgsRefState</span></code></a>(...)</p></td>
 <td><p>A specialization of GradientTransformationExtraArgs that supports chain state.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.with_ref_state_support" title="sketchyopts.util.with_ref_state_support"><code class="xref py py-obj docutils literal notranslate"><span class="pre">with_ref_state_support</span></code></a>(tx)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.with_ref_state_support" title="sketchyopts.util.with_ref_state_support"><code class="xref py py-obj docutils literal notranslate"><span class="pre">with_ref_state_support</span></code></a>(tx)</p></td>
 <td><p>Wraps a gradient transformation so that the update function takes chain state.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.shareble_state_named_chain" title="sketchyopts.util.shareble_state_named_chain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shareble_state_named_chain</span></code></a>(*transforms)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.shareble_state_named_chain" title="sketchyopts.util.shareble_state_named_chain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shareble_state_named_chain</span></code></a>(*transforms)</p></td>
 <td><p>Chains optax gradient transformations with a sharing state.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.scale_by_ref_learning_rate" title="sketchyopts.util.scale_by_ref_learning_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale_by_ref_learning_rate</span></code></a>([learning_rate, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.scale_by_ref_learning_rate" title="sketchyopts.util.scale_by_ref_learning_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scale_by_ref_learning_rate</span></code></a>([learning_rate, ...])</p></td>
 <td><p>Scales by the (referenced) learning rate (either as scalar or as schedule).</p></td>
 </tr>
 </tbody>
@@ -435,6 +443,48 @@ a JAX array.</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A JAX array representing the resulting vector or matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.util.HessianLinearOperator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">HessianLinearOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">f_extra_args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/util.html#HessianLinearOperator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.util.HessianLinearOperator" title="Link to this definition">#</a></dt>
+<dd><p>Hessian operator for computing hessian-vector-product without explicitly forming
+the Hessian matrix.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sketchyopts.util.HessianLinearOperator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">f_extra_args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/util.html#HessianLinearOperator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.util.HessianLinearOperator.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the Hessian linear operator.</p>
+<p>The linear operator implcitly forms the Hessian of function <code class="docutils literal notranslate"><span class="pre">f</span></code> with respect
+to parameters <code class="docutils literal notranslate"><span class="pre">params</span></code>. The function can have other arguments <code class="docutils literal notranslate"><span class="pre">f_extra_args</span></code>
+that go into its evaluation, but only the second partial derivative
+information of parameters <code class="docutils literal notranslate"><span class="pre">params</span></code> gets used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – Scalar-valued function.</p></li>
+<li><p><strong>params</strong> – Parameters of the function. Can be of any PyTree structure.</p></li>
+<li><p><strong>**f_extra_args</strong> – Other optional arguments to the function.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sketchyopts.util.HessianLinearOperator.matmul">
+<span class="sig-name descname"><span class="pre">matmul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/util.html#HessianLinearOperator.matmul"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.util.HessianLinearOperator.matmul" title="Link to this definition">#</a></dt>
+<dd><p>Compute the Hessian-vector or Hessian-matrix product.</p>
+<p>The vector of matrix the Hessian acts on must be a JAX Array (not a PyTree).
+The result is also a JAX Array of the same dimension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> – A 1D or 2D JAX array with matching size to the Hessian.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JAX Array representing the result.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -691,6 +741,11 @@ set to <code class="docutils literal notranslate"><span class="pre">True</span><
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.LinearOperator.__init__"><code class="docutils literal notranslate"><span class="pre">LinearOperator.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.LinearOperator.__matmul__"><code class="docutils literal notranslate"><span class="pre">LinearOperator.__matmul__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.LinearOperator.matmul"><code class="docutils literal notranslate"><span class="pre">LinearOperator.matmul()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.HessianLinearOperator"><code class="docutils literal notranslate"><span class="pre">HessianLinearOperator</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.HessianLinearOperator.__init__"><code class="docutils literal notranslate"><span class="pre">HessianLinearOperator.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.HessianLinearOperator.matmul"><code class="docutils literal notranslate"><span class="pre">HessianLinearOperator.matmul()</span></code></a></li>
 </ul>
 </li>
 </ul>
