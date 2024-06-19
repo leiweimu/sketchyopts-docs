@@ -13,40 +13,40 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/katex-math.css?v=91adb8b6" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=2e2ce55c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
-  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
-    <script src="../../_static/katex.min.js?v=48ec3933"></script>
-    <script src="../../_static/auto-render.min.js?v=8b9f325c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/katex.min.js?v=be8ff15f"></script>
+    <script src="../../_static/auto-render.min.js?v=ad136472"></script>
     <script src="../../_static/katex_autorenderer.js?v=bd6cae8e"></script>
-    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/sketchyopts/solver';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -59,27 +59,23 @@
 
   
   
-  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -101,8 +97,13 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
     </header>
   
 
@@ -156,7 +157,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.util.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.base.html">Base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.errors.html">Error Messages</a></li>
 </ul>
 
@@ -173,7 +174,7 @@
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -182,14 +183,14 @@
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -278,26 +279,22 @@ document.write(`
   <h1>Source code for sketchyopts.solver</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">jax</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
-<span class="kn">from</span> <span class="nn">optax._src.base</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">ScalarOrSchedule</span><span class="p">,</span>
-    <span class="n">GradientTransformation</span><span class="p">,</span>
-    <span class="n">GradientTransformationExtraArgs</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">jax._src.flatten_util</span> <span class="kn">import</span> <span class="n">ravel_pytree</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">sketchyopts.preconditioner</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">rand_nystrom_approx</span><span class="p">,</span>
-    <span class="n">update_nystrom_precond</span><span class="p">,</span>
-    <span class="n">scale_by_nystrom_precond</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">sketchyopts.util</span> <span class="kn">import</span> <span class="n">shareble_state_named_chain</span><span class="p">,</span> <span class="n">scale_by_ref_learning_rate</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.preconditioner</span> <span class="kn">import</span> <span class="n">rand_nystrom_approx</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.base</span> <span class="kn">import</span> <span class="n">SolverState</span><span class="p">,</span> <span class="n">PromiseSolver</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.util</span> <span class="kn">import</span> <span class="n">generate_random_batch</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.tree_util</span> <span class="kn">import</span> <span class="n">tree_add_scalar_mul</span><span class="p">,</span> <span class="n">tree_l2_norm</span>
 <span class="kn">from</span> <span class="nn">sketchyopts.errors</span> <span class="kn">import</span> <span class="n">InputDimError</span><span class="p">,</span> <span class="n">MatrixNotSquareError</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">ParamSpec</span><span class="p">,</span> <span class="n">Concatenate</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Any</span>
 <span class="kn">from</span> <span class="nn">jax.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
 <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">Array</span>
 
+<span class="n">KeyArray</span> <span class="o">=</span> <span class="n">Array</span>
 <span class="n">KeyArrayLike</span> <span class="o">=</span> <span class="n">ArrayLike</span>
-<span class="n">P</span> <span class="o">=</span> <span class="n">ParamSpec</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="nystrom_pcg">
@@ -446,17 +443,19 @@ document.write(`
 
 
 
-<div class="viewcode-block" id="sketchysgd">
-<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.sketchysgd">[docs]</a>
-<span class="k">def</span> <span class="nf">sketchysgd</span><span class="p">(</span>
-    <span class="n">rank</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">update_freq</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="n">Concatenate</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">P</span><span class="p">],</span> <span class="n">Array</span><span class="p">],</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GradientTransformation</span><span class="p">:</span>
+<span class="k">class</span> <span class="nc">SketchySGDState</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">iter_num</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">error</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">key</span><span class="p">:</span> <span class="n">KeyArray</span>
+    <span class="n">precond</span><span class="p">:</span> <span class="n">Callable</span>
+    <span class="n">lr</span><span class="p">:</span> <span class="n">Array</span>
+
+
+<div class="viewcode-block" id="SketchySGD">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchySGD">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SketchySGD</span><span class="p">(</span><span class="n">PromiseSolver</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchySGD optimizer.</span>
 
 <span class="sd">    SketchySGD is a stochastic quasi-Newton method that uses sketching to approximate the</span>
@@ -465,31 +464,27 @@ document.write(`
 <span class="sd">    automatically selects an appropriate learning whenever it updates the preconditioner.</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">      &gt;&gt;&gt; import sketchyopts</span>
-<span class="sd">      &gt;&gt;&gt; import optax</span>
-<span class="sd">      &gt;&gt;&gt; import jax</span>
-<span class="sd">      &gt;&gt;&gt; import jax.numpy as jnp</span>
-<span class="sd">      &gt;&gt;&gt; def f(x): return jnp.sum(x ** 2)  # simple quadratic function</span>
-<span class="sd">      &gt;&gt;&gt; solver = sketchyopts.sketchysgd(rank=3, rho=1.0, update_freq=0, seed=0, f=f)</span>
-<span class="sd">      &gt;&gt;&gt; params = jnp.array([1., 2., 3.])</span>
-<span class="sd">      &gt;&gt;&gt; print(&#39;Objective function: &#39;, f(params))</span>
-<span class="sd">      Objective function:  14.0</span>
-<span class="sd">      &gt;&gt;&gt; opt_state = solver.init(params)</span>
-<span class="sd">      &gt;&gt;&gt; for _ in range(5):</span>
-<span class="sd">      ...  grad = jax.grad(f)(params)</span>
-<span class="sd">      ...  updates, opt_state = solver.update(grad, opt_state, params)</span>
-<span class="sd">      ...  params = optax.apply_updates(params, updates)</span>
-<span class="sd">      ...  print(&#39;Objective function: {:.2E}&#39;.format(f(params)))</span>
-<span class="sd">      Objective function: 2.63E-12</span>
-<span class="sd">      Objective function: 6.37E-25</span>
-<span class="sd">      Objective function: 1.75E-37</span>
-<span class="sd">      Objective function: 0.00E+00</span>
-<span class="sd">      Objective function: 0.00E+00</span>
+<span class="sd">      .. highlight:: python</span>
+<span class="sd">      .. code-block:: python</span>
+
+<span class="sd">        from sketchyopts.solver import SketchySGD</span>
+
+<span class="sd">        def ridge_reg_objective(params, l2reg, data):</span>
+<span class="sd">            X, y = data[:,:sample_dim], data[:,sample_dim:]</span>
+<span class="sd">            residuals = jnp.dot(X, params) - y</span>
+<span class="sd">            return jnp.mean(residuals ** 2) + 0.5 * l2reg * jnp.dot(w ** 2)</span>
+
+<span class="sd">        solver = SketchySGD(ridge_reg_objective, ...)</span>
+<span class="sd">        solver.run(init_params, data, l2reg=l2reg)</span>
 
 <span class="sd">    References:</span>
 <span class="sd">      - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `SketchySGD: Reliable Stochastic Optimization via Randomized Curvature Estimates &lt;https://arxiv.org/abs/2211.08597&gt;`_.</span>
 
 <span class="sd">    Args:</span>
+<span class="sd">      fun: Objective function. The function needs to have the optimization variable as its first argument.</span>
+<span class="sd">      grad_fun: Optional gradient oracle that is expected to have the same function signature as the objective.</span>
+<span class="sd">      hvp_fun: Optional hessian-vector-product oracle that takes optimization variable ``params`` as its first argument, vector ``v`` as its second arguments.</span>
+<span class="sd">      pre_update: Optional gradient update function that gets called before every parameter update.</span>
 <span class="sd">      rank: Rank of the preconditioner.</span>
 <span class="sd">      rho: Regularization parameter (with non-negative value).</span>
 <span class="sd">      update_freq: A non-negative integer that specifies the update frequency of the</span>
@@ -497,29 +492,260 @@ document.write(`
 <span class="sd">        ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at</span>
 <span class="sd">        the beginning of the optimization process.</span>
 <span class="sd">      seed: An integer used as a seed to generate random numbers.</span>
-<span class="sd">      f: A scalar-valued loss/objective function to be optimized. The function needs to</span>
-<span class="sd">        have the optimization variable as its first argument.</span>
-<span class="sd">      learning_rate: Step size for applying updates (default ``None``). It can either be</span>
-<span class="sd">        a fixed scalar value or a schedule based on step count. When set to ``None``, the</span>
-<span class="sd">        algorithm adaptively chooses a learning rate whenever the preconditioner is updated.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">      The corresponding `GradientTransformation &lt;https://optax.readthedocs.io/en/latest/api/transformations.html#optax.GradientTransformation&gt;`_ object.</span>
+<span class="sd">      learning_rate: Step size for applying updates (default :math:`0.5`). It can either be</span>
+<span class="sd">        a fixed scalar value or a schedule based on step count. If a fixed scalar value is</span>
+<span class="sd">        provided, the algorithm uses the value as the scaling factor to the adaptively chosen</span>
+<span class="sd">        learning rate whenever the preconditioner is updated.</span>
+<span class="sd">      maxiter: Maximum number of iterations to run the solver (default :math:`20`).</span>
+<span class="sd">      tol: Threshold of the gradient norm used for terminating the solver (default :math:`1e-3`).</span>
+<span class="sd">      verbose:</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">shareble_state_named_chain</span><span class="p">(</span>
-        <span class="p">(</span>
-            <span class="s2">&quot;update_precond&quot;</span><span class="p">,</span>
-            <span class="n">update_nystrom_precond</span><span class="p">(</span>
-                <span class="n">rank</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">update_freq</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">adaptive_lr</span><span class="o">=</span><span class="n">learning_rate</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="n">update_freq</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="k">def</span> <span class="nf">_init_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SketchySGDState</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">SketchySGDState</span><span class="p">(</span>
+            <span class="n">iter_num</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+            <span class="n">error</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">),</span>
+            <span class="n">precond</span><span class="o">=</span><span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span>
+            <span class="n">lr</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
+        <span class="n">batch_idx</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">generate_random_batch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_batch_size</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">:</span>
+            <span class="n">solver_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
+                <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="n">value</span><span class="p">,</span> <span class="n">grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
+            <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">flattend_grad</span><span class="p">,</span> <span class="n">unravel_fn</span> <span class="o">=</span> <span class="n">ravel_pytree</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">unravel_fn</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">(</span><span class="n">flattend_grad</span><span class="p">))</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">-</span><span class="n">state</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">SketchySGDState</span><span class="p">(</span>
+                <span class="n">iter_num</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+                <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+                <span class="n">precond</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">,</span>
+                <span class="n">lr</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span>
             <span class="p">),</span>
-        <span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;scale_by_precond&quot;</span><span class="p">,</span> <span class="n">scale_by_nystrom_precond</span><span class="p">(</span><span class="n">rho</span><span class="p">,</span> <span class="n">ref_state</span><span class="o">=</span><span class="s2">&quot;update_precond&quot;</span><span class="p">)),</span>
-        <span class="p">(</span>
-            <span class="s2">&quot;scale_by_lr&quot;</span><span class="p">,</span>
-            <span class="n">scale_by_ref_learning_rate</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">,</span> <span class="n">ref_state</span><span class="o">=</span><span class="s2">&quot;update_precond&quot;</span><span class="p">),</span>
-        <span class="p">),</span>
-    <span class="p">)</span></div>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="SketchySGD.run">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchySGD.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_params</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Runs the optimization loop over an iterator.</span>
+
+<span class="sd">        Both iterators should not exhaust before the run ends.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">          init_params: pytree containing the initial parameters.</span>
+<span class="sd">          gradient_iterator: iterator generating random data batches of size :math:`b_g` for updating the parameters</span>
+<span class="sd">          hessian_iterator: iterator generating random data batches of size :math:`b_h` for updating the preconditioner</span>
+<span class="sd">          *args: additional positional arguments to be passed to ``fun`` (or ``grad_fun`` if provided).</span>
+<span class="sd">          **kwargs: additional keyword arguments to be passed to ``fun`` (or ``grad_fun`` if provided).</span>
+<span class="sd">        Returns:</span>
+<span class="sd">          (params, state)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_state</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="p">):</span>
+                <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_precond</span><span class="p">(</span>
+                    <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+
+            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">error</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+                    <span class="s2">&quot;Info: early termination because error tolerance has been reached.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="k">class</span> <span class="nc">SketchySVRGState</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">iter_num</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">error</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">key</span><span class="p">:</span> <span class="n">KeyArray</span>
+    <span class="n">precond</span><span class="p">:</span> <span class="n">Callable</span>
+    <span class="n">lr</span><span class="p">:</span> <span class="n">Array</span>
+
+
+<div class="viewcode-block" id="SketchySVRG">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchySVRG">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SketchySVRG</span><span class="p">(</span><span class="n">PromiseSolver</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchySVRG optimizer.</span>
+
+<span class="sd">    [SketchySVRG description]</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">      .. highlight:: python</span>
+<span class="sd">      .. code-block:: python</span>
+
+<span class="sd">        from sketchyopts.solver import SketchySVRG</span>
+
+<span class="sd">        def ridge_reg_objective(params, l2reg, data):</span>
+<span class="sd">            X, y = data[:,:sample_dim], data[:,sample_dim:]</span>
+<span class="sd">            residuals = jnp.dot(X, params) - y</span>
+<span class="sd">            return jnp.mean(residuals ** 2) + 0.5 * l2reg * jnp.dot(w ** 2)</span>
+
+<span class="sd">        solver = SketchySVRG(ridge_reg_objective, ...)</span>
+<span class="sd">        solver.run(init_params, data, l2reg=l2reg)</span>
+
+<span class="sd">    References:</span>
+<span class="sd">      - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      fun: Objective function. The function needs to have the optimization variable ``params`` as its first argument, and ``data`` argument to take data inputs.</span>
+<span class="sd">      grad_fun: Optional gradient oracle that is expected to have the same function signature as the objective.</span>
+<span class="sd">      hvp_fun: Optional hessian-vector-product oracle that takes optimization variable ``params`` as its first argument, vector ``v`` as its second arguments.</span>
+<span class="sd">      pre_update: Optional gradient update function that gets called before every parameter update.</span>
+<span class="sd">      rank: Rank of the preconditioner.</span>
+<span class="sd">      rho: Regularization parameter (with non-negative value).</span>
+<span class="sd">      precond_update_freq: A non-negative integer that specifies the update frequency of the</span>
+<span class="sd">        preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or</span>
+<span class="sd">        ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at</span>
+<span class="sd">        the beginning of the optimization process.</span>
+<span class="sd">      snapshop_update_freq: A non-negative integer that specifies how frequent snapshot points are computed.</span>
+<span class="sd">      grad_batch_size:</span>
+<span class="sd">      hess_batch_size:</span>
+<span class="sd">      seed: An integer used as a seed to generate random numbers.</span>
+<span class="sd">      learning_rate: Step size for applying updates (default :math:`0.5`). It can either be</span>
+<span class="sd">        a fixed scalar value or a schedule based on step count. When set to ``None``, the</span>
+<span class="sd">        algorithm adaptively chooses a learning rate whenever the preconditioner is updated.</span>
+<span class="sd">      maxiter: Maximum number of iterations to run the solver.</span>
+<span class="sd">      tol: Threshold of the gradient norm used for terminating the solver.</span>
+<span class="sd">      verbose:</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">precond_update_freq</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">snapshop_update_freq</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="k">def</span> <span class="nf">_init_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SketchySVRGState</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">SketchySVRGState</span><span class="p">(</span>
+            <span class="n">iter_num</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+            <span class="n">error</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">),</span>
+            <span class="n">precond</span><span class="o">=</span><span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span>
+            <span class="n">lr</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_params</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params_snapshot</span><span class="p">,</span> <span class="n">full_grad</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
+        <span class="n">batch_idx</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">generate_random_batch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_batch_size</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">:</span>
+            <span class="n">solver_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
+                <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="n">value</span><span class="p">,</span> <span class="n">grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
+            <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">grad_snapshot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
+            <span class="n">params_snapshot</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="n">flattend_grad</span><span class="p">,</span> <span class="n">unravel_fn</span> <span class="o">=</span> <span class="n">ravel_pytree</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+        <span class="n">flattend_grad_snapshot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_pytree</span><span class="p">(</span><span class="n">grad_snapshot</span><span class="p">)</span>
+
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">unravel_fn</span><span class="p">(</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">(</span><span class="n">flattend_grad</span> <span class="o">-</span> <span class="n">flattend_grad_snapshot</span> <span class="o">+</span> <span class="n">full_grad</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">-</span><span class="n">state</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">SketchySVRGState</span><span class="p">(</span>
+                <span class="n">iter_num</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+                <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+                <span class="n">precond</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">,</span>
+                <span class="n">lr</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="SketchySVRG.run">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchySVRG.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_params</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Runs the optimization loop over an iterator.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">          init_params: pytree containing the initial parameters.</span>
+<span class="sd">          data: iterator generating data batches.</span>
+<span class="sd">          *args: additional positional arguments to be passed to ``fun`` (or ``grad_fun`` if provided).</span>
+<span class="sd">          **kwargs: additional keyword arguments to be passed to ``fun`` (or ``grad_fun`` if provided).</span>
+<span class="sd">        Returns:</span>
+<span class="sd">          (params, state)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">params_snapshot</span> <span class="o">=</span> <span class="n">init_params</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_state</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
+
+            <span class="n">_</span><span class="p">,</span> <span class="n">full_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
+                <span class="n">params_snapshot</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span>
+            <span class="p">)</span>
+            <span class="n">full_grad</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_pytree</span><span class="p">(</span><span class="n">full_grad</span><span class="p">)</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">params_snapshot</span>
+
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshop_update_freq</span><span class="p">):</span>
+
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">precond_update_freq</span> <span class="o">==</span> <span class="mi">0</span>
+                    <span class="ow">and</span> <span class="n">i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshop_update_freq</span> <span class="o">+</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span>
+                <span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">precond_update_freq</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                    <span class="ow">and</span> <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshop_update_freq</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">precond_update_freq</span>
+                    <span class="o">==</span> <span class="mi">0</span>
+                <span class="p">):</span>
+                    <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_precond</span><span class="p">(</span>
+                        <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                    <span class="p">)</span>
+
+                <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span>
+                    <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params_snapshot</span><span class="p">,</span> <span class="n">full_grad</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+
+            <span class="n">params_snapshot</span> <span class="o">=</span> <span class="n">params</span>
+
+            <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">error</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+                    <span class="s2">&quot;Info: early termination because error tolerance has been reached.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div>
+</div>
 
 </pre></div>
 
@@ -530,7 +756,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
 </div>
@@ -539,8 +765,6 @@ document.write(`
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"></div>
               
             
           </div>
@@ -574,8 +798,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
 
   <footer class="bd-footer">
   </footer>
