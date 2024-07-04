@@ -18,12 +18,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
@@ -36,9 +36,9 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=2e2ce55c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
@@ -51,7 +51,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/sketchyopts.base';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Error Messages" href="sketchyopts.errors.html" />
+    <link rel="next" title="Utilities" href="sketchyopts.util.html" />
     <link rel="prev" title="Solvers" href="sketchyopts.solver.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -130,6 +130,8 @@
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="../index.html">
   
@@ -145,7 +147,7 @@
 
  <script>
  document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -159,7 +161,8 @@
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.solver.html">Solvers</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sketchyopts.errors.html">Error Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.util.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.error.html">Error Messages</a></li>
 </ul>
 
     </div>
@@ -284,10 +287,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script>
@@ -295,7 +298,7 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
@@ -323,6 +326,11 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#promise-solvers">PROMISE Solvers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.base.SolverState"><code class="docutils literal notranslate"><span class="pre">SolverState</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.base.PromiseSolver"><code class="docutils literal notranslate"><span class="pre">PromiseSolver</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-operator">Linear Operator</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.base.LinearOperator"><code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.base.LinearOperator.__init__"><code class="docutils literal notranslate"><span class="pre">LinearOperator.__init__()</span></code></a></li>
@@ -352,15 +360,52 @@ document.write(`
 <h1>Base<a class="headerlink" href="#base" title="Link to this heading">#</a></h1>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.base.SolverState" title="sketchyopts.base.SolverState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SolverState</span></code></a>(params, state)</p></td>
+<td><p>Class for encapsulating parameters and solver state.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.base.PromiseSolver" title="sketchyopts.base.PromiseSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PromiseSolver</span></code></a>(*, fun[, grad_fun, hvp_fun, ...])</p></td>
+<td><p>Base class for PROMISE solvers.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.base.LinearOperator" title="sketchyopts.base.LinearOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinearOperator</span></code></a>(shape, ndim)</p></td>
 <td><p>Base interface for abstract linear operators.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.base.HessianLinearOperator" title="sketchyopts.base.HessianLinearOperator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HessianLinearOperator</span></code></a>(fun, grad_fun, ...)</p></td>
-<td><p>Hessian operator for computing hessian-vector-product without explicitly forming the Hessian matrix.</p></td>
+<td><p>Hessian operator for computing Hessian-vector product without explicitly forming the Hessian matrix.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
+<section id="promise-solvers">
+<h2>PROMISE Solvers<a class="headerlink" href="#promise-solvers" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.base.SolverState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.base.</span></span><span class="sig-name descname"><span class="pre">SolverState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/base.html#SolverState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.base.SolverState" title="Link to this definition">#</a></dt>
+<dd><p>Class for encapsulating parameters and solver state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params</strong> – Parameters the solver seeks to optimize.</p></li>
+<li><p><strong>state</strong> – State of the solver.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.base.PromiseSolver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.base.</span></span><span class="sig-name descname"><span class="pre">PromiseSolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hvp_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hess_batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/base.html#PromiseSolver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.base.PromiseSolver" title="Link to this definition">#</a></dt>
+<dd><p>Base class for PROMISE solvers.</p>
+<p>The class provides basic functionalities of the sketching-based preconditioned stochastic gradient algorithms.</p>
+<p>It constructs function <code class="docutils literal notranslate"><span class="pre">_value_and_grad</span></code> that evaluates both the objective and gradient. It also implements
+method <code class="docutils literal notranslate"><span class="pre">_update_precond</span></code> that updates the Nystroö subsampled Newton (NySSN) preconditioner and the corresponding
+preconditioned smoothness constant. Lastly, it generates the function that applies preconditioner to gradient.</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Z. Frangella, P. Rathore, S. Zhao, and M. Udell, <a class="reference external" href="https://arxiv.org/abs/2309.02014">PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates</a>.</p></li>
+</ul>
+</dd></dl>
+
+</section>
 <section id="linear-operator">
 <h2>Linear Operator<a class="headerlink" href="#linear-operator" title="Link to this heading">#</a></h2>
 <dl class="py class">
@@ -384,7 +429,7 @@ document.write(`
 <dl class="py method">
 <dt class="sig sig-object py" id="sketchyopts.base.LinearOperator.__matmul__">
 <span class="sig-name descname"><span class="pre">__matmul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/base.html#LinearOperator.__matmul__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.base.LinearOperator.__matmul__" title="Link to this definition">#</a></dt>
-<dd><p>An alias for function <code class="xref py py-func docutils literal notranslate"><span class="pre">sketchyopts.util.LinearOperator.matmul()</span></code>.</p>
+<dd><p>An alias for function <a class="reference internal" href="#sketchyopts.base.LinearOperator.matmul" title="sketchyopts.base.LinearOperator.matmul"><code class="xref py py-func docutils literal notranslate"><span class="pre">sketchyopts.base.LinearOperator.matmul()</span></code></a>.</p>
 <p>This overwrites the <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> operator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -396,7 +441,7 @@ document.write(`
 <dl class="py method">
 <dt class="sig sig-object py" id="sketchyopts.base.LinearOperator.matmul">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">matmul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/base.html#LinearOperator.matmul"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.base.LinearOperator.matmul" title="Link to this definition">#</a></dt>
-<dd><p>Compute a matrix-vector or matrix-matrix product between this operator and
+<dd><p>Compute a matrix-vector or matrix-matrix product between the operator and
 a JAX array.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -416,22 +461,26 @@ a JAX array.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="sketchyopts.base.HessianLinearOperator">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.base.</span></span><span class="sig-name descname"><span class="pre">HessianLinearOperator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hvp_fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/base.html#HessianLinearOperator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.base.HessianLinearOperator" title="Link to this definition">#</a></dt>
-<dd><p>Hessian operator for computing hessian-vector-product without explicitly forming
+<dd><p>Hessian operator for computing Hessian-vector product without explicitly forming
 the Hessian matrix.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sketchyopts.base.HessianLinearOperator.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hvp_fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/base.html#HessianLinearOperator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.base.HessianLinearOperator.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Initialize the Hessian linear operator.</p>
-<p>The linear operator implcitly forms the Hessian of function <code class="docutils literal notranslate"><span class="pre">f</span></code> with respect
-to parameters <code class="docutils literal notranslate"><span class="pre">params</span></code>. The function can have other arguments <code class="docutils literal notranslate"><span class="pre">f_extra_args</span></code>
-that go into its evaluation, but only the second partial derivative
-information of parameters <code class="docutils literal notranslate"><span class="pre">params</span></code> gets used.</p>
+<p>The linear operator implcitly forms the Hessian of function <code class="docutils literal notranslate"><span class="pre">fun</span></code> with respect
+to parameters <code class="docutils literal notranslate"><span class="pre">params</span></code>. The function can have additional positional and keyword
+arguments.</p>
+<p>The operator uses automatic differentiation to compute Hessian-vector product,
+unless an oracle <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code> is provided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>f</strong> – Scalar-valued function.</p></li>
-<li><p><strong>params</strong> – Parameters of the function. Can be of any PyTree structure.</p></li>
-<li><p><strong>**f_extra_args</strong> – Other optional arguments to the function.</p></li>
+<li><p><strong>fun</strong> – Scalar-valued function.</p></li>
+<li><p><strong>grad_fun</strong> – Optional gradient oracle.</p></li>
+<li><p><strong>hvp_fun</strong> – Optional Hessian-vector product oracle.</p></li>
+<li><p><strong>params</strong> – Parameters of the function.</p></li>
+<li><p><strong>*args</strong> – Additional positional arguments to be passed to <code class="docutils literal notranslate"><span class="pre">fun</span></code> (and <code class="docutils literal notranslate"><span class="pre">grad_fun</span></code> as well as <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code> if provided).</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments to be passed to <code class="docutils literal notranslate"><span class="pre">fun</span></code> (and <code class="docutils literal notranslate"><span class="pre">grad_fun</span></code> as well as <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code> if provided).</p></li>
 </ul>
 </dd>
 </dl>
@@ -441,14 +490,16 @@ information of parameters <code class="docutils literal notranslate"><span class
 <dt class="sig sig-object py" id="sketchyopts.base.HessianLinearOperator.matmul">
 <span class="sig-name descname"><span class="pre">matmul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/base.html#HessianLinearOperator.matmul"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.base.HessianLinearOperator.matmul" title="Link to this definition">#</a></dt>
 <dd><p>Compute the Hessian-vector or Hessian-matrix product.</p>
-<p>The vector of matrix the Hessian acts on must be a JAX Array (not a PyTree).
-The result is also a JAX Array of the same dimension.</p>
+<p>The vector or matrix <code class="docutils literal notranslate"><span class="pre">other</span></code> the Hessian acts on must have the matching size of the parameters <code class="docutils literal notranslate"><span class="pre">params</span></code>.
+Specifically, the function expects <code class="docutils literal notranslate"><span class="pre">(params_size)</span></code> for a vector or <code class="docutils literal notranslate"><span class="pre">(params_size,</span> <span class="pre">num_vectors)</span></code> for a matrix.
+If <code class="docutils literal notranslate"><span class="pre">params</span></code> is a pytree, the size should be the number of leaves of the tree (<em>i.e.</em> length of the flattened tree).</p>
+<p>The resulting array has <code class="docutils literal notranslate"><span class="pre">(params_size)</span></code> for vector input or <code class="docutils literal notranslate"><span class="pre">(params_size,</span> <span class="pre">num_vectors)</span></code> for matrix input.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>other</strong> – A 1D or 2D JAX array with matching size to the Hessian.</p>
+<dd class="field-odd"><p><strong>other</strong> – A 1-dimensional or 2-dimensional array with the matching size.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>JAX Array representing the result.</p>
+<dd class="field-even"><p>Array representing the result.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -479,11 +530,11 @@ The result is also a JAX Array of the same dimension.</p>
       </div>
     </a>
     <a class="right-next"
-       href="sketchyopts.errors.html"
+       href="sketchyopts.util.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Error Messages</p>
+        <p class="prev-next-title">Utilities</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -503,6 +554,11 @@ The result is also a JAX Array of the same dimension.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#promise-solvers">PROMISE Solvers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.base.SolverState"><code class="docutils literal notranslate"><span class="pre">SolverState</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.base.PromiseSolver"><code class="docutils literal notranslate"><span class="pre">PromiseSolver</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-operator">Linear Operator</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.base.LinearOperator"><code class="docutils literal notranslate"><span class="pre">LinearOperator</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.base.LinearOperator.__init__"><code class="docutils literal notranslate"><span class="pre">LinearOperator.__init__()</span></code></a></li>
@@ -554,8 +610,8 @@ The result is also a JAX Array of the same dimension.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

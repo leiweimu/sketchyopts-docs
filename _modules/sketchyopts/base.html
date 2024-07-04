@@ -17,12 +17,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
@@ -35,9 +35,9 @@
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=2e2ce55c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
@@ -129,6 +129,8 @@
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="../../index.html">
   
@@ -144,7 +146,7 @@
 
  <script>
  document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -158,7 +160,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.base.html">Base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.errors.html">Error Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.util.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.error.html">Error Messages</a></li>
 </ul>
 
     </div>
@@ -235,10 +238,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script>
@@ -246,7 +249,7 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
@@ -277,47 +280,77 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for sketchyopts.base</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span></span><span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">jax</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
-<span class="kn">from</span> <span class="nn">jax._src.flatten_util</span> <span class="kn">import</span> <span class="n">ravel_pytree</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">Array</span>
+<span class="kn">from</span> <span class="nn">jax.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
 
 <span class="kn">import</span> <span class="nn">sketchyopts</span>
-
-<span class="kn">import</span> <span class="nn">abc</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">jax.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
-<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">Array</span>
 
 <span class="n">KeyArray</span> <span class="o">=</span> <span class="n">Array</span>
 <span class="n">KeyArrayLike</span> <span class="o">=</span> <span class="n">ArrayLike</span>
 
 
+<div class="viewcode-block" id="SolverState">
+<a class="viewcode-back" href="../../api/sketchyopts.base.html#sketchyopts.base.SolverState">[docs]</a>
 <span class="k">class</span> <span class="nc">SolverState</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Class for encapsulating parameters and solver state.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      params: Parameters the solver seeks to optimize.</span>
+<span class="sd">      state: State of the solver.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">params</span><span class="p">:</span> <span class="n">Any</span>
-    <span class="n">state</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">state</span><span class="p">:</span> <span class="n">Any</span></div>
 
 
+
+<div class="viewcode-block" id="PromiseSolver">
+<a class="viewcode-back" href="../../api/sketchyopts.base.html#sketchyopts.base.PromiseSolver">[docs]</a>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">PromiseSolver</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Base class for PROMISE solvers.</span>
+
+<span class="sd">    The class provides basic functionalities of the sketching-based preconditioned stochastic gradient algorithms.</span>
+
+<span class="sd">    It constructs function ``_value_and_grad`` that evaluates both the objective and gradient. It also implements</span>
+<span class="sd">    method ``_update_precond`` that updates the Nystroö subsampled Newton (NySSN) preconditioner and the corresponding</span>
+<span class="sd">    preconditioned smoothness constant. Lastly, it generates the function that applies preconditioner to gradient.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">      - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">fun</span><span class="p">:</span> <span class="n">Callable</span>
     <span class="n">grad_fun</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">hvp_fun</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">pre_update</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="n">rank</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">rank</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">grad_batch_size</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">hess_batch_size</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">update_freq</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
 
     <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
     <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function constructs ``_value_and_grad`` that evaluates both the objective and gradient.&quot;&quot;&quot;</span>
+        <span class="c1"># initialize values to appease static type checker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="s2">&quot;learning_rate&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># construct objective value and gradient function</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">value_and_grad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -330,6 +363,7 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span> <span class="o">=</span> <span class="n">value_and_grad</span>
 
     <span class="k">def</span> <span class="nf">_get_grad_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function constructs ``grad_transform`` that applies preconditioner to gradient.&quot;&quot;&quot;</span>
 
         <span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
         <span class="k">def</span> <span class="nf">grad_transform</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
@@ -338,8 +372,8 @@ document.write(`
 
         <span class="k">return</span> <span class="n">grad_transform</span>
 
-    <span class="c1"># matrix-vector product for the inverse square-root of preconditioner</span>
     <span class="k">def</span> <span class="nf">_get_inv_sqrt_precond</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function constructs ``matvec`` that computes matrix-vector product for the inverse square-root of preconditioner&quot;&quot;&quot;</span>
 
         <span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
         <span class="k">def</span> <span class="nf">matvec</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
@@ -350,10 +384,10 @@ document.write(`
 
         <span class="k">return</span> <span class="n">matvec</span>
 
-    <span class="k">def</span> <span class="nf">_get_lr</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">H_S</span><span class="p">,</span> <span class="n">inv_sqrt_precond</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">p_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span> <span class="n">p_maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">def</span> <span class="nf">_estimate_constant</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">H_S</span><span class="p">,</span> <span class="n">inv_sqrt_precond</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">p_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span> <span class="n">p_maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
     <span class="p">):</span>
-
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function estimates the preconditioned smoothness constant.&quot;&quot;&quot;</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">H_S</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="c1"># stopping criterion</span>
@@ -379,13 +413,17 @@ document.write(`
 
         <span class="n">_</span><span class="p">,</span> <span class="n">labda</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span><span class="n">cond_fun</span><span class="p">,</span> <span class="n">body_fun</span><span class="p">,</span> <span class="n">initial_value</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">/</span> <span class="n">labda</span>  <span class="c1"># type: ignore</span>
+        <span class="k">return</span> <span class="n">labda</span>  <span class="c1"># type: ignore</span>
 
-    <span class="k">def</span> <span class="nf">_update_precond</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_update_step_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labda</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function updates the step size using the learning rate from the class variable and the provided smoothness constant.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span><span class="n">step_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">/</span> <span class="n">labda</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_update_precond</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function updates the Nyström subsampled Newton (NySSN) preconditioner and corresponding smoothness constant.&quot;&quot;&quot;</span>
         <span class="n">key</span><span class="p">,</span> <span class="n">subkey</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
-        <span class="n">batch_idx</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">sketchyopts</span><span class="o">.</span><span class="n">generate_random_batch</span><span class="p">(</span>
-            <span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hess_batch_size</span><span class="p">,</span> <span class="n">key</span>
+        <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+            <span class="n">subkey</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hess_batch_size</span><span class="p">,),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span>
         <span class="n">H_S</span> <span class="o">=</span> <span class="n">HessianLinearOperator</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">,</span>
@@ -396,16 +434,17 @@ document.write(`
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span>
         <span class="p">)</span>
-        <span class="n">U</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="n">sketchyopts</span><span class="o">.</span><span class="n">rand_nystrom_approx</span><span class="p">(</span><span class="n">H_S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span> <span class="n">subkey</span><span class="p">)</span>
+        <span class="n">U</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="n">sketchyopts</span><span class="o">.</span><span class="n">preconditioner</span><span class="o">.</span><span class="n">rand_nystrom_approx</span><span class="p">(</span><span class="n">H_S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span> <span class="n">subkey</span><span class="p">)</span>
 
         <span class="c1"># explicitly specified learning schedule</span>
         <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">):</span>
-            <span class="n">lr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">iter_num</span><span class="p">)</span>
+            <span class="n">step_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">iter_num</span><span class="p">)</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span><span class="n">step_size</span><span class="o">=</span><span class="n">step_size</span><span class="p">)</span>
         <span class="c1"># adaptive learning rate</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">key</span><span class="p">,</span> <span class="n">subkey</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-            <span class="n">batch_idx</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">sketchyopts</span><span class="o">.</span><span class="n">generate_random_batch</span><span class="p">(</span>
-                <span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hess_batch_size</span><span class="p">,</span> <span class="n">key</span>
+            <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                <span class="n">subkey</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hess_batch_size</span><span class="p">,),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span>
             <span class="p">)</span>
             <span class="n">H_S</span> <span class="o">=</span> <span class="n">HessianLinearOperator</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">,</span>
@@ -417,13 +456,14 @@ document.write(`
                 <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span>
             <span class="p">)</span>
             <span class="n">inv_sqrt_precond</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_inv_sqrt_precond</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
-            <span class="n">lr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_lr</span><span class="p">(</span><span class="n">H_S</span><span class="p">,</span> <span class="n">inv_sqrt_precond</span><span class="p">,</span> <span class="n">subkey</span><span class="p">)</span>
+            <span class="n">labda</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimate_constant</span><span class="p">(</span><span class="n">H_S</span><span class="p">,</span> <span class="n">inv_sqrt_precond</span><span class="p">,</span> <span class="n">subkey</span><span class="p">)</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_step_size</span><span class="p">(</span><span class="n">labda</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
 
-        <span class="n">new_state</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span>
-            <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">precond</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_grad_transform</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+            <span class="n">precond</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_grad_transform</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">),</span>
+        <span class="p">)</span></div>
 
-        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">new_state</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="LinearOperator">
@@ -449,7 +489,7 @@ document.write(`
 <a class="viewcode-back" href="../../api/sketchyopts.base.html#sketchyopts.base.LinearOperator.matmul">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">matmul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute a matrix-vector or matrix-matrix product between this operator and</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute a matrix-vector or matrix-matrix product between the operator and</span>
 <span class="sd">        a JAX array.</span>
 
 <span class="sd">        Args:</span>
@@ -464,7 +504,7 @@ document.write(`
 <div class="viewcode-block" id="LinearOperator.__matmul__">
 <a class="viewcode-back" href="../../api/sketchyopts.base.html#sketchyopts.base.LinearOperator.__matmul__">[docs]</a>
     <span class="k">def</span> <span class="fm">__matmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;An alias for function :func:`sketchyopts.util.LinearOperator.matmul`.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;An alias for function :func:`sketchyopts.base.LinearOperator.matmul`.</span>
 
 <span class="sd">        This overwrites the ``@`` operator.</span>
 
@@ -477,7 +517,7 @@ document.write(`
 <div class="viewcode-block" id="HessianLinearOperator">
 <a class="viewcode-back" href="../../api/sketchyopts.base.html#sketchyopts.base.HessianLinearOperator">[docs]</a>
 <span class="k">class</span> <span class="nc">HessianLinearOperator</span><span class="p">(</span><span class="n">LinearOperator</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Hessian operator for computing hessian-vector-product without explicitly forming</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Hessian operator for computing Hessian-vector product without explicitly forming</span>
 <span class="sd">    the Hessian matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -486,32 +526,39 @@ document.write(`
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fun</span><span class="p">,</span> <span class="n">grad_fun</span><span class="p">,</span> <span class="n">hvp_fun</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Initialize the Hessian linear operator.</span>
 
-<span class="sd">        The linear operator implcitly forms the Hessian of function ``f`` with respect</span>
-<span class="sd">        to parameters ``params``. The function can have other arguments ``f_extra_args``</span>
-<span class="sd">        that go into its evaluation, but only the second partial derivative</span>
-<span class="sd">        information of parameters ``params`` gets used.</span>
+<span class="sd">        The linear operator implcitly forms the Hessian of function ``fun`` with respect</span>
+<span class="sd">        to parameters ``params``. The function can have additional positional and keyword</span>
+<span class="sd">        arguments.</span>
+
+<span class="sd">        The operator uses automatic differentiation to compute Hessian-vector product,</span>
+<span class="sd">        unless an oracle ``hvp_fun`` is provided.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">          f: Scalar-valued function.</span>
-<span class="sd">          params: Parameters of the function. Can be of any PyTree structure.</span>
-<span class="sd">          **f_extra_args: Other optional arguments to the function.</span>
+<span class="sd">          fun: Scalar-valued function.</span>
+<span class="sd">          grad_fun: Optional gradient oracle.</span>
+<span class="sd">          hvp_fun: Optional Hessian-vector product oracle.</span>
+<span class="sd">          params: Parameters of the function.</span>
+<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and ``grad_fun`` as well as ``hvp_fun`` if provided).</span>
+<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and ``grad_fun`` as well as ``hvp_fun`` if provided).</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">unraveled</span><span class="p">,</span> <span class="n">unravel_fn</span> <span class="o">=</span> <span class="n">ravel_pytree</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">unraveled</span><span class="p">,</span> <span class="n">unravel_fun</span> <span class="o">=</span> <span class="n">sketchyopts</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ravel_tree</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
         <span class="n">params_size</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">unraveled</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">hvp_fun</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">hvp_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">hvp_fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hvp_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">sketchyopts</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ravel_tree</span><span class="p">(</span>
+                <span class="n">hvp_fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">unravel_fun</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">grad_fun</span><span class="p">:</span>
                 <span class="n">grad_fun_partial</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">grad_fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                <span class="n">hvp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">jvp</span><span class="p">(</span><span class="n">grad_fun_partial</span><span class="p">,</span> <span class="p">[</span><span class="n">params</span><span class="p">],</span> <span class="p">[</span><span class="n">unravel_fn</span><span class="p">(</span><span class="n">v</span><span class="p">)])[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">hvp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">jvp</span><span class="p">(</span><span class="n">grad_fun_partial</span><span class="p">,</span> <span class="p">[</span><span class="n">params</span><span class="p">],</span> <span class="p">[</span><span class="n">unravel_fun</span><span class="p">(</span><span class="n">v</span><span class="p">)])[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">fun_partial</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="n">hvp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">jax</span><span class="o">.</span><span class="n">jvp</span><span class="p">(</span>
-                    <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">fun_partial</span><span class="p">),</span> <span class="p">[</span><span class="n">params</span><span class="p">],</span> <span class="p">[</span><span class="n">unravel_fn</span><span class="p">(</span><span class="n">v</span><span class="p">)]</span>
+                    <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">fun_partial</span><span class="p">),</span> <span class="p">[</span><span class="n">params</span><span class="p">],</span> <span class="p">[</span><span class="n">unravel_fun</span><span class="p">(</span><span class="n">v</span><span class="p">)]</span>
                 <span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">hvp_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">ravel_pytree</span><span class="p">(</span><span class="n">hvp</span><span class="p">(</span><span class="n">v</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hvp_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">sketchyopts</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ravel_tree</span><span class="p">(</span><span class="n">hvp</span><span class="p">(</span><span class="n">v</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">params_size</span><span class="p">,</span> <span class="n">params_size</span><span class="p">),</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></div>
 
@@ -521,14 +568,17 @@ document.write(`
     <span class="k">def</span> <span class="nf">matmul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the Hessian-vector or Hessian-matrix product.</span>
 
-<span class="sd">        The vector of matrix the Hessian acts on must be a JAX Array (not a PyTree).</span>
-<span class="sd">        The result is also a JAX Array of the same dimension.</span>
+<span class="sd">        The vector or matrix ``other`` the Hessian acts on must have the matching size of the parameters ``params``.</span>
+<span class="sd">        Specifically, the function expects ``(params_size)`` for a vector or ``(params_size, num_vectors)`` for a matrix.</span>
+<span class="sd">        If ``params`` is a pytree, the size should be the number of leaves of the tree (*i.e.* length of the flattened tree).</span>
+
+<span class="sd">        The resulting array has ``(params_size)`` for vector input or ``(params_size, num_vectors)`` for matrix input.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">          other: A 1D or 2D JAX array with matching size to the Hessian.</span>
+<span class="sd">          other: A 1-dimensional or 2-dimensional array with the matching size.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">          JAX Array representing the result.</span>
+<span class="sd">          Array representing the result.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -536,11 +586,7 @@ document.write(`
         <span class="k">elif</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hvp_fn</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)(</span><span class="n">other</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;matmul input operand 1 must have ndim 1 or 2, but it has ndim </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-                <span class="p">)</span>
-            <span class="p">)</span></div>
+            <span class="k">raise</span> <span class="n">sketchyopts</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">InputDimError</span><span class="p">(</span><span class="s2">&quot;operand 1&quot;</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">other</span><span class="p">),</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span></div>
 </div>
 
 </pre></div>
@@ -594,8 +640,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

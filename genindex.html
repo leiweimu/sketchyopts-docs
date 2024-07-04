@@ -17,12 +17,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
@@ -35,9 +35,9 @@
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=2e2ce55c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
@@ -129,6 +129,8 @@
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="index.html">
   
@@ -144,7 +146,7 @@
 
  <script>
  document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -158,7 +160,8 @@
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.solver.html">Solvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.base.html">Base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.errors.html">Error Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.util.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.error.html">Error Messages</a></li>
 </ul>
 
     </div>
@@ -235,10 +238,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script>
@@ -246,7 +249,7 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
@@ -286,8 +289,10 @@ document.write(`
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
+ | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  
 </div>
 <h2 id="_">_</h2>
@@ -317,7 +322,7 @@ document.write(`
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.errors.html#sketchyopts.errors.InputDimError">InputDimError (class in sketchyopts.errors)</a>
+      <li><a href="api/sketchyopts.error.html#sketchyopts.errors.InputDimError">InputDimError (class in sketchyopts.errors)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -341,7 +346,7 @@ document.write(`
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.errors.html#sketchyopts.errors.MatrixNotSquareError">MatrixNotSquareError (class in sketchyopts.errors)</a>
+      <li><a href="api/sketchyopts.error.html#sketchyopts.errors.MatrixNotSquareError">MatrixNotSquareError (class in sketchyopts.errors)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -354,16 +359,28 @@ document.write(`
   </ul></td>
 </tr></table>
 
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.base.html#sketchyopts.base.PromiseSolver">PromiseSolver (class in sketchyopts.base)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/sketchyopts.preconditioner.html#sketchyopts.preconditioner.rand_nystrom_approx">rand_nystrom_approx() (in module sketchyopts.preconditioner)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySGD.run">run() (sketchyopts.solver.SketchySGD method)</a>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.ravel_tree">ravel_tree() (in module sketchyopts.util)</a>
+</li>
+      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchyKatyusha.run">run() (sketchyopts.solver.SketchyKatyusha method)</a>
 
       <ul>
+        <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySAGA.run">(sketchyopts.solver.SketchySAGA method)</a>
+</li>
+        <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySGD.run">(sketchyopts.solver.SketchySGD method)</a>
+</li>
         <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySVRG.run">(sketchyopts.solver.SketchySVRG method)</a>
 </li>
       </ul></li>
@@ -373,11 +390,47 @@ document.write(`
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySGD">SketchySGD (class in sketchyopts.solver)</a>
+      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchyKatyusha">SketchyKatyusha (class in sketchyopts.solver)</a>
+</li>
+      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchyKatyushaState">SketchyKatyushaState (class in sketchyopts.solver)</a>
+</li>
+      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySAGA">SketchySAGA (class in sketchyopts.solver)</a>
+</li>
+      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySAGAState">SketchySAGAState (class in sketchyopts.solver)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySGD">SketchySGD (class in sketchyopts.solver)</a>
+</li>
+      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySGDState">SketchySGDState (class in sketchyopts.solver)</a>
+</li>
       <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySVRG">SketchySVRG (class in sketchyopts.solver)</a>
+</li>
+      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySVRGState">SketchySVRGState (class in sketchyopts.solver)</a>
+</li>
+      <li><a href="api/sketchyopts.base.html#sketchyopts.base.SolverState">SolverState (class in sketchyopts.base)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_add">tree_add() (in module sketchyopts.util)</a>
+</li>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_add_scalar_mul">tree_add_scalar_mul() (in module sketchyopts.util)</a>
+</li>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_flatten">tree_flatten() (in module sketchyopts.util)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_l2_norm">tree_l2_norm() (in module sketchyopts.util)</a>
+</li>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_scalar_mul">tree_scalar_mul() (in module sketchyopts.util)</a>
+</li>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_sub">tree_sub() (in module sketchyopts.util)</a>
+</li>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_unflatten">tree_unflatten() (in module sketchyopts.util)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -433,8 +486,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

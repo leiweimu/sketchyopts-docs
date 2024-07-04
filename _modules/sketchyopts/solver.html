@@ -17,12 +17,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
@@ -35,9 +35,9 @@
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=2e2ce55c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
@@ -129,6 +129,8 @@
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="../../index.html">
   
@@ -144,7 +146,7 @@
 
  <script>
  document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Search</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -158,7 +160,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.base.html">Base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.errors.html">Error Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.util.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.error.html">Error Messages</a></li>
 </ul>
 
     </div>
@@ -235,10 +238,10 @@
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script>
@@ -246,7 +249,7 @@ document.write(`
 
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
@@ -277,21 +280,26 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for sketchyopts.solver</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">jax</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
-<span class="kn">from</span> <span class="nn">jax._src.flatten_util</span> <span class="kn">import</span> <span class="n">ravel_pytree</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="kn">from</span> <span class="nn">sketchyopts.preconditioner</span> <span class="kn">import</span> <span class="n">rand_nystrom_approx</span>
-<span class="kn">from</span> <span class="nn">sketchyopts.base</span> <span class="kn">import</span> <span class="n">SolverState</span><span class="p">,</span> <span class="n">PromiseSolver</span>
-<span class="kn">from</span> <span class="nn">sketchyopts.util</span> <span class="kn">import</span> <span class="n">generate_random_batch</span>
-<span class="kn">from</span> <span class="nn">sketchyopts.tree_util</span> <span class="kn">import</span> <span class="n">tree_add_scalar_mul</span><span class="p">,</span> <span class="n">tree_l2_norm</span>
-<span class="kn">from</span> <span class="nn">sketchyopts.errors</span> <span class="kn">import</span> <span class="n">InputDimError</span><span class="p">,</span> <span class="n">MatrixNotSquareError</span>
-
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">jax.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
 <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">Array</span>
+<span class="kn">from</span> <span class="nn">jax.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
+
+<span class="kn">from</span> <span class="nn">sketchyopts.base</span> <span class="kn">import</span> <span class="n">PromiseSolver</span><span class="p">,</span> <span class="n">SolverState</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.errors</span> <span class="kn">import</span> <span class="n">InputDimError</span><span class="p">,</span> <span class="n">MatrixNotSquareError</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.preconditioner</span> <span class="kn">import</span> <span class="n">rand_nystrom_approx</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.util</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ravel_tree</span><span class="p">,</span>
+    <span class="n">tree_add</span><span class="p">,</span>
+    <span class="n">tree_add_scalar_mul</span><span class="p">,</span>
+    <span class="n">tree_l2_norm</span><span class="p">,</span>
+    <span class="n">tree_scalar_mul</span><span class="p">,</span>
+    <span class="n">tree_sub</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">KeyArray</span> <span class="o">=</span> <span class="n">Array</span>
 <span class="n">KeyArrayLike</span> <span class="o">=</span> <span class="n">ArrayLike</span>
@@ -307,8 +315,8 @@ document.write(`
     <span class="n">key</span><span class="p">:</span> <span class="n">KeyArrayLike</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">x0</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ArrayLike</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
     <span class="n">maxiter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The Nyström preconditioned conjugate gradient method (Nyström PCG).</span>
 
@@ -335,17 +343,17 @@ document.write(`
 <span class="sd">      A: A two-dimensional array representing a positive-semidefinite matrix.</span>
 <span class="sd">      b: A vector or a two-dimensional array giving the righthand side(s) of the</span>
 <span class="sd">        regularized linear system.</span>
-<span class="sd">      mu: Regularization parameter (with non-negative value).</span>
+<span class="sd">      mu: Regularization parameter. Expect a non-negative value.</span>
 <span class="sd">      rank: Rank of the randomized Nyström approximation (which coincides with sketch</span>
-<span class="sd">        size).</span>
+<span class="sd">        size). Expect a positive value.</span>
 <span class="sd">      key: A PRNG key used as the random key.</span>
 <span class="sd">      x0: Initial guess for the solution (same size as righthand side(s) ``b``; default</span>
 <span class="sd">        ``None``). When set to ``None``, the algorithm uses zero vector as starting</span>
 <span class="sd">        guess.</span>
-<span class="sd">      tol: Solution tolerance (default :math:`10^{-5}`).</span>
 <span class="sd">      maxiter: Maximum number of iterations (default ``None``). When set to ``None``,</span>
 <span class="sd">        the algorithm only terminates when the specified tolerance has been achieved.</span>
-<span class="sd">        Internally the value gets set to ten times the size of the system.</span>
+<span class="sd">        Internally the value gets set to :math:`10` times the size of the system.</span>
+<span class="sd">      tol: Solution tolerance (default ``1e-5``).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">      A four-element tuple containing</span>
@@ -443,13 +451,27 @@ document.write(`
 
 
 
+<div class="viewcode-block" id="SketchySGDState">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchySGDState">[docs]</a>
 <span class="k">class</span> <span class="nc">SketchySGDState</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchySGD optimizer state.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      iter_num: Number of iterations the optimizer has performed.</span>
+<span class="sd">      value: Objective value at the current iterate.</span>
+<span class="sd">      error: Gradient norm of the current iterate.</span>
+<span class="sd">      key: PRNG key for the next update.</span>
+<span class="sd">      precond: Preconditioner for the next update.</span>
+<span class="sd">      step_size: Step size for the next update.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">iter_num</span><span class="p">:</span> <span class="n">Array</span>
     <span class="n">value</span><span class="p">:</span> <span class="n">Array</span>
     <span class="n">error</span><span class="p">:</span> <span class="n">Array</span>
     <span class="n">key</span><span class="p">:</span> <span class="n">KeyArray</span>
     <span class="n">precond</span><span class="p">:</span> <span class="n">Callable</span>
-    <span class="n">lr</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">step_size</span><span class="p">:</span> <span class="n">Array</span></div>
+
 
 
 <div class="viewcode-block" id="SketchySGD">
@@ -459,120 +481,133 @@ document.write(`
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchySGD optimizer.</span>
 
 <span class="sd">    SketchySGD is a stochastic quasi-Newton method that uses sketching to approximate the</span>
-<span class="sd">    curvature of the loss function. It maintains a preconditioner for SGD using</span>
-<span class="sd">    randomized low-rank Nyström approximations to the subsampled Hessian and</span>
+<span class="sd">    curvature of the loss function. It maintains a preconditioner for SGD (stochastic gradient</span>
+<span class="sd">    descent) using randomized low-rank Nyström approximations to the subsampled Hessian and</span>
 <span class="sd">    automatically selects an appropriate learning whenever it updates the preconditioner.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">      .. highlight:: python</span>
 <span class="sd">      .. code-block:: python</span>
 
+<span class="sd">        import jax.numpy as jnp</span>
 <span class="sd">        from sketchyopts.solver import SketchySGD</span>
 
 <span class="sd">        def ridge_reg_objective(params, l2reg, data):</span>
-<span class="sd">            X, y = data[:,:sample_dim], data[:,sample_dim:]</span>
+<span class="sd">            # data has dimension num_samples * (feature_dim + 1)</span>
+<span class="sd">            X, y = data[:,:feature_dim], data[:,feature_dim:]</span>
 <span class="sd">            residuals = jnp.dot(X, params) - y</span>
 <span class="sd">            return jnp.mean(residuals ** 2) + 0.5 * l2reg * jnp.dot(w ** 2)</span>
 
-<span class="sd">        solver = SketchySGD(ridge_reg_objective, ...)</span>
-<span class="sd">        solver.run(init_params, data, l2reg=l2reg)</span>
+<span class="sd">        opt = SketchySGD(ridge_reg_objective, ...)</span>
+<span class="sd">        opt.run(init_params, data, l2reg=l2reg)</span>
 
 <span class="sd">    References:</span>
 <span class="sd">      - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `SketchySGD: Reliable Stochastic Optimization via Randomized Curvature Estimates &lt;https://arxiv.org/abs/2211.08597&gt;`_.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      fun: Objective function. The function needs to have the optimization variable as its first argument.</span>
-<span class="sd">      grad_fun: Optional gradient oracle that is expected to have the same function signature as the objective.</span>
-<span class="sd">      hvp_fun: Optional hessian-vector-product oracle that takes optimization variable ``params`` as its first argument, vector ``v`` as its second arguments.</span>
-<span class="sd">      pre_update: Optional gradient update function that gets called before every parameter update.</span>
-<span class="sd">      rank: Rank of the preconditioner.</span>
-<span class="sd">      rho: Regularization parameter (with non-negative value).</span>
-<span class="sd">      update_freq: A non-negative integer that specifies the update frequency of the</span>
-<span class="sd">        preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or</span>
+<span class="sd">      fun: Scalar-valued objective function. The function needs to have the optimization variable as its first argument, and data input argument ``data``. For example, the function signature might take the form of ``fun(params, some_arg, data, other_arg)``.</span>
+<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective function ``fun``. The gradient function returns the gradient of the objective function with respect to its first argument (*i.e.* the optimization variable). The gradient function should have the same function signature as the objective function, and the returned gradient should have the same shapes and types as the the optimization variable (*i.e.* the first argument of ``fun``).</span>
+<span class="sd">      hvp_fun: Optional Hessian-vector product oracle. The hvp function should take optimization variable and vector (of the same shape and type) as its first and second arguments, respectively. It is also expected to have the same additional arguments as the provided objective function ``fun``. The returned result should have the same shapes and types as the the optimization variable (*i.e.* the first argument of ``fun``).</span>
+<span class="sd">      pre_update: Optional function to execute before optimizer&#39;s each update on the iterate. The function expects signature ``params, state = pre_update(params, state, *args, **kwargs)`` where ``state`` is the :class:`SketchySGDState` object.</span>
+<span class="sd">      rho: Regularization parameter. Expect a non-negative value.</span>
+<span class="sd">      rank: Rank of the preconditioner. Expect a positive value.</span>
+<span class="sd">      grad_batch_size: Size of the batch of data to compute stochastic gradient at each iteration. Expect a positive value.</span>
+<span class="sd">      hess_batch_size: Size of the batch of data to estimate the stochastic Hessian when updating the preconditioner. Expect a positive value.</span>
+<span class="sd">      update_freq: Update frequency of the preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or</span>
 <span class="sd">        ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at</span>
 <span class="sd">        the beginning of the optimization process.</span>
-<span class="sd">      seed: An integer used as a seed to generate random numbers.</span>
-<span class="sd">      learning_rate: Step size for applying updates (default :math:`0.5`). It can either be</span>
+<span class="sd">      seed: Initial seed for the random number generator.</span>
+<span class="sd">      learning_rate: Step size for applying updates (default ``0.5``). It can either be</span>
 <span class="sd">        a fixed scalar value or a schedule based on step count. If a fixed scalar value is</span>
-<span class="sd">        provided, the algorithm uses the value as the scaling factor to the adaptively chosen</span>
-<span class="sd">        learning rate whenever the preconditioner is updated.</span>
-<span class="sd">      maxiter: Maximum number of iterations to run the solver (default :math:`20`).</span>
-<span class="sd">      tol: Threshold of the gradient norm used for terminating the solver (default :math:`1e-3`).</span>
-<span class="sd">      verbose:</span>
+<span class="sd">        provided, the optimizer uses the value as the multiplier to the adaptively chosen</span>
+<span class="sd">        learning rate whenever the preconditioner is updated. If a schedule (in the form of a</span>
+<span class="sd">        function) is provided, the optimizer solely relies on the schedule and no longer</span>
+<span class="sd">        computes and determines the learning rate adaptively.</span>
+<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``). Expect a positive value.</span>
+<span class="sd">      tol: Threshold of the gradient norm used for terminating the optimizer (default ``1e-3``).</span>
+<span class="sd">      verbose: Whether to print diagnostic message (default ``false``).</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">update_freq</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
 
     <span class="k">def</span> <span class="nf">_init_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SketchySGDState</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function initializes the optimizer state.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">SketchySGDState</span><span class="p">(</span>
             <span class="n">iter_num</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">value</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
             <span class="n">error</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
             <span class="n">key</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">),</span>
             <span class="n">precond</span><span class="o">=</span><span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span>
-            <span class="n">lr</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">step_size</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_update_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
-        <span class="n">batch_idx</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">generate_random_batch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_batch_size</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function performs an update on the iterate.&quot;&quot;&quot;</span>
+        <span class="c1"># generate a random batch</span>
+        <span class="n">key</span><span class="p">,</span> <span class="n">subkey</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+            <span class="n">subkey</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_batch_size</span><span class="p">,),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
 
+        <span class="c1"># call custom pre-update function</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">:</span>
             <span class="n">solver_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
                 <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
             <span class="p">)</span>
 
+        <span class="c1"># compute preconditioned stochastic gradient</span>
         <span class="n">value</span><span class="p">,</span> <span class="n">grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
             <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
         <span class="p">)</span>
-        <span class="n">flattend_grad</span><span class="p">,</span> <span class="n">unravel_fn</span> <span class="o">=</span> <span class="n">ravel_pytree</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
-        <span class="n">direction</span> <span class="o">=</span> <span class="n">unravel_fn</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">(</span><span class="n">flattend_grad</span><span class="p">))</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">-</span><span class="n">state</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
         <span class="n">error</span> <span class="o">=</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">unraveled_grad</span><span class="p">,</span> <span class="n">unravel_fun</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">unravel_fun</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">(</span><span class="n">unraveled_grad</span><span class="p">))</span>
+
+        <span class="c1"># perform an update</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">-</span><span class="n">state</span><span class="o">.</span><span class="n">step_size</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span>
             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
-            <span class="n">state</span><span class="o">=</span><span class="n">SketchySGDState</span><span class="p">(</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span>
                 <span class="n">iter_num</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                 <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
                 <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
                 <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
-                <span class="n">precond</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">,</span>
-                <span class="n">lr</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="SketchySGD.run">
 <a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchySGD.run">[docs]</a>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_params</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Runs the optimization loop over an iterator.</span>
-
-<span class="sd">        Both iterators should not exhaust before the run ends.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function runs the optimization loop.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">          init_params: pytree containing the initial parameters.</span>
-<span class="sd">          gradient_iterator: iterator generating random data batches of size :math:`b_g` for updating the parameters</span>
-<span class="sd">          hessian_iterator: iterator generating random data batches of size :math:`b_h` for updating the preconditioner</span>
-<span class="sd">          *args: additional positional arguments to be passed to ``fun`` (or ``grad_fun`` if provided).</span>
-<span class="sd">          **kwargs: additional keyword arguments to be passed to ``fun`` (or ``grad_fun`` if provided).</span>
+<span class="sd">          init_params: Initial value of the optimization variable.</span>
+<span class="sd">          data: Full dataset. Expect an array of shape ``(num_samples, ...)``.</span>
+<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and ``grad_fun`` as well as ``hvp_fun`` if provided).</span>
+<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and ``grad_fun`` as well as ``hvp_fun`` if provided).</span>
 <span class="sd">        Returns:</span>
-<span class="sd">          (params, state)</span>
+<span class="sd">          Final optimization variable and solver state. The variable has the same shape as the provided initial value ``init_params``, and the state is an :class:`SketchySGDState` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
+        <span class="c1"># initialize iterate and state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>
         <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_state</span><span class="p">()</span>
 
+        <span class="c1"># run the optimization loop</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
 
+            <span class="c1"># update preconditioner</span>
             <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">==</span> <span class="mi">0</span>
             <span class="p">):</span>
-                <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_precond</span><span class="p">(</span>
-                    <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-                <span class="p">)</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_precond</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
+            <span class="c1"># update iterate</span>
             <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
+            <span class="c1"># break out of loop if tolerance has been reached</span>
             <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">error</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
                 <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
                     <span class="s2">&quot;Info: early termination because error tolerance has been reached.&quot;</span>
@@ -584,13 +619,31 @@ document.write(`
 
 
 
+<div class="viewcode-block" id="SketchySVRGState">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchySVRGState">[docs]</a>
 <span class="k">class</span> <span class="nc">SketchySVRGState</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchySVRG optimizer state.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      iter_num: Number of iterations the optimizer has performed.</span>
+<span class="sd">      value: Objective value at the current iterate.</span>
+<span class="sd">      error: Gradient norm of the current iterate.</span>
+<span class="sd">      key: PRNG key for the next update.</span>
+<span class="sd">      precond: Preconditioner for the next update.</span>
+<span class="sd">      full_grad: Full gradient at the snapshot.</span>
+<span class="sd">      snapshot: Snapshot of the iterate.</span>
+<span class="sd">      step_size: Step size for the next update.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">iter_num</span><span class="p">:</span> <span class="n">Array</span>
     <span class="n">value</span><span class="p">:</span> <span class="n">Array</span>
     <span class="n">error</span><span class="p">:</span> <span class="n">Array</span>
     <span class="n">key</span><span class="p">:</span> <span class="n">KeyArray</span>
     <span class="n">precond</span><span class="p">:</span> <span class="n">Callable</span>
-    <span class="n">lr</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">full_grad</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">snapshot</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">step_size</span><span class="p">:</span> <span class="n">Array</span></div>
+
 
 
 <div class="viewcode-block" id="SketchySVRG">
@@ -599,152 +652,613 @@ document.write(`
 <span class="k">class</span> <span class="nc">SketchySVRG</span><span class="p">(</span><span class="n">PromiseSolver</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchySVRG optimizer.</span>
 
-<span class="sd">    [SketchySVRG description]</span>
+<span class="sd">    SketchySVRG is a preconditioned version of SVRG [#f1]_ (stochastic variance reduced gradient).</span>
+<span class="sd">    The optimizer stores and periodically updates a snapshot of the iterate, and uses the snapshot</span>
+<span class="sd">    and its full gradient to perform variance reduction. The preconditioning is then applied to</span>
+<span class="sd">    the variance-reduced stochastic gradient at each step. The preconditioner and learning rate get</span>
+<span class="sd">    updated periodically.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">      .. highlight:: python</span>
 <span class="sd">      .. code-block:: python</span>
 
+<span class="sd">        import jax.numpy as jnp</span>
 <span class="sd">        from sketchyopts.solver import SketchySVRG</span>
 
 <span class="sd">        def ridge_reg_objective(params, l2reg, data):</span>
-<span class="sd">            X, y = data[:,:sample_dim], data[:,sample_dim:]</span>
+<span class="sd">            # data has dimension num_samples * (feature_dim + 1)</span>
+<span class="sd">            X, y = data[:,:feature_dim], data[:,feature_dim:]</span>
 <span class="sd">            residuals = jnp.dot(X, params) - y</span>
 <span class="sd">            return jnp.mean(residuals ** 2) + 0.5 * l2reg * jnp.dot(w ** 2)</span>
 
-<span class="sd">        solver = SketchySVRG(ridge_reg_objective, ...)</span>
-<span class="sd">        solver.run(init_params, data, l2reg=l2reg)</span>
+<span class="sd">        opt = SketchySVRG(ridge_reg_objective, ...)</span>
+<span class="sd">        opt.run(init_params, data, l2reg=l2reg)</span>
 
-<span class="sd">    References:</span>
-<span class="sd">      - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
+<span class="sd">    .. rubric:: References</span>
+
+<span class="sd">    .. [#f1] R\. Johnson and T. Zhang, `Accelerating Stochastic Gradient Descent using Predictive Variance Reduction &lt;https://papers.nips.cc/paper/4937-accelerating-stochastic-gradient-descent-using-predictive-variance-reduction&gt;`_, Advances in Neural Information Processing Systems, 26, 2013.</span>
+
+<span class="sd">    - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      fun: Objective function. The function needs to have the optimization variable ``params`` as its first argument, and ``data`` argument to take data inputs.</span>
-<span class="sd">      grad_fun: Optional gradient oracle that is expected to have the same function signature as the objective.</span>
-<span class="sd">      hvp_fun: Optional hessian-vector-product oracle that takes optimization variable ``params`` as its first argument, vector ``v`` as its second arguments.</span>
-<span class="sd">      pre_update: Optional gradient update function that gets called before every parameter update.</span>
-<span class="sd">      rank: Rank of the preconditioner.</span>
-<span class="sd">      rho: Regularization parameter (with non-negative value).</span>
-<span class="sd">      precond_update_freq: A non-negative integer that specifies the update frequency of the</span>
-<span class="sd">        preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or</span>
+<span class="sd">      fun: Scalar-valued objective function. The function needs to have the optimization variable as its first argument, and data input argument ``data``. For example, the function signature might take the form of ``fun(params, some_arg, data, other_arg)``.</span>
+<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective function ``fun``. The gradient function returns the gradient of the objective function with respect to its first argument (*i.e.* the optimization variable). The gradient function should have the same function signature as the objective function, and the returned gradient should have the same shapes and types as the the optimization variable (*i.e.* the first argument of ``fun``).</span>
+<span class="sd">      hvp_fun: Optional Hessian-vector product oracle. The hvp function should take optimization variable and vector (of the same shape and type) as its first and second arguments, respectively. It is also expected to have the same additional arguments as the provided objective function ``fun``. The returned result should have the same shapes and types as the the optimization variable (*i.e.* the first argument of ``fun``).</span>
+<span class="sd">      pre_update: Optional function to execute before optimizer&#39;s each update on the iterate. The function expects signature ``params, state = pre_update(params, state, *args, **kwargs)`` where ``state`` is the :class:`SketchySVRGState` object.</span>
+<span class="sd">      rho: Regularization parameter. Expect a non-negative value.</span>
+<span class="sd">      rank: Rank of the preconditioner. Expect a positive value.</span>
+<span class="sd">      grad_batch_size: Size of the batch of data to compute stochastic gradient at each iteration. Expect a positive value.</span>
+<span class="sd">      hess_batch_size: Size of the batch of data to estimate the stochastic Hessian when updating the preconditioner. Expect a positive value.</span>
+<span class="sd">      update_freq: Update frequency of the preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or</span>
 <span class="sd">        ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at</span>
 <span class="sd">        the beginning of the optimization process.</span>
-<span class="sd">      snapshop_update_freq: A non-negative integer that specifies how frequent snapshot points are computed.</span>
-<span class="sd">      grad_batch_size:</span>
-<span class="sd">      hess_batch_size:</span>
-<span class="sd">      seed: An integer used as a seed to generate random numbers.</span>
-<span class="sd">      learning_rate: Step size for applying updates (default :math:`0.5`). It can either be</span>
-<span class="sd">        a fixed scalar value or a schedule based on step count. When set to ``None``, the</span>
-<span class="sd">        algorithm adaptively chooses a learning rate whenever the preconditioner is updated.</span>
-<span class="sd">      maxiter: Maximum number of iterations to run the solver.</span>
-<span class="sd">      tol: Threshold of the gradient norm used for terminating the solver.</span>
-<span class="sd">      verbose:</span>
+<span class="sd">      snapshop_update_freq: Update frequency of the snapshot. Expect a positive value.</span>
+<span class="sd">      seed: Initial seed for the random number generator.</span>
+<span class="sd">      learning_rate: Step size for applying updates (default ``0.5``). It can either be</span>
+<span class="sd">        a fixed scalar value or a schedule based on step count. If a fixed scalar value is</span>
+<span class="sd">        provided, the optimizer uses the value as the multiplier to the adaptively chosen</span>
+<span class="sd">        learning rate whenever the preconditioner is updated. If a schedule (in the form of a</span>
+<span class="sd">        function) is provided, the optimizer solely relies on the schedule and no longer</span>
+<span class="sd">        computes and determines the learning rate adaptively.</span>
+<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``). Expect a positive value.</span>
+<span class="sd">      tol: Threshold of the gradient norm used for terminating the optimizer (default ``1e-3``).</span>
+<span class="sd">      verbose: Whether to print diagnostic message (default ``false``).</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">precond_update_freq</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">snapshop_update_freq</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
 
     <span class="k">def</span> <span class="nf">_init_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SketchySVRGState</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function initializes the optimizer state.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">SketchySVRGState</span><span class="p">(</span>
             <span class="n">iter_num</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">value</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
             <span class="n">error</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
             <span class="n">key</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">),</span>
             <span class="n">precond</span><span class="o">=</span><span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span>
-            <span class="n">lr</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">full_grad</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">snapshot</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">step_size</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_update_params</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params_snapshot</span><span class="p">,</span> <span class="n">full_grad</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
-        <span class="n">batch_idx</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">generate_random_batch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_batch_size</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_update_snapshot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SketchySVRGState</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">full_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">unraveled_full_grad</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">full_grad</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span>
+            <span class="n">full_grad</span><span class="o">=</span><span class="n">unraveled_full_grad</span><span class="p">,</span>
+            <span class="n">snapshot</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+        <span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_update_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function performs an update on the iterate.&quot;&quot;&quot;</span>
+        <span class="c1"># generate a random batch</span>
+        <span class="n">key</span><span class="p">,</span> <span class="n">subkey</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+            <span class="n">subkey</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_batch_size</span><span class="p">,),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+        <span class="c1"># call custom pre-update function</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">:</span>
             <span class="n">solver_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
                 <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
             <span class="p">)</span>
 
+        <span class="c1"># compute preconditioned variance-reduced stochastic gradient</span>
         <span class="n">value</span><span class="p">,</span> <span class="n">grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
             <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
         <span class="p">)</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">grad_snapshot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
-            <span class="n">params_snapshot</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">snapshot</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
         <span class="p">)</span>
 
-        <span class="n">flattend_grad</span><span class="p">,</span> <span class="n">unravel_fn</span> <span class="o">=</span> <span class="n">ravel_pytree</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
-        <span class="n">flattend_grad_snapshot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_pytree</span><span class="p">(</span><span class="n">grad_snapshot</span><span class="p">)</span>
-
-        <span class="n">direction</span> <span class="o">=</span> <span class="n">unravel_fn</span><span class="p">(</span>
-            <span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">(</span><span class="n">flattend_grad</span> <span class="o">-</span> <span class="n">flattend_grad_snapshot</span> <span class="o">+</span> <span class="n">full_grad</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">-</span><span class="n">state</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
         <span class="n">error</span> <span class="o">=</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">unraveled_grad</span><span class="p">,</span> <span class="n">unravel_fun</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+        <span class="n">unraveled_grad_snapshot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">grad_snapshot</span><span class="p">)</span>
+
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">unravel_fun</span><span class="p">(</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">(</span><span class="n">unraveled_grad</span> <span class="o">-</span> <span class="n">unraveled_grad_snapshot</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="n">full_grad</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="c1"># perform an update</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">-</span><span class="n">state</span><span class="o">.</span><span class="n">step_size</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span>
             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
-            <span class="n">state</span><span class="o">=</span><span class="n">SketchySVRGState</span><span class="p">(</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span>
                 <span class="n">iter_num</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
                 <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
                 <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
                 <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
-                <span class="n">precond</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">,</span>
-                <span class="n">lr</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="SketchySVRG.run">
 <a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchySVRG.run">[docs]</a>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_params</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Runs the optimization loop over an iterator.</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function runs the optimization loop.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">          init_params: pytree containing the initial parameters.</span>
-<span class="sd">          data: iterator generating data batches.</span>
-<span class="sd">          *args: additional positional arguments to be passed to ``fun`` (or ``grad_fun`` if provided).</span>
-<span class="sd">          **kwargs: additional keyword arguments to be passed to ``fun`` (or ``grad_fun`` if provided).</span>
+<span class="sd">          init_params: Initial value of the optimization variable.</span>
+<span class="sd">          data: Full dataset. Expect an array of shape ``(num_samples, ...)``.</span>
+<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and ``grad_fun`` as well as ``hvp_fun`` if provided).</span>
+<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and ``grad_fun`` as well as ``hvp_fun`` if provided).</span>
 <span class="sd">        Returns:</span>
-<span class="sd">          (params, state)</span>
+<span class="sd">          Final optimization variable and solver state. The variable has the same shape as the provided initial value ``init_params``, and the state is an :class:`SketchySVRGState` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">params_snapshot</span> <span class="o">=</span> <span class="n">init_params</span>
+        <span class="c1"># initialize iterate and state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>
         <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_state</span><span class="p">()</span>
 
+        <span class="c1"># run the optimization loop</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
 
-            <span class="n">_</span><span class="p">,</span> <span class="n">full_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
-                <span class="n">params_snapshot</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span>
-            <span class="p">)</span>
-            <span class="n">full_grad</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_pytree</span><span class="p">(</span><span class="n">full_grad</span><span class="p">)</span>
-            <span class="n">params</span> <span class="o">=</span> <span class="n">params_snapshot</span>
+            <span class="c1"># update snapshot</span>
+            <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshop_update_freq</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_snapshot</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">snapshop_update_freq</span><span class="p">):</span>
+            <span class="c1"># update preconditioner</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="p">):</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_precond</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">precond_update_freq</span> <span class="o">==</span> <span class="mi">0</span>
-                    <span class="ow">and</span> <span class="n">i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshop_update_freq</span> <span class="o">+</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span>
-                <span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">precond_update_freq</span> <span class="o">&gt;</span> <span class="mi">0</span>
-                    <span class="ow">and</span> <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshop_update_freq</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">precond_update_freq</span>
-                    <span class="o">==</span> <span class="mi">0</span>
-                <span class="p">):</span>
-                    <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_precond</span><span class="p">(</span>
-                        <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-                    <span class="p">)</span>
+            <span class="c1"># update iterate</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-                <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span>
-                    <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params_snapshot</span><span class="p">,</span> <span class="n">full_grad</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-                <span class="p">)</span>
-
-            <span class="n">params_snapshot</span> <span class="o">=</span> <span class="n">params</span>
-
+            <span class="c1"># break out of loop if tolerance has been reached</span>
             <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">error</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
                 <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
                     <span class="s2">&quot;Info: early termination because error tolerance has been reached.&quot;</span>
                 <span class="p">)</span>
                 <span class="k">break</span>
 
-        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div>
+        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SketchySAGAState">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchySAGAState">[docs]</a>
+<span class="k">class</span> <span class="nc">SketchySAGAState</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchySAGA optimizer state.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      iter_num: Number of iterations the optimizer has performed.</span>
+<span class="sd">      value: Objective value at the current iterate.</span>
+<span class="sd">      error: Gradient norm of the current iterate.</span>
+<span class="sd">      key: PRNG key for the next update.</span>
+<span class="sd">      precond: Preconditioner for the next update.</span>
+<span class="sd">      grad_table: Table of gradients of each individual component.</span>
+<span class="sd">      table_avg: Average of the gradients in the table.</span>
+<span class="sd">      step_size: Step size for the next update.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">iter_num</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">error</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">key</span><span class="p">:</span> <span class="n">KeyArray</span>
+    <span class="n">precond</span><span class="p">:</span> <span class="n">Callable</span>
+    <span class="n">grad_table</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">table_avg</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">step_size</span><span class="p">:</span> <span class="n">Array</span></div>
+
+
+
+<div class="viewcode-block" id="SketchySAGA">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchySAGA">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SketchySAGA</span><span class="p">(</span><span class="n">PromiseSolver</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchySAGA optimizer.</span>
+
+<span class="sd">    SketchySAGA is a preconditioned version of a minibatch variant [#f3]_ (b-nice SAGA) of SAGA [#f2]_.</span>
+<span class="sd">    The optimizer maintains and updates a gradient table and table average. At each iteration,</span>
+<span class="sd">    the optimizer computes auxiliary vector and uses it to update the variance-reduced stochastic</span>
+<span class="sd">    gradient. The update is then based on the preconditioned variance-reduced stochastic gradient.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">      .. highlight:: python</span>
+<span class="sd">      .. code-block:: python</span>
+
+<span class="sd">        import jax.numpy as jnp</span>
+<span class="sd">        from sketchyopts.solver import SketchySAGA</span>
+
+<span class="sd">        def ridge_reg_objective(params, l2reg, data):</span>
+<span class="sd">            # data has dimension num_samples * (feature_dim + 1)</span>
+<span class="sd">            X, y = data[:,:feature_dim], data[:,feature_dim:]</span>
+<span class="sd">            residuals = jnp.dot(X, params) - y</span>
+<span class="sd">            return jnp.mean(residuals ** 2) + 0.5 * l2reg * jnp.dot(w ** 2)</span>
+
+<span class="sd">        opt = SketchySAGA(ridge_reg_objective, ...)</span>
+<span class="sd">        opt.run(init_params, data, l2reg=l2reg)</span>
+
+<span class="sd">    .. rubric:: References</span>
+
+<span class="sd">    .. [#f2] A\. Defazio, F. Bach, and S. Lacoste-Julien, `SAGA: A Fast Incremental Gradient Method With Support for Non-Strongly Convex Composite Objectives &lt;https://papers.nips.cc/paper_files/paper/2014/hash/ede7e2b6d13a41ddf9f4bdef84fdc737-Abstract.html&gt;`_, Advances in Neural Information Processing Systems, 27, 2014.</span>
+<span class="sd">    .. [#f3] N\. Gazagnadou, R. M. Gower, and J. Salmon, `Optimal Mini-Batch and Step Sizes for SAGA &lt;https://proceedings.mlr.press/v97/gazagnadou19a.html&gt;`_, in *Proceedings of the 36*\ :sup:`th` *International Conference on Machine Learning*, Proceedings of Machine Learning Research (PMLR), 97: 2142-2150, 2019.</span>
+
+<span class="sd">    - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      fun: Scalar-valued objective function. The function needs to have the optimization variable as its first argument, and data input argument ``data``. For example, the function signature might take the form of ``fun(params, some_arg, data, other_arg)``.</span>
+<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective function ``fun``. The gradient function returns the gradient of the objective function with respect to its first argument (*i.e.* the optimization variable). The gradient function should have the same function signature as the objective function, and the returned gradient should have the same shapes and types as the the optimization variable (*i.e.* the first argument of ``fun``).</span>
+<span class="sd">      hvp_fun: Optional Hessian-vector product oracle. The hvp function should take optimization variable and vector (of the same shape and type) as its first and second arguments, respectively. It is also expected to have the same additional arguments as the provided objective function ``fun``. The returned result should have the same shapes and types as the the optimization variable (*i.e.* the first argument of ``fun``).</span>
+<span class="sd">      pre_update: Optional function to execute before optimizer&#39;s each update on the iterate. The function expects signature ``params, state = pre_update(params, state, *args, **kwargs)`` where ``state`` is the :class:`SketchySAGAState` object.</span>
+<span class="sd">      rho: Regularization parameter. Expect a non-negative value.</span>
+<span class="sd">      rank: Rank of the preconditioner. Expect a positive value.</span>
+<span class="sd">      grad_batch_size: Size of the batch of data to compute stochastic gradient at each iteration. Expect a positive value.</span>
+<span class="sd">      hess_batch_size: Size of the batch of data to estimate the stochastic Hessian when updating the preconditioner. Expect a positive value.</span>
+<span class="sd">      update_freq: Update frequency of the preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or</span>
+<span class="sd">        ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at</span>
+<span class="sd">        the beginning of the optimization process.</span>
+<span class="sd">      seed: Initial seed for the random number generator.</span>
+<span class="sd">      learning_rate: Step size for applying updates (default ``0.5``). It can either be</span>
+<span class="sd">        a fixed scalar value or a schedule based on step count. If a fixed scalar value is</span>
+<span class="sd">        provided, the optimizer uses the value as the multiplier to the adaptively chosen</span>
+<span class="sd">        learning rate whenever the preconditioner is updated. If a schedule (in the form of a</span>
+<span class="sd">        function) is provided, the optimizer solely relies on the schedule and no longer</span>
+<span class="sd">        computes and determines the learning rate adaptively.</span>
+<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``). Expect a positive value.</span>
+<span class="sd">      tol: Threshold of the gradient norm used for terminating the optimizer (default ``1e-3``).</span>
+<span class="sd">      verbose: Whether to print diagnostic message (default ``false``).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function overrides the superclass&#39;s method and constructs`` value_and_grad`` function that computes the gradient of each individual component.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span><span class="p">):</span>
+            <span class="n">comp_grad_fun</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">comp_grad_fun</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">value_and_grad</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">comp_grad_fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">d</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">grad_fun</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="n">grad_fun</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span> <span class="o">=</span> <span class="n">value_and_grad</span>
+
+    <span class="k">def</span> <span class="nf">_init_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SketchySAGAState</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function initializes the optimizer state.&quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ravel_tree</span><span class="p">(</span><span class="n">params</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">SketchySAGAState</span><span class="p">(</span>
+            <span class="n">iter_num</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+            <span class="n">error</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">),</span>
+            <span class="n">precond</span><span class="o">=</span><span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span>
+            <span class="n">grad_table</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">)),</span>
+            <span class="n">table_avg</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">),</span>
+            <span class="n">step_size</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function performs an update on the iterate.&quot;&quot;&quot;</span>
+        <span class="c1"># generate a random batch</span>
+        <span class="n">key</span><span class="p">,</span> <span class="n">subkey</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+            <span class="n">subkey</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_batch_size</span><span class="p">,),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+        <span class="c1"># call custom pre-update function</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">:</span>
+            <span class="n">solver_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
+                <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="c1"># compute stochastic gradients</span>
+        <span class="n">value</span><span class="p">,</span> <span class="n">unraveled_grads</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
+            <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">error</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">unraveled_grads</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="c1"># compute auxiliary</span>
+        <span class="n">aux</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">unraveled_grads</span> <span class="o">-</span> <span class="n">state</span><span class="o">.</span><span class="n">grad_table</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># compute preconditioned variance-reduced stochastic gradient</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">unravel_fun</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">unravel_fun</span><span class="p">(</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">table_avg</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_batch_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">aux</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="c1"># update table average and gradient table</span>
+        <span class="n">table_avg</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">table_avg</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">)</span> <span class="o">*</span> <span class="n">aux</span>
+        <span class="n">grad_table</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">grad_table</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">unraveled_grads</span><span class="p">)</span>
+
+        <span class="c1"># perform an update</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">-</span><span class="n">state</span><span class="o">.</span><span class="n">step_size</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span>
+                <span class="n">iter_num</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+                <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+                <span class="n">grad_table</span><span class="o">=</span><span class="n">grad_table</span><span class="p">,</span>
+                <span class="n">table_avg</span><span class="o">=</span><span class="n">table_avg</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="SketchySAGA.run">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchySAGA.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_params</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function runs the optimization loop.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">          init_params: Initial value of the optimization variable.</span>
+<span class="sd">          data: Full dataset. Expect an array of shape ``(num_samples, ...)``.</span>
+<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and ``grad_fun`` as well as ``hvp_fun`` if provided).</span>
+<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and ``grad_fun`` as well as ``hvp_fun`` if provided).</span>
+<span class="sd">        Returns:</span>
+<span class="sd">          Final optimization variable and solver state. The variable has the same shape as the provided initial value ``init_params``, and the state is an :class:`SketchySAGAState` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialize iterate and state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_state</span><span class="p">(</span><span class="n">init_params</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># run the optimization loop</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
+
+            <span class="c1"># update preconditioner</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="p">):</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_precond</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="c1"># update iterate</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="c1"># break out of loop if tolerance has been reached</span>
+            <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">error</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+                    <span class="s2">&quot;Info: early termination because error tolerance has been reached.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SketchyKatyushaState">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchyKatyushaState">[docs]</a>
+<span class="k">class</span> <span class="nc">SketchyKatyushaState</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchyKatyusha optimizer state.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      iter_num: Number of iterations the optimizer has performed.</span>
+<span class="sd">      value: Objective value at the current iterate.</span>
+<span class="sd">      error: Gradient norm of the current iterate.</span>
+<span class="sd">      key: PRNG key for the next update.</span>
+<span class="sd">      precond: Preconditioner for the next update.</span>
+<span class="sd">      full_grad: Full gradient at the snapshot.</span>
+<span class="sd">      snapshot: Snapshot of the iterate.</span>
+<span class="sd">      z: Momentum of the iterate.</span>
+<span class="sd">      step_size: Step size for the next update.</span>
+<span class="sd">      L: Smoothness constant estimate.</span>
+<span class="sd">      sigma: Inverse condition number estimate.</span>
+<span class="sd">      theta: Momentum parameter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">iter_num</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">error</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">key</span><span class="p">:</span> <span class="n">KeyArray</span>
+    <span class="n">precond</span><span class="p">:</span> <span class="n">Callable</span>
+    <span class="n">full_grad</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">snapshot</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">z</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">step_size</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">L</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">sigma</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">theta</span><span class="p">:</span> <span class="n">Array</span></div>
+
+
+
+<div class="viewcode-block" id="SketchyKatyusha">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchyKatyusha">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SketchyKatyusha</span><span class="p">(</span><span class="n">PromiseSolver</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchyKatyusha optimizer.</span>
+
+<span class="sd">    SketchyKatyusha is a preconditioned version of Loopless Katyusha [#f5]_ that extends the original Katyusha [#f4]_.</span>
+<span class="sd">    The optimizer calculates the preconditioned variance-reduced stochastic gradient and performs momentum update.</span>
+<span class="sd">    The optimizer periodically updates the preconditioner, and probabilistically updates snapshot and full gradient.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">      .. highlight:: python</span>
+<span class="sd">      .. code-block:: python</span>
+
+<span class="sd">        import jax.numpy as jnp</span>
+<span class="sd">        from sketchyopts.solver import SketchyKatyusha</span>
+
+<span class="sd">        def ridge_reg_objective(params, l2reg, data):</span>
+<span class="sd">            # data has dimension num_samples * (feature_dim + 1)</span>
+<span class="sd">            X, y = data[:,:feature_dim], data[:,feature_dim:]</span>
+<span class="sd">            residuals = jnp.dot(X, params) - y</span>
+<span class="sd">            return jnp.mean(residuals ** 2) + 0.5 * l2reg * jnp.dot(w ** 2)</span>
+
+<span class="sd">        opt = SketchyKatyusha(ridge_reg_objective, ...)</span>
+<span class="sd">        opt.run(init_params, data, l2reg=l2reg)</span>
+
+<span class="sd">    .. rubric:: References</span>
+
+<span class="sd">    .. [#f4] Z\. Allen-Zhu, `Katyusha: The First Direct Acceleration of Stochastic Gradient Methods &lt;https://jmlr.org/papers/v18/16-410.html&gt;`_, Journal of Machine Learning Research, 18(221): 1-51, 2018.</span>
+<span class="sd">    .. [#f5] D\. Kovalev, S. Horváth, and P. Richtárik, `Don&#39;t Jump Through Hoops and Remove Those Loops: SVRG and Katyusha are Better Without the Outer Loop &lt;https://proceedings.mlr.press/v117/kovalev20a.html&gt;`_, in *Proceedings of the 31*\ :sup:`th` *International Conference on Algorithmic Learning Theory*, Proceedings of Machine Learning Research (PMLR), 117: 451-467, 2020.</span>
+
+<span class="sd">    - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      fun: Scalar-valued objective function. The function needs to have the optimization variable as its first argument, and data input argument ``data``. For example, the function signature might take the form of ``fun(params, some_arg, data, other_arg)``.</span>
+<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective function ``fun``. The gradient function returns the gradient of the objective function with respect to its first argument (*i.e.* the optimization variable). The gradient function should have the same function signature as the objective function, and the returned gradient should have the same shapes and types as the the optimization variable (*i.e.* the first argument of ``fun``).</span>
+<span class="sd">      hvp_fun: Optional Hessian-vector product oracle. The hvp function should take optimization variable and vector (of the same shape and type) as its first and second arguments, respectively. It is also expected to have the same additional arguments as the provided objective function ``fun``. The returned result should have the same shapes and types as the the optimization variable (*i.e.* the first argument of ``fun``).</span>
+<span class="sd">      pre_update: Optional function to execute before optimizer&#39;s each update on the iterate. The function expects signature ``params, state = pre_update(params, state, *args, **kwargs)`` where ``state`` is the :class:`SketchyKatyushaState` object.</span>
+<span class="sd">      rho: Regularization parameter. Expect a non-negative value.</span>
+<span class="sd">      rank: Rank of the preconditioner. Expect a positive value.</span>
+<span class="sd">      mu: Strong convexity parameter. Expect a positive value.</span>
+<span class="sd">      grad_batch_size: Size of the batch of data to compute stochastic gradient at each iteration. Expect a positive value.</span>
+<span class="sd">      hess_batch_size: Size of the batch of data to estimate the stochastic Hessian when updating the preconditioner. Expect a positive value.</span>
+<span class="sd">      update_freq: Update frequency of the preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or</span>
+<span class="sd">        ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at</span>
+<span class="sd">        the beginning of the optimization process.</span>
+<span class="sd">      snapshop_update_prob: Probability of updating the snapshot. Expect a value in :math:`(0,1)`.</span>
+<span class="sd">      seed: Initial seed for the random number generator.</span>
+<span class="sd">      momentum_param: Momentum parameter (default ``1/2``).</span>
+<span class="sd">      momentum_multiplier: Momentum multiplier (default ``2/3``).</span>
+<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``). Expect a positive value.</span>
+<span class="sd">      tol: Threshold of the gradient norm used for terminating the optimizer (default ``1e-3``).</span>
+<span class="sd">      verbose: Whether to print diagnostic message (default ``false``).</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mu</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">momentum_param</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">momentum_multiplier</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span>
+    <span class="n">snapshop_update_prob</span><span class="p">:</span> <span class="nb">float</span>
+
+    <span class="k">def</span> <span class="nf">_init_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SketchyKatyushaState</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function initializes the optimizer state.&quot;&quot;&quot;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">full_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">full_grad</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">full_grad</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SketchyKatyushaState</span><span class="p">(</span>
+            <span class="n">iter_num</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+            <span class="n">error</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">),</span>
+            <span class="n">precond</span><span class="o">=</span><span class="k">lambda</span> <span class="n">g</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span>
+            <span class="n">full_grad</span><span class="o">=</span><span class="n">full_grad</span><span class="p">,</span>
+            <span class="n">snapshot</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">z</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">step_size</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">L</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">sigma</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">theta</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_step_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labda</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function overrides the superclass&#39;s method and updates relevant values using the provided preconditioned smoothness constant labda.&quot;&quot;&quot;</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">/</span> <span class="n">labda</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span>
+            <span class="mf">0.5</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">momentum_multiplier</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">step_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum_param</span> <span class="o">/</span> <span class="p">(</span><span class="n">theta</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum_param</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span>
+            <span class="n">step_size</span><span class="o">=</span><span class="n">step_size</span><span class="p">,</span>
+            <span class="n">L</span><span class="o">=</span><span class="n">labda</span><span class="p">,</span>
+            <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span>
+            <span class="n">theta</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function performs an update on the iterate.&quot;&quot;&quot;</span>
+        <span class="c1"># generate a random batch</span>
+        <span class="n">key</span><span class="p">,</span> <span class="n">subkey1</span><span class="p">,</span> <span class="n">subkey2</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+            <span class="n">subkey1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_batch_size</span><span class="p">,),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">subkey2</span><span class="p">)</span>
+
+        <span class="c1"># call custom pre-update function</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">:</span>
+            <span class="n">solver_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
+                <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="c1"># update snapshot</span>
+        <span class="n">full_grad</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">full_grad</span>
+        <span class="n">snapshot</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">snapshot</span>
+        <span class="k">if</span> <span class="n">u</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshop_update_prob</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">full_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">full_grad</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">full_grad</span><span class="p">)</span>
+            <span class="n">snapshot</span> <span class="o">=</span> <span class="n">params</span>
+
+        <span class="c1"># compute negative momentum</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum_param</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">snapshot</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">state</span><span class="o">.</span><span class="n">theta</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum_param</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+        <span class="c1"># compute preconditioned variance-reduced accelerated stochastic gradient</span>
+        <span class="n">value</span><span class="p">,</span> <span class="n">grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">])</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">grad_snapshot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">snapshot</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="n">error</span> <span class="o">=</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">unraveled_grad</span><span class="p">,</span> <span class="n">unravel_fun</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+        <span class="n">unraveled_grad_snapshot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">grad_snapshot</span><span class="p">)</span>
+
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">unravel_fun</span><span class="p">(</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">(</span><span class="n">unraveled_grad</span> <span class="o">-</span> <span class="n">unraveled_grad_snapshot</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="n">full_grad</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="c1"># perform an update</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">step_size</span> <span class="o">*</span> <span class="n">state</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">tree_add</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="o">-</span><span class="n">state</span><span class="o">.</span><span class="n">step_size</span> <span class="o">/</span> <span class="n">state</span><span class="o">.</span><span class="n">L</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="n">step_size</span> <span class="o">*</span> <span class="n">state</span><span class="o">.</span><span class="n">sigma</span><span class="p">),</span> <span class="n">z</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="n">tree_sub</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">z</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span>
+                <span class="n">iter_num</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+                <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+                <span class="n">full_grad</span><span class="o">=</span><span class="n">full_grad</span><span class="p">,</span>
+                <span class="n">snapshot</span><span class="o">=</span><span class="n">snapshot</span><span class="p">,</span>
+                <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="SketchyKatyusha.run">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.SketchyKatyusha.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_params</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function runs the optimization loop.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">          init_params: Initial value of the optimization variable.</span>
+<span class="sd">          data: Full dataset. Expect an array of shape ``(num_samples, ...)``.</span>
+<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and ``grad_fun`` as well as ``hvp_fun`` if provided).</span>
+<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and ``grad_fun`` as well as ``hvp_fun`` if provided).</span>
+<span class="sd">        Returns:</span>
+<span class="sd">          Final optimization variable and solver state. The variable has the same shape as the provided initial value ``init_params``, and the state is an :class:`SketchyKatyushaState` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialize iterate and state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_state</span><span class="p">(</span><span class="n">init_params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># run the optimization loop</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
+
+            <span class="c1"># update preconditioner</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="p">):</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_precond</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="c1"># update iterate</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="c1"># break out of loop if tolerance has been reached</span>
+            <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">error</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">print</span><span class="p">(</span>
+                    <span class="s2">&quot;Info: early termination because error tolerance has been reached.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span></div>
 </div>
 
 </pre></div>
@@ -798,8 +1312,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
