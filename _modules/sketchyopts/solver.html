@@ -552,7 +552,7 @@ document.write(`
 
         <span class="c1"># call custom pre-update function</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">:</span>
-            <span class="n">solver_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
                 <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
             <span class="p">)</span>
 
@@ -595,6 +595,11 @@ document.write(`
         <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>
         <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_state</span><span class="p">()</span>
 
+        <span class="c1"># jit the parameter update function</span>
+        <span class="n">update_params</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+
         <span class="c1"># run the optimization loop</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
 
@@ -605,7 +610,7 @@ document.write(`
                 <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_precond</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
             <span class="c1"># update iterate</span>
-            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
 
             <span class="c1"># break out of loop if tolerance has been reached</span>
             <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">error</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
@@ -742,7 +747,7 @@ document.write(`
 
         <span class="c1"># call custom pre-update function</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">:</span>
-            <span class="n">solver_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
                 <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
             <span class="p">)</span>
 
@@ -794,6 +799,11 @@ document.write(`
         <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>
         <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_state</span><span class="p">()</span>
 
+        <span class="c1"># jit the parameter update function</span>
+        <span class="n">update_params</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+
         <span class="c1"># run the optimization loop</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
 
@@ -808,7 +818,7 @@ document.write(`
                 <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_precond</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
             <span class="c1"># update iterate</span>
-            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
 
             <span class="c1"># break out of loop if tolerance has been reached</span>
             <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">error</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
@@ -860,6 +870,8 @@ document.write(`
 <span class="sd">    the optimizer computes auxiliary vector and uses it to update the variance-reduced stochastic</span>
 <span class="sd">    gradient. The update is then based on the preconditioned variance-reduced stochastic gradient.</span>
 
+<span class="sd">    .. note:: Because SketchySAGA computes gradient of each individual component function, the provided objective function ``fun`` or gradient function ``grad_fun`` needs to be compatible with 1-dimensional data input (*i.e.* when the data input is a vector representing a single sample). The following example expands the vector to a 2-dimensional array to handle the single sample case.</span>
+
 <span class="sd">    Example:</span>
 <span class="sd">      .. highlight:: python</span>
 <span class="sd">      .. code-block:: python</span>
@@ -868,6 +880,9 @@ document.write(`
 <span class="sd">        from sketchyopts.solver import SketchySAGA</span>
 
 <span class="sd">        def ridge_reg_objective(params, l2reg, data):</span>
+<span class="sd">            # make data 2-dimensional if it is a vector of a single sample</span>
+<span class="sd">            if jnp.ndim(data) == 1:</span>
+<span class="sd">                data = jnp.expand_dims(data, axis=0)</span>
 <span class="sd">            # data has dimension num_samples * (feature_dim + 1)</span>
 <span class="sd">            X, y = data[:,:feature_dim], data[:,feature_dim:]</span>
 <span class="sd">            residuals = jnp.dot(X, params) - y</span>
@@ -949,7 +964,7 @@ document.write(`
 
         <span class="c1"># call custom pre-update function</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">:</span>
-            <span class="n">solver_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
                 <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
             <span class="p">)</span>
 
@@ -1005,6 +1020,11 @@ document.write(`
         <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>
         <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_state</span><span class="p">(</span><span class="n">init_params</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 
+        <span class="c1"># jit the parameter update function</span>
+        <span class="n">update_params</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+
         <span class="c1"># run the optimization loop</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
 
@@ -1015,7 +1035,7 @@ document.write(`
                 <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_precond</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
             <span class="c1"># update iterate</span>
-            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
 
             <span class="c1"># break out of loop if tolerance has been reached</span>
             <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">error</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
@@ -1158,6 +1178,16 @@ document.write(`
             <span class="n">theta</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span>
         <span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_update_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function updates snapshot and full gradient with specified update probability.&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">update</span><span class="p">():</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">full_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">full_grad</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">full_grad</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span><span class="n">full_grad</span><span class="o">=</span><span class="n">full_grad</span><span class="p">,</span> <span class="n">snapshot</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">u</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshop_update_prob</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">state</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_update_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function performs an update on the iterate.&quot;&quot;&quot;</span>
         <span class="c1"># generate a random batch</span>
@@ -1169,17 +1199,9 @@ document.write(`
 
         <span class="c1"># call custom pre-update function</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">:</span>
-            <span class="n">solver_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
                 <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">]</span>
             <span class="p">)</span>
-
-        <span class="c1"># update snapshot</span>
-        <span class="n">full_grad</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">full_grad</span>
-        <span class="n">snapshot</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">snapshot</span>
-        <span class="k">if</span> <span class="n">u</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshop_update_prob</span><span class="p">:</span>
-            <span class="n">_</span><span class="p">,</span> <span class="n">full_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-            <span class="n">full_grad</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">full_grad</span><span class="p">)</span>
-            <span class="n">snapshot</span> <span class="o">=</span> <span class="n">params</span>
 
         <span class="c1"># compute negative momentum</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
@@ -1201,6 +1223,9 @@ document.write(`
             <span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">(</span><span class="n">unraveled_grad</span> <span class="o">-</span> <span class="n">unraveled_grad_snapshot</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="n">full_grad</span><span class="p">),</span>
         <span class="p">)</span>
 
+        <span class="c1"># update snapshot</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_snapshot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
         <span class="c1"># perform an update</span>
         <span class="n">z</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">step_size</span> <span class="o">*</span> <span class="n">state</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
         <span class="n">z</span> <span class="o">=</span> <span class="n">tree_add</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
@@ -1215,8 +1240,6 @@ document.write(`
                 <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
                 <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
                 <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
-                <span class="n">full_grad</span><span class="o">=</span><span class="n">full_grad</span><span class="p">,</span>
-                <span class="n">snapshot</span><span class="o">=</span><span class="n">snapshot</span><span class="p">,</span>
                 <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span>
@@ -1239,6 +1262,11 @@ document.write(`
         <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>
         <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_state</span><span class="p">(</span><span class="n">init_params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
+        <span class="c1"># jit the parameter update function</span>
+        <span class="n">update_params</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
+
         <span class="c1"># run the optimization loop</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
 
@@ -1249,7 +1277,7 @@ document.write(`
                 <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_precond</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
             <span class="c1"># update iterate</span>
-            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
 
             <span class="c1"># break out of loop if tolerance has been reached</span>
             <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">error</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>

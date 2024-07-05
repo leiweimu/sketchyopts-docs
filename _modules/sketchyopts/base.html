@@ -461,7 +461,7 @@ document.write(`
 
         <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span>
             <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
-            <span class="n">precond</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_grad_transform</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">),</span>
+            <span class="n">precond</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">tree_util</span><span class="o">.</span><span class="n">Partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_grad_transform</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">)),</span>
         <span class="p">)</span></div>
 
 
@@ -526,7 +526,7 @@ document.write(`
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fun</span><span class="p">,</span> <span class="n">grad_fun</span><span class="p">,</span> <span class="n">hvp_fun</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Initialize the Hessian linear operator.</span>
 
-<span class="sd">        The linear operator implcitly forms the Hessian of function ``fun`` with respect</span>
+<span class="sd">        The linear operator implicitly forms the Hessian of function ``fun`` with respect</span>
 <span class="sd">        to parameters ``params``. The function can have additional positional and keyword</span>
 <span class="sd">        arguments.</span>
 

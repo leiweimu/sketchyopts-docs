@@ -685,11 +685,18 @@ computes and determines the learning rate adaptively.</p></li>
 The optimizer maintains and updates a gradient table and table average. At each iteration,
 the optimizer computes auxiliary vector and uses it to update the variance-reduced stochastic
 gradient. The update is then based on the preconditioned variance-reduced stochastic gradient.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Because SketchySAGA computes gradient of each individual component function, the provided objective function <code class="docutils literal notranslate"><span class="pre">fun</span></code> or gradient function <code class="docutils literal notranslate"><span class="pre">grad_fun</span></code> needs to be compatible with 1-dimensional data input (<em>i.e.</em> when the data input is a vector representing a single sample). The following example expands the vector to a 2-dimensional array to handle the single sample case.</p>
+</div>
 <p class="rubric">Example</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
 <span class="kn">from</span> <span class="nn">sketchyopts.solver</span> <span class="kn">import</span> <span class="n">SketchySAGA</span>
 
 <span class="k">def</span> <span class="nf">ridge_reg_objective</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">l2reg</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="c1"># make data 2-dimensional if it is a vector of a single sample</span>
+    <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="c1"># data has dimension num_samples * (feature_dim + 1)</span>
     <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,:</span><span class="n">feature_dim</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span><span class="n">feature_dim</span><span class="p">:]</span>
     <span class="n">residuals</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span>
