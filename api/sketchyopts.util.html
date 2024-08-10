@@ -30,10 +30,11 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/katex-math.css?v=91adb8b6" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=2e2ce55c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=9a799264" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -46,7 +47,7 @@
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../_static/katex.min.js?v=be8ff15f"></script>
     <script src="../_static/auto-render.min.js?v=ad136472"></script>
-    <script src="../_static/katex_autorenderer.js?v=bd6cae8e"></script>
+    <script src="../_static/katex_autorenderer.js?v=8953b41a"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/sketchyopts.util';</script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -156,7 +157,12 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ridge_regression.html">Ridge Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/l2_logistic_regression.html"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.solver.html">Solvers</a></li>
@@ -326,7 +332,6 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-utilities">General Utilities</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytree-utilities">Pytree Utilities</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.ravel_tree"><code class="docutils literal notranslate"><span class="pre">ravel_tree()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_flatten"><code class="docutils literal notranslate"><span class="pre">tree_flatten()</span></code></a></li>
@@ -336,6 +341,13 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_scalar_mul"><code class="docutils literal notranslate"><span class="pre">tree_scalar_mul()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_add_scalar_mul"><code class="docutils literal notranslate"><span class="pre">tree_add_scalar_mul()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_l2_norm"><code class="docutils literal notranslate"><span class="pre">tree_l2_norm()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-type-utilities">Data Type Utilities</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.default_floating_dtype"><code class="docutils literal notranslate"><span class="pre">default_floating_dtype()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.default_integer_dtype"><code class="docutils literal notranslate"><span class="pre">default_integer_dtype()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.inexact_asarray"><code class="docutils literal notranslate"><span class="pre">inexact_asarray()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.integer_asarray"><code class="docutils literal notranslate"><span class="pre">integer_asarray()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -377,12 +389,21 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.tree_l2_norm" title="sketchyopts.util.tree_l2_norm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_l2_norm</span></code></a>(tree_x[, squared])</p></td>
 <td><p>Compute the L2 norm of a tree.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.default_floating_dtype" title="sketchyopts.util.default_floating_dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_floating_dtype</span></code></a>()</p></td>
+<td><p>Get default floating dtype.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.default_integer_dtype" title="sketchyopts.util.default_integer_dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_integer_dtype</span></code></a>()</p></td>
+<td><p>Get default integer dtype.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.inexact_asarray" title="sketchyopts.util.inexact_asarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inexact_asarray</span></code></a>(x)</p></td>
+<td><p>Convert the input array to an array of explicitly specified inexact dtype.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.integer_asarray" title="sketchyopts.util.integer_asarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">integer_asarray</span></code></a>(x)</p></td>
+<td><p>Convert the input scalar to an scalar of explicitly specified integer dtype.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
-<section id="general-utilities">
-<h2>General Utilities<a class="headerlink" href="#general-utilities" title="Link to this heading">#</a></h2>
-</section>
 <section id="pytree-utilities">
 <h2>Pytree Utilities<a class="headerlink" href="#pytree-utilities" title="Link to this heading">#</a></h2>
 <div class="admonition note">
@@ -549,6 +570,71 @@ If <code class="docutils literal notranslate"><span class="pre">squared</span></
 </dd></dl>
 
 </section>
+<section id="data-type-utilities">
+<h2>Data Type Utilities<a class="headerlink" href="#data-type-utilities" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.util.default_floating_dtype">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">default_floating_dtype</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/util.html#default_floating_dtype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.util.default_floating_dtype" title="Link to this definition">#</a></dt>
+<dd><p>Get default floating dtype.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>If double-precision mode is enabled in JAX, the function returns <code class="docutils literal notranslate"><span class="pre">float64</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">float32</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.util.default_integer_dtype">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">default_integer_dtype</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/util.html#default_integer_dtype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.util.default_integer_dtype" title="Link to this definition">#</a></dt>
+<dd><p>Get default integer dtype.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>If double-precision mode is enabled in JAX, the function returns <code class="docutils literal notranslate"><span class="pre">int64</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">int32</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.util.inexact_asarray">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">inexact_asarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/util.html#inexact_asarray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.util.inexact_asarray" title="Link to this definition">#</a></dt>
+<dd><p>Convert the input array to an array of explicitly specified inexact dtype.</p>
+<p>The function converts the input to an array of default floating dtype if the current dtype of the input is not an inexact type.
+Otherwise the function converts the array to a strongly-typed one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – Input array.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Converted strongly-typed array of inexact type.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.numpy.inexact.html#jax.numpy.inexact" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">jax.numpy.inexact</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.util.integer_asarray">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">integer_asarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/util.html#integer_asarray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.util.integer_asarray" title="Link to this definition">#</a></dt>
+<dd><p>Convert the input scalar to an scalar of explicitly specified integer dtype.</p>
+<p>The function converts the input to an scalar of default integer dtype if the current dtype of the input is not an integer type.
+Otherwise the function converts the scalar to a strongly-typed one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – Input scalar.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Converted strongly-typed scalar of integer type.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.numpy.integer.html#jax.numpy.integer" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">jax.numpy.integer</span></code></a></p>
+</div>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -596,7 +682,6 @@ If <code class="docutils literal notranslate"><span class="pre">squared</span></
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#general-utilities">General Utilities</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytree-utilities">Pytree Utilities</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.ravel_tree"><code class="docutils literal notranslate"><span class="pre">ravel_tree()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_flatten"><code class="docutils literal notranslate"><span class="pre">tree_flatten()</span></code></a></li>
@@ -606,6 +691,13 @@ If <code class="docutils literal notranslate"><span class="pre">squared</span></
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_scalar_mul"><code class="docutils literal notranslate"><span class="pre">tree_scalar_mul()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_add_scalar_mul"><code class="docutils literal notranslate"><span class="pre">tree_add_scalar_mul()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_l2_norm"><code class="docutils literal notranslate"><span class="pre">tree_l2_norm()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-type-utilities">Data Type Utilities</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.default_floating_dtype"><code class="docutils literal notranslate"><span class="pre">default_floating_dtype()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.default_integer_dtype"><code class="docutils literal notranslate"><span class="pre">default_integer_dtype()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.inexact_asarray"><code class="docutils literal notranslate"><span class="pre">inexact_asarray()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.integer_asarray"><code class="docutils literal notranslate"><span class="pre">integer_asarray()</span></code></a></li>
 </ul>
 </li>
 </ul>

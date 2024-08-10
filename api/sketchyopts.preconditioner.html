@@ -30,10 +30,11 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/katex-math.css?v=91adb8b6" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=2e2ce55c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=9a799264" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -46,13 +47,13 @@
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../_static/katex.min.js?v=be8ff15f"></script>
     <script src="../_static/auto-render.min.js?v=ad136472"></script>
-    <script src="../_static/katex_autorenderer.js?v=bd6cae8e"></script>
+    <script src="../_static/katex_autorenderer.js?v=8953b41a"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/sketchyopts.preconditioner';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Solvers" href="sketchyopts.solver.html" />
-    <link rel="prev" title="SketchyOpts" href="../index.html" />
+    <link rel="prev" title="\(\ell^2\)-regularized Logistic Regression" href="../tutorials/l2_logistic_regression.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -156,7 +157,12 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ridge_regression.html">Ridge Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/l2_logistic_regression.html"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.solver.html">Solvers</a></li>
@@ -410,12 +416,12 @@ either be an explicit JAX array or an implicit
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../index.html"
+       href="../tutorials/l2_logistic_regression.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">SketchyOpts</p>
+        <p class="prev-next-title"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</p>
       </div>
     </a>
     <a class="right-next"

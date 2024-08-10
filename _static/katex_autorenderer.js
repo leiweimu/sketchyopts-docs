@@ -1,5 +1,5 @@
 katex_options = {
-displayMode: true, fleqn: true, macros: {"\\R":               "\\mathbb{R}",},
+displayMode: true, fleqn: false, macros: {"\\R":"\\mathbb{R}",},
 delimiters: [
         { left: "\\(", right: "\\)", display: false },
         { left: "\\[", right: "\\]", display: true }

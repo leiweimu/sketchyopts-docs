@@ -29,10 +29,11 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/katex-math.css?v=91adb8b6" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=2e2ce55c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=9a799264" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -45,7 +46,7 @@
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../_static/katex.min.js?v=be8ff15f"></script>
     <script src="../../_static/auto-render.min.js?v=ad136472"></script>
-    <script src="../../_static/katex_autorenderer.js?v=bd6cae8e"></script>
+    <script src="../../_static/katex_autorenderer.js?v=8953b41a"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/sketchyopts/preconditioner';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -155,7 +156,12 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/ridge_regression.html">Ridge Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/l2_logistic_regression.html"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
@@ -296,6 +302,15 @@ document.write(`
 <span class="n">KeyArrayLike</span> <span class="o">=</span> <span class="n">ArrayLike</span>
 
 
+<span class="k">def</span> <span class="nf">shifted_cholesky</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">shift</span><span class="p">):</span>
+    <span class="n">eigs</span><span class="p">,</span> <span class="n">eigvectors</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">new_shift</span> <span class="o">=</span> <span class="n">shift</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">eigs</span><span class="p">))</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span>
+        <span class="n">eigvectors</span> <span class="o">@</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">eigs</span> <span class="o">+</span> <span class="n">new_shift</span><span class="p">)</span> <span class="o">@</span> <span class="n">eigvectors</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">new_shift</span>
+
+
 <div class="viewcode-block" id="rand_nystrom_approx">
 <a class="viewcode-back" href="../../api/sketchyopts.preconditioner.html#sketchyopts.preconditioner.rand_nystrom_approx">[docs]</a>
 <span class="k">def</span> <span class="nf">rand_nystrom_approx</span><span class="p">(</span>
@@ -357,18 +372,13 @@ document.write(`
     <span class="c1"># Cholesky fails when the returned matrix has NaN values</span>
     <span class="c1"># This behavior is explained in post https://github.com/google/jax/issues/775</span>
 
-    <span class="k">def</span> <span class="nf">fail_safe</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
-        <span class="n">eigs</span><span class="p">,</span> <span class="n">eigvectors</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">cholesky_target</span><span class="p">)</span>
-        <span class="n">new_shift</span> <span class="o">=</span> <span class="n">shift</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">eigs</span><span class="p">))</span>
-        <span class="n">eigs</span> <span class="o">=</span> <span class="n">eigs</span> <span class="o">+</span> <span class="n">new_shift</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="n">jsp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span>
-                <span class="n">eigvectors</span> <span class="o">@</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">eigs</span><span class="p">)</span> <span class="o">@</span> <span class="n">eigvectors</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">False</span>
-            <span class="p">),</span>
-            <span class="n">new_shift</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="n">C</span><span class="p">,</span> <span class="n">shift</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">C</span><span class="p">)),</span> <span class="n">fail_safe</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">shift</span><span class="p">),</span> <span class="n">C</span><span class="p">)</span>
+    <span class="n">C</span><span class="p">,</span> <span class="n">shift</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span>
+        <span class="n">jnp</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">C</span><span class="p">)),</span>
+        <span class="n">shifted_cholesky</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">shift</span><span class="p">),</span>
+        <span class="n">cholesky_target</span><span class="p">,</span>
+        <span class="n">shift</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">B</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve_triangular</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">Y_shifted</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">trans</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">full_matrices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>

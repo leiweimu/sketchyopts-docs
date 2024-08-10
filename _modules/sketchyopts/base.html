@@ -29,10 +29,11 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/katex-math.css?v=91adb8b6" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=2e2ce55c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=9a799264" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -45,7 +46,7 @@
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../_static/katex.min.js?v=be8ff15f"></script>
     <script src="../../_static/auto-render.min.js?v=ad136472"></script>
-    <script src="../../_static/katex_autorenderer.js?v=bd6cae8e"></script>
+    <script src="../../_static/katex_autorenderer.js?v=8953b41a"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/sketchyopts/base';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -155,7 +156,12 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/ridge_regression.html">Ridge Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/l2_logistic_regression.html"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
@@ -319,9 +325,10 @@ document.write(`
 <span class="sd">    The class provides basic functionalities of the sketching-based preconditioned stochastic gradient algorithms.</span>
 
 <span class="sd">    It constructs function ``_value_and_grad`` that evaluates both the objective and gradient. It also implements</span>
-<span class="sd">    method ``_update_precond`` that updates the Nyström subsampled Newton (NySSN) or subsampled Newton (SSN)</span>
-<span class="sd">    preconditioner and the corresponding preconditioned smoothness constant. Lastly, it generates the function</span>
-<span class="sd">    that applies preconditioner to gradient.</span>
+<span class="sd">    method ``_init_precond`` that initializes empty preconditioner decomposition, and ``_update_precond`` that</span>
+<span class="sd">    updates the Nyström subsampled Newton (NySSN) or subsampled Newton (SSN) preconditioner as well as the</span>
+<span class="sd">    corresponding preconditioned smoothness constant. Helper method ``_grad_transform`` applies preconditioner to</span>
+<span class="sd">    the provided gradient vector.</span>
 
 <span class="sd">    References:</span>
 <span class="sd">      - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
@@ -336,25 +343,26 @@ document.write(`
 
     <span class="n">precond</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;nyssn&quot;</span>
 
-    <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span>
     <span class="n">rank</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
     <span class="n">grad_batch_size</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">hess_batch_size</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">update_freq</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
     <span class="n">tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span>
     <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">jit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">sparse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function constructs ``_value_and_grad`` that evaluates both the objective and gradient.&quot;&quot;&quot;</span>
         <span class="c1"># validate preconditioner type and required oracle</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">precond</span> <span class="o">==</span> <span class="s2">&quot;ssn&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sqrt_hess_fun</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sqrt_hess_fun</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Unspecified square root Hessian oracle for the subsampled Newton preconditioner.&quot;</span>
+                    <span class="s2">&quot;Invalid square-root Hessian oracle for the subsampled Newton preconditioner.&quot;</span>
                 <span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">precond</span> <span class="o">!=</span> <span class="s2">&quot;nyssn&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -368,52 +376,80 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># construct objective value and gradient function</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">value_and_grad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
 
             <span class="k">def</span> <span class="nf">value_and_grad</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span><span class="p">(</span>
                     <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-                <span class="p">)</span>
+                <span class="p">)</span>  <span class="c1"># type: ignore</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span> <span class="o">=</span> <span class="n">value_and_grad</span>
 
-    <span class="k">def</span> <span class="nf">_get_grad_transform_nyssn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function constructs ``grad_transform`` that applies preconditioner to gradient for the Nyström subsampled Newton preconditioner.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_init_precond</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function initializes zero preconditioner of the correct shape.&quot;&quot;&quot;</span>
+        <span class="c1"># NySSN preconditioner</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">precond</span> <span class="o">==</span> <span class="s2">&quot;nyssn&quot;</span><span class="p">:</span>
+            <span class="n">precond</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">sketchyopts</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">inexact_asarray</span><span class="p">(</span>
+                    <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">params_len</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">))</span>
+                <span class="p">),</span>
+                <span class="n">sketchyopts</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">inexact_asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">,))),</span>
+            <span class="p">)</span>
+        <span class="c1"># SSN preconditioner</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># get the shape of the square root of the Hessian</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sqrt_hess_fun</span><span class="p">(</span>
+                <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hess_batch_size</span><span class="p">]</span>
+            <span class="p">)</span>  <span class="c1"># type: ignore</span>
+            <span class="n">sqrt_hess_size</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
-        <span class="k">def</span> <span class="nf">grad_transform</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">sqrt_hess_size</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params_len</span><span class="p">:</span>
+                <span class="n">precond</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">sketchyopts</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">inexact_asarray</span><span class="p">(</span>
+                        <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">sqrt_hess_size</span><span class="p">,</span> <span class="n">sqrt_hess_size</span><span class="p">))</span>
+                    <span class="p">),</span>
+                    <span class="n">sketchyopts</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">inexact_asarray</span><span class="p">(</span>
+                        <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">sqrt_hess_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params_len</span><span class="p">))</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">precond</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">sketchyopts</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">inexact_asarray</span><span class="p">(</span>
+                        <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">params_len</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params_len</span><span class="p">))</span>
+                    <span class="p">),</span>
+                    <span class="n">sketchyopts</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">inexact_asarray</span><span class="p">(</span>
+                        <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">sqrt_hess_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params_len</span><span class="p">))</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">precond</span>
+
+    <span class="k">def</span> <span class="nf">_grad_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">precond</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function performs preconditioning on the gradient.&quot;&quot;&quot;</span>
+        <span class="c1"># NySSN preconditioner</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">precond</span> <span class="o">==</span> <span class="s2">&quot;nyssn&quot;</span><span class="p">:</span>
+            <span class="n">U</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="n">precond</span>
             <span class="n">UTg</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">g</span>
             <span class="k">return</span> <span class="n">U</span> <span class="o">@</span> <span class="p">(</span><span class="n">UTg</span> <span class="o">/</span> <span class="p">(</span><span class="n">S</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">))</span> <span class="o">+</span> <span class="n">g</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">-</span> <span class="n">U</span> <span class="o">@</span> <span class="n">UTg</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span>
+        <span class="c1"># SSN preconditioner</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">L</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">precond</span>
 
-        <span class="k">return</span> <span class="n">grad_transform</span>
-
-    <span class="k">def</span> <span class="nf">_get_grad_transform_ssn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function constructs ``grad_transform`` that applies preconditioner to gradient for the subsampled Newton preconditioner.&quot;&quot;&quot;</span>
-
-        <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params_len</span><span class="p">:</span>
-
-            <span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
-            <span class="k">def</span> <span class="nf">grad_transform</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">X</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">params_len</span><span class="p">:</span>
                 <span class="n">v</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">g</span>
                 <span class="n">v</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
                 <span class="n">v</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
                 <span class="n">v</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">v</span>
-                <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">g</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span>
-
-            <span class="k">return</span> <span class="n">grad_transform</span>
-
-        <span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
-        <span class="k">def</span> <span class="nf">grad_transform</span><span class="p">(</span><span class="n">g</span><span class="p">):</span>
-            <span class="n">v</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
-            <span class="n">v</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">v</span>
-
-        <span class="k">return</span> <span class="n">grad_transform</span>
+                <span class="k">return</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">g</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">v</span>
 
     <span class="k">def</span> <span class="nf">_estimate_constant</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">H_S</span><span class="p">,</span> <span class="n">grad_transform</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">p_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span> <span class="n">p_maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">H_S</span><span class="p">,</span> <span class="n">precond</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">p_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span> <span class="n">p_maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function estimates the preconditioned smoothness constant.&quot;&quot;&quot;</span>
 
@@ -425,7 +461,7 @@ document.write(`
         <span class="c1"># power iteration</span>
         <span class="k">def</span> <span class="nf">body_fun</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
             <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">value</span>
-            <span class="n">y_</span> <span class="o">=</span> <span class="n">grad_transform</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+            <span class="n">y_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grad_transform</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">precond</span><span class="p">)</span>
             <span class="n">y_</span> <span class="o">=</span> <span class="n">H_S</span> <span class="o">@</span> <span class="n">y_</span>
             <span class="n">labda</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y_</span><span class="p">)</span>
             <span class="n">norm_r</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">y_</span> <span class="o">-</span> <span class="n">labda</span> <span class="o">*</span> <span class="n">y</span><span class="p">)</span>
@@ -451,25 +487,25 @@ document.write(`
         <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
             <span class="n">subkey</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hess_batch_size</span><span class="p">,),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span>
-        <span class="n">H_S</span> <span class="o">=</span> <span class="n">HessianLinearOperator</span><span class="p">(</span>
-            <span class="n">fun</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">,</span>
-            <span class="n">grad_fun</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span><span class="p">,</span>
-            <span class="n">hvp_fun</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hvp_fun</span><span class="p">,</span>
-            <span class="n">sqrt_hess_fun</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sqrt_hess_fun</span><span class="p">,</span>
-            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
-            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span>
-            <span class="n">reg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-        <span class="p">)</span>
 
         <span class="c1"># update NySSN preconditioner</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">precond</span> <span class="o">==</span> <span class="s2">&quot;nyssn&quot;</span><span class="p">:</span>
+            <span class="n">H_S</span> <span class="o">=</span> <span class="n">HessianLinearOperator</span><span class="p">(</span>
+                <span class="n">fun</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">,</span>
+                <span class="n">grad_fun</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span><span class="p">,</span>
+                <span class="n">hvp_fun</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hvp_fun</span><span class="p">,</span>
+                <span class="n">sqrt_hess_fun</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sqrt_hess_fun</span><span class="p">,</span>
+                <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span>
+                <span class="n">reg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">key</span><span class="p">,</span> <span class="n">subkey</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
             <span class="n">U</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="n">sketchyopts</span><span class="o">.</span><span class="n">preconditioner</span><span class="o">.</span><span class="n">rand_nystrom_approx</span><span class="p">(</span>
                 <span class="n">H_S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span> <span class="n">subkey</span>
             <span class="p">)</span>
-            <span class="n">grad_transform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_grad_transform_nyssn</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
+            <span class="n">precond</span> <span class="o">=</span> <span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
         <span class="c1"># update SSN preconditioner</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sqrt_hess_fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">])</span>  <span class="c1"># type: ignore</span>
@@ -480,7 +516,7 @@ document.write(`
             <span class="n">L</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span>
                 <span class="n">H</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">H</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">upper</span><span class="o">=</span><span class="kc">False</span>
             <span class="p">)</span>
-            <span class="n">grad_transform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_grad_transform_ssn</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+            <span class="n">precond</span> <span class="o">=</span> <span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
 
         <span class="c1"># update step size rate with explicitly specified learning schedule</span>
         <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">):</span>
@@ -503,12 +539,11 @@ document.write(`
                 <span class="o">*</span><span class="n">args</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">labda</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimate_constant</span><span class="p">(</span><span class="n">H_S</span><span class="p">,</span> <span class="n">grad_transform</span><span class="p">,</span> <span class="n">subkey</span><span class="p">)</span>
+            <span class="n">labda</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimate_constant</span><span class="p">(</span><span class="n">H_S</span><span class="p">,</span> <span class="n">precond</span><span class="p">,</span> <span class="n">subkey</span><span class="p">)</span>
             <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_step_size</span><span class="p">(</span><span class="n">labda</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span>
             <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
-            <span class="n">precond</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">tree_util</span><span class="o">.</span><span class="n">Partial</span><span class="p">(</span><span class="n">grad_transform</span><span class="p">),</span>
+            <span class="n">precond</span><span class="o">=</span><span class="n">precond</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 

@@ -29,10 +29,11 @@
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" />
     <link rel="stylesheet" type="text/css" href="_static/katex-math.css?v=91adb8b6" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=87e54e7c" />
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=2e2ce55c" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=9a799264" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -45,7 +46,7 @@
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="_static/katex.min.js?v=be8ff15f"></script>
     <script src="_static/auto-render.min.js?v=ad136472"></script>
-    <script src="_static/katex_autorenderer.js?v=bd6cae8e"></script>
+    <script src="_static/katex_autorenderer.js?v=8953b41a"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
     <link rel="index" title="Index" href="#" />
@@ -155,7 +156,12 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tutorials/ridge_regression.html">Ridge Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/l2_logistic_regression.html"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.solver.html">Solvers</a></li>
@@ -285,8 +291,12 @@ document.write(`
 <div class="genindex-jumpbox">
  <a href="#_"><strong>_</strong></a>
  | <a href="#A"><strong>A</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
@@ -320,10 +330,42 @@ document.write(`
   </ul></td>
 </tr></table>
 
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.default_floating_dtype">default_floating_dtype() (in module sketchyopts.util)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.default_integer_dtype">default_integer_dtype() (in module sketchyopts.util)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.solver.html#term-fun"><strong>fun</strong></a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.solver.html#term-grad_fun"><strong>grad_fun</strong></a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/sketchyopts.base.html#sketchyopts.base.HessianLinearOperator">HessianLinearOperator (class in sketchyopts.base)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.solver.html#term-hvp_fun"><strong>hvp_fun</strong></a>
 </li>
   </ul></td>
 </tr></table>
@@ -331,13 +373,31 @@ document.write(`
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.inexact_asarray">inexact_asarray() (in module sketchyopts.util)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/sketchyopts.error.html#sketchyopts.errors.InputDimError">InputDimError (class in sketchyopts.errors)</a>
+</li>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.integer_asarray">integer_asarray() (in module sketchyopts.util)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.solver.html#term-jit"><strong>jit</strong></a>
 </li>
   </ul></td>
 </tr></table>
 
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.solver.html#term-learning_rate"><strong>learning_rate</strong></a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/sketchyopts.base.html#sketchyopts.base.LinearOperator">LinearOperator (class in sketchyopts.base)</a>
 </li>
@@ -371,6 +431,12 @@ document.write(`
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.solver.html#term-pre_update"><strong>pre_update</strong></a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.solver.html#term-precond"><strong>precond</strong></a>
+</li>
       <li><a href="api/sketchyopts.base.html#sketchyopts.base.PromiseSolver">PromiseSolver (class in sketchyopts.base)</a>
 </li>
   </ul></td>
@@ -407,10 +473,10 @@ document.write(`
 </li>
       <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySAGAState">SketchySAGAState (class in sketchyopts.solver)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySGD">SketchySGD (class in sketchyopts.solver)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySGDState">SketchySGDState (class in sketchyopts.solver)</a>
 </li>
       <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySVRG">SketchySVRG (class in sketchyopts.solver)</a>
@@ -418,6 +484,10 @@ document.write(`
       <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySVRGState">SketchySVRGState (class in sketchyopts.solver)</a>
 </li>
       <li><a href="api/sketchyopts.base.html#sketchyopts.base.SolverState">SolverState (class in sketchyopts.base)</a>
+</li>
+      <li><a href="api/sketchyopts.solver.html#term-sparse"><strong>sparse</strong></a>
+</li>
+      <li><a href="api/sketchyopts.solver.html#term-sqrt_hess_fun"><strong>sqrt_hess_fun</strong></a>
 </li>
   </ul></td>
 </tr></table>

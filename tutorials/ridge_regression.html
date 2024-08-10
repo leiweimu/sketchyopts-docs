@@ -1,0 +1,731 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Ridge Regression &#8212; SketchyOpts  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/katex-math.css?v=91adb8b6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=9a799264" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/katex.min.js?v=be8ff15f"></script>
+    <script src="../_static/auto-render.min.js?v=ad136472"></script>
+    <script src="../_static/katex_autorenderer.js?v=8953b41a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/ridge_regression';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="\(\ell^2\)-regularized Logistic Regression" href="l2_logistic_regression.html" />
+    <link rel="prev" title="SketchyOpts" href="../index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SketchyOpts  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Ridge Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l2_logistic_regression.html"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/sketchyopts.solver.html">Solvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/sketchyopts.util.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/sketchyopts.error.html">Error Messages</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/udellgroup/sketchyopts" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/tutorials/ridge_regression.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Ridge Regression</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-the-model">Fitting the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remarks">Remarks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="ridge-regression">
+<h1>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Link to this heading">#</a></h1>
+<p>In this tutorial section, we demonstrate a ridge regression example using SketchyOpts. We first introduce some useful notations.</p>
+<!-- - $X \in \mathbb{R}^{n \times p}$: input features (or design matrix)
+- $y \in \mathbb{R}^{n}$: target labels
+- $(x_i, y_i) \in \mathbb{R}^p \times \mathbb{R}$: $i$<sup>th</sup> training sample
+- $\beta \in \mathbb{R}^{p}$: parameters of the model (or ridge estimator)
+- $\lambda \geqslant 0$: regularization strength of the model
+ -->
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Symbol</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math">\(X \in \mathbb{R}^{n \times p}\)</span></p></td>
+<td><p>input features (or design matrix)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math">\(y \in \mathbb{R}^{n}\)</span></p></td>
+<td><p>target labels</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math">\((x_i, y_i) \in \mathbb{R}^p \times \mathbb{R}\)</span></p></td>
+<td><p><span class="math">\(i\)</span><sup>th</sup> training sample</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math">\(\beta \in \mathbb{R}^{p}\)</span></p></td>
+<td><p>parameters of the model (or ridge estimator)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math">\(\lambda \geqslant 0\)</span></p></td>
+<td><p>regularization strength of the model</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Ridge regression seek to solve the optimization problem of the following form
+<div class="math">
+\[
+    \underset{\beta}{\operatorname{minimize}} ~ \frac{1}{n} \sum_{i=1}^{n} \frac{1}{2} (x_i^{\mathsf{T}} \beta - y_i)^2 + \frac{\lambda}{2} \lVert \beta \rVert_2^2
+\]</div>
+</p>
+<p>From the objective, we see the problem can be viewed as least-squares with an additional sum-of-squares penalty term of the model parameters <span class="math">\(\beta\)</span>. In fact, ridge regression is an example of shrinkage method that aims to reduce the variance of the estimates by purposefully introducing bias. The value of <span class="math">\(\lambda\)</span> controls the level of shrinkage—the larger the value of <span class="math">\(\lambda\)</span>, the more model parameters are shrunk toward zero as well as each other. In practice, <span class="math">\(\lambda\)</span> is chosen so that the resulting model achieves better generalizability (<em>e.g.</em> reduced test error).</p>
+<section id="dataset">
+<h2>Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h2>
+<p>In the following example, we use the <code class="docutils literal notranslate"><span class="pre">yolanda</span></code> dataset from the <a class="reference external" href="https://automl.chalearn.org/data">AutoML Challenge</a> <span id="id1">[<a class="reference internal" href="#id7" title="Isabelle Guyon, Lisheng Sun-Hosoya, Marc Boullé, Hugo Jair Escalante, Sergio Escalera, Zhengying Liu, Damir Jajetic, Bisakha Ray, Mehreen Saeed, Michèle Sebag, Alexander Statnikov, Wei-Wei Tu, and Evelyne Viegas. Analysis of the AutoML Challenge Series 2015–2018, pages 177–219. Springer International Publishing, Cham, 2019. URL: https://doi.org/10.1007/978-3-030-05318-5_10, doi:10.1007/978-3-030-05318-5_10.">Guyon <em>et al.</em>, 2019</a>]</span>. The original dataset consists of 400,000 training samples and 30,000 test samples where each sample has 100 numerical features. Since the labels on the test data were never published, we instead randomly split the training data into training and test subsets with a 80/20 ratio. We opt to obtain the dataset from <a class="reference external" href="https://www.openml.org/d/42705">OpenML</a> over the <a class="reference external" href="https://competitions.codalab.org/my/datasets/download/41847153-1338-4514-a693-547f1288e8c4">original source</a> as the former is readily supported by the <a class="reference external" href="https://scikit-learn.org/stable/datasets/loading_other_datasets.html#downloading-datasets-from-the-openml-org-repository">scikit-learn API</a>.</p>
+<p>As a pre-processing step, we first standardize input features as well as target labels, and then apply random Fourier features transformation <span id="id2">[<a class="reference internal" href="#id8" title="Ali Rahimi and Benjamin Recht. Random Features for Large-Scale Kernel Machines. In Proceedings of the 20th International Conference on Neural Information Processing Systems, NIPS'07, 1177–1184. Red Hook, NY, USA, 2007. Curran Associates Inc.">Rahimi and Recht, 2007</a>]</span>. Standardization of the input is often necesary as the solution to the ridge objective is not equivariant under scaling of the inputs, whereas standardization of the label is for convenience as the intercept in this case becomes trivial and thus can be safely ignored. To see this, note that since the inputs are standardized (hence centered), the intercept can be estimated by <span class="math">\((1/n) \sum_{i=1}^{n} y_i\)</span> which evaluates to zero if the label is also standardized (or simply centered). Lastly, the random features transformation efficiently approximates a kernel function and leads to small effective dimension of the Hessian that preconditioned methods like PROMISE <span id="id3">[<a class="reference internal" href="#id9" title="Zachary Frangella, Pratik Rathore, Shipu Zhao, and Madeleine Udell. PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates. 2024. URL: https://arxiv.org/abs/2309.02014, arXiv:2309.02014.">Frangella <em>et al.</em>, 2024</a>]</span> are able to effectively leverage.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_openml</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># set seed for reproducibility</span>
+<span class="n">seed</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+<span class="c1"># download dataset</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="n">data_id</span><span class="o">=</span><span class="mi">42705</span><span class="p">,</span> <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+<span class="c1"># split into training and test sets</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">n_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">n_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># standardize both sets</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># apply random features (Gaussian kernel)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c1"># number of random features</span>
+         <span class="c1"># please note that this is much smaller than </span>
+         <span class="c1"># what would have been (i.e. n_train) </span>
+         <span class="c1"># if we were to use kernel method directly</span>
+<span class="n">num_raw_features</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">num_raw_features</span><span class="p">))</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">X_train</span> <span class="o">@</span> <span class="n">W</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">p</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">X_test</span> <span class="o">@</span> <span class="n">W</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="fitting-the-model">
+<h2>Fitting the model<a class="headerlink" href="#fitting-the-model" title="Link to this heading">#</a></h2>
+<p>We first define the ridge objective function <span class="math">\(f\)</span>. The function needs to be scalar-valued and have parameters, training data, and regularization constant as its arguments. Mathematically, the function can be expressed as the following</p>
+<div class="math">
+\[
+    f(\beta, X, y, \lambda) := \frac{1}{2n} \big\lVert X\beta - y \big\rVert_2^2 + \frac{\lambda}{2} \lVert \beta \rVert_2^2
+\]</div>
+<p>We implement the objective with necessary changes to make it compatible with PROMISE solvers (SketchySAGA in particular).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+
+<span class="k">def</span> <span class="nf">compute_objective</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">reg</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">params</span> <span class="o">-</span> <span class="n">y</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="n">reg</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">):</span> 
+    <span class="c1"># make data 2-dimensional if needed</span>
+    <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># slice data array to get features and labels</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="c1"># compute objective</span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">compute_objective</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">reg</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">obj</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The arguments <code class="docutils literal notranslate"><span class="pre">params</span></code>, <code class="docutils literal notranslate"><span class="pre">data</span></code>, and <code class="docutils literal notranslate"><span class="pre">reg</span></code> respectively correspond to <span class="math">\(\beta\)</span>, <span class="math">\((X, y)\)</span>, and <span class="math">\(\lambda\)</span> described above. We would like to highlight a few points here.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">params</span></code> can be named differently but it has to be in the first position; <code class="docutils literal notranslate"><span class="pre">data</span></code> and <code class="docutils literal notranslate"><span class="pre">reg</span></code>, on the other hand, can be placed in any position but must have the exact argument names.</p></li>
+<li><p>Input features <span class="math">\(X\)</span> and target labels <span class="math">\(y\)</span> are fused into a single 2-dimensional array <code class="docutils literal notranslate"><span class="pre">data</span></code>; this requirement helps facilitate random sampling inside of the solver.</p></li>
+<li><p>For all PROMISE solvers, <code class="docutils literal notranslate"><span class="pre">fun</span></code> needs to be compatible with 2-dimensional <code class="docutils literal notranslate"><span class="pre">data</span></code> input. However, for SketchySAGA, <code class="docutils literal notranslate"><span class="pre">fun</span></code> is also expected to accept 1-dimensional data input because the method utilizes gradient of each individual component of the objective function.</p></li>
+<li><p>It is not neccesary to JIT-compile <code class="docutils literal notranslate"><span class="pre">fun</span></code> (or <code class="docutils literal notranslate"><span class="pre">grad_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code>) beforehand as the solver will transform the function internally if <code class="code docutils literal highlight highlight-python"><span class="n">jit</span> <span class="o">=</span> <span class="kc">True</span></code>.</p></li>
+</ul>
+<p>Next we define a custom callback function that evaluates the fitted model and keeps track of training loss at every 100 update steps. Here we adopt the mean square error (MSE) as our evaluation metric.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax</span>
+
+<span class="c1"># jit functions get called inside of the callback</span>
+<span class="k">def</span> <span class="nf">compute_error</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">X</span> <span class="o">@</span> <span class="n">params</span> <span class="o">-</span> <span class="n">y</span><span class="p">))</span>
+
+<span class="n">get_train_loss</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">compute_objective</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+<span class="n">get_train_error</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">compute_error</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
+<span class="n">get_test_error</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">compute_error</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+
+<span class="c1"># initialize empty containers</span>
+<span class="n">train_loss</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">train_error</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">test_error</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># define the callback function</span>
+<span class="n">eval_freq</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">):</span> 
+    <span class="c1"># perform computations every 100 iterations</span>
+    <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">%</span> <span class="n">eval_freq</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+        <span class="c1"># record training loss</span>
+        <span class="n">train_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_train_loss</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">reg</span><span class="p">))</span>
+
+        <span class="c1"># evaluate both training and test errors</span>
+        <span class="n">train_error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_train_error</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">test_error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_test_error</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+    
+    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You may have noticed that components of callback function are JIT-compiled because unlike <code class="docutils literal notranslate"><span class="pre">fun</span></code> (or <code class="docutils literal notranslate"><span class="pre">grad_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code>), the <code class="docutils literal notranslate"><span class="pre">jit</span></code> argument does not apply to the custom pre-update function. Since we expect the function to be executed multiple times during the run, JIT-compiling it could bring performance improvement.</p>
+<p>Please also note that the callback used in this example is inherently not functionally pure as it writes to external lists outside of the function. This means we cannot simply JIT-compile the entire function; instead, we JIT-compile individual components inside of the function.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>For more details on pure function, please see <a class="reference external" href="https://jax.readthedocs.io/en/latest/notebooks/Common_Gotchas_in_JAX.html#pure-functions">JAX documentation</a>.</p>
+</div>
+<p>We now specify hyperparameters and fit the model using SketchySAGA (with the Nyström subsampled Newton preconditioner). Rank and regularization for the preconditioner are set to their default values (<span class="math">\(10\)</span> and <span class="math">\(10^{-3}\)</span> respectively). Since the ridge objective has a constant Hessian, we set the preconditioner update frequency to <span class="math">\(0\)</span> so that it is only computed once and held constant throughout the run. The rest follows the recommended values discussed in the PROMISE paper <span id="id4">[<a class="reference internal" href="#id9" title="Zachary Frangella, Pratik Rathore, Shipu Zhao, and Madeleine Udell. PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates. 2024. URL: https://arxiv.org/abs/2309.02014, arXiv:2309.02014.">Frangella <em>et al.</em>, 2024</a>]</span>. In this example, we arbitrarily set the regularization strength <span class="math">\(\lambda = 0.01/n\)</span> to demonstrate the performance of SketchySAGA as this small value is not likely to meaningfully improve the conditioning of the problem. As explained in the introduction, this value in practice is typically chosen via a more principled approach like cross-validation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sketchyopts.solver</span> <span class="kn">import</span> <span class="n">SketchySAGA</span>
+
+<span class="c1"># specify hyperparameters</span>
+<span class="n">grad_batch_size</span> <span class="o">=</span> <span class="mi">256</span>
+<span class="n">hess_batch_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_train</span><span class="p">)))</span>
+<span class="n">update_freq</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">maxiter</span> <span class="o">=</span> <span class="mi">20000</span>
+<span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-6</span>
+
+<span class="n">init_params</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)])</span>
+<span class="n">reg</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">/</span> <span class="n">n_train</span>
+
+<span class="c1"># initialize the solver and start the optimization</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">SketchySAGA</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">fun</span><span class="p">,</span> 
+                  <span class="n">pre_update</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span> 
+                  <span class="n">grad_batch_size</span><span class="o">=</span><span class="n">grad_batch_size</span><span class="p">,</span> 
+                  <span class="n">hess_batch_size</span><span class="o">=</span><span class="n">hess_batch_size</span><span class="p">,</span> 
+                  <span class="n">update_freq</span><span class="o">=</span><span class="n">update_freq</span><span class="p">,</span> 
+                  <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span> 
+                  <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> 
+                  <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">)</span>
+<span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init_params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We visualize how suboptimality gap and errors evolve throughout the run. The optimal solution is obtained by running LSQR <span id="id5">[<a class="reference internal" href="#id10" title="Christopher C. Paige and Michael A. Saunders. LSQR: An Algorithm for Sparse Linear Equations and Sparse Least Squares. ACM Transactions on Mathematical Software (TOMS), 8(1):43–71, mar 1982. URL: https://doi.org/10.1145/355984.355989, doi:10.1145/355984.355989.">Paige and Saunders, 1982</a>]</span> with <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html">scikit-learn API</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># obtain the optimal solution</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">reg</span> <span class="o">*</span> <span class="n">n_train</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s1">&#39;lsqr&#39;</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">opt_val</span> <span class="o">=</span> <span class="n">get_train_loss</span><span class="p">(</span><span class="n">clf</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="n">reg</span><span class="p">)</span>
+
+<span class="c1"># update plot settings</span>
+<span class="o">%</span><span class="k">config</span> InlineBackend.figure_formats = [&#39;svg&#39;]
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+
+<span class="c1"># manually evaluate the resulting parameters</span>
+<span class="c1"># as the callback only gets called before each update</span>
+<span class="n">train_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_train_loss</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">reg</span><span class="p">))</span>
+<span class="n">train_error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_train_error</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+<span class="n">test_error</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_test_error</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+
+<span class="c1"># compute suboptimality gap</span>
+<span class="n">subopt_gap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">train_loss</span><span class="p">)</span> <span class="o">-</span> <span class="n">opt_val</span>
+
+<span class="c1"># make subplots</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">subplot_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">box_aspect</span><span class="o">=</span><span class="mf">0.45</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># plot suboptimality gap]</span>
+<span class="n">iter_nums</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">eval_freq</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">eval_freq</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">iter_nums</span><span class="p">,</span> <span class="n">subopt_gap</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Suboptimality gap&#39;</span><span class="p">)</span>
+
+<span class="c1"># plot training and test errors</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iter_nums</span><span class="p">,</span> <span class="n">train_error</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training error&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iter_nums</span><span class="p">,</span> <span class="n">test_error</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Test error&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Iterations&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Mean Square Error (MSE)&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/59bb1069b9a3c37e8c0ef69ebab83c0ed489c8703c80a8e57e64e0bbd48f07de.svg" class="align-center" src="../_images/59bb1069b9a3c37e8c0ef69ebab83c0ed489c8703c80a8e57e64e0bbd48f07de.svg" />
+</div>
+</div>
+<p>We observe SketchySAGA continuously makes progress toward the minimum. If we run the solver long enough (currently capped at 20000 iterations), the suboptimality gap will eventually reach machine precision of a single floating-point representation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please note that JAX by default enforces single-precision values. As a result, without explicitly configuring JAX to double-precision, SketchyOpts also operates in single-precision. For more details, please see <a class="reference external" href="https://jax.readthedocs.io/en/latest/notebooks/Common_Gotchas_in_JAX.html#double-64bit-precision">JAX documentation</a>.</p>
+</div>
+</section>
+<section id="remarks">
+<h2>Remarks<a class="headerlink" href="#remarks" title="Link to this heading">#</a></h2>
+<p>In this example, hyperparameters of the preconditioner were set to their default values. We might get a faster convergence from a larger rank value, though the effect depends on the spetrum of the dataset. If you expect the dataset to exhibit spectral decay, then tuning rank value could lead to improvement in convergence.</p>
+<p>Another pratical suggestion we would like to make is enbaling JIT-compilation could make a difference. Although the compilation process takes additional time before the actual code execution, the time saved up from each subsequent calls to the JIT-compiled functions can make this trade-off worthwhile, especially if the solver is expected to run an extended number of iterations. For a problem that requires frequent update to the preconditioner, the performance parity is going to be even more pronounced.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div class="docutils container" id="id6">
+<div role="list" class="citation-list">
+<div class="citation" id="id9" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>RR1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id4">2</a>)</span>
+<p>Zachary Frangella, Pratik Rathore, Shipu Zhao, and Madeleine Udell. PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates. 2024. URL: <a class="reference external" href="https://arxiv.org/abs/2309.02014">https://arxiv.org/abs/2309.02014</a>, <a class="reference external" href="https://arxiv.org/abs/2309.02014">arXiv:2309.02014</a>.</p>
+</div>
+<div class="citation" id="id7" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">RR2</a><span class="fn-bracket">]</span></span>
+<p>Isabelle Guyon, Lisheng Sun-Hosoya, Marc Boullé, Hugo Jair Escalante, Sergio Escalera, Zhengying Liu, Damir Jajetic, Bisakha Ray, Mehreen Saeed, Michèle Sebag, Alexander Statnikov, Wei-Wei Tu, and Evelyne Viegas. <em>Analysis of the AutoML Challenge Series 2015–2018</em>, pages 177–219. Springer International Publishing, Cham, 2019. URL: <a class="reference external" href="https://doi.org/10.1007/978-3-030-05318-5_10">https://doi.org/10.1007/978-3-030-05318-5_10</a>, <a class="reference external" href="https://doi.org/10.1007/978-3-030-05318-5_10">doi:10.1007/978-3-030-05318-5_10</a>.</p>
+</div>
+<div class="citation" id="id10" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">RR3</a><span class="fn-bracket">]</span></span>
+<p>Christopher C. Paige and Michael A. Saunders. LSQR: An Algorithm for Sparse Linear Equations and Sparse Least Squares. <em>ACM Transactions on Mathematical Software (TOMS)</em>, 8(1):43–71, mar 1982. URL: <a class="reference external" href="https://doi.org/10.1145/355984.355989">https://doi.org/10.1145/355984.355989</a>, <a class="reference external" href="https://doi.org/10.1145/355984.355989">doi:10.1145/355984.355989</a>.</p>
+</div>
+<div class="citation" id="id8" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">RR4</a><span class="fn-bracket">]</span></span>
+<p>Ali Rahimi and Benjamin Recht. Random Features for Large-Scale Kernel Machines. In <em>Proceedings of the 20th International Conference on Neural Information Processing Systems</em>, NIPS'07, 1177–1184. Red Hook, NY, USA, 2007. Curran Associates Inc.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">SketchyOpts</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="l2_logistic_regression.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-the-model">Fitting the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remarks">Remarks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
