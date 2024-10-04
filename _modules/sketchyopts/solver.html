@@ -166,6 +166,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.prox.html">Proximal Operators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.util.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.error.html">Error Messages</a></li>
 </ul>
@@ -296,7 +297,13 @@ document.write(`
 <span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">sparse</span>
 <span class="kn">from</span> <span class="nn">jax.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
 
-<span class="kn">from</span> <span class="nn">sketchyopts.base</span> <span class="kn">import</span> <span class="n">PromiseSolver</span><span class="p">,</span> <span class="n">SolverState</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AddLinearOperator</span><span class="p">,</span>
+    <span class="n">HessianLinearOperator</span><span class="p">,</span>
+    <span class="n">LinearOperator</span><span class="p">,</span>
+    <span class="n">PromiseSolver</span><span class="p">,</span>
+    <span class="n">SolverState</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">sketchyopts.errors</span> <span class="kn">import</span> <span class="n">InputDimError</span><span class="p">,</span> <span class="n">MatrixNotSquareError</span>
 <span class="kn">from</span> <span class="nn">sketchyopts.preconditioner</span> <span class="kn">import</span> <span class="n">rand_nystrom_approx</span>
 <span class="kn">from</span> <span class="nn">sketchyopts.util</span> <span class="kn">import</span> <span class="p">(</span>
@@ -308,6 +315,8 @@ document.write(`
     <span class="n">tree_l2_norm</span><span class="p">,</span>
     <span class="n">tree_scalar_mul</span><span class="p">,</span>
     <span class="n">tree_sub</span><span class="p">,</span>
+    <span class="n">tree_vdot</span><span class="p">,</span>
+    <span class="n">tree_zeros_like</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">KeyArray</span> <span class="o">=</span> <span class="n">Array</span>
@@ -317,7 +326,7 @@ document.write(`
 <div class="viewcode-block" id="nystrom_pcg">
 <a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.nystrom_pcg">[docs]</a>
 <span class="k">def</span> <span class="nf">nystrom_pcg</span><span class="p">(</span>
-    <span class="n">A</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
+    <span class="n">A</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="n">b</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span>
     <span class="n">mu</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">rank</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -335,7 +344,8 @@ document.write(`
 <span class="sd">    Nyström PCG uses randomized Nyström preconditioner by implicitly applying</span>
 
 <span class="sd">    .. math::</span>
-<span class="sd">        P^{-1} = (\hat{\lambda}_{l} + \mu) U (\hat{\Lambda} + \mu I)^{-1} U^{T} + (I - U U^{T})</span>
+<span class="sd">        P^{-1}</span>
+<span class="sd">        = (\hat{\lambda}_{l} + \mu) U (\hat{\Lambda} + \mu I)^{-1} U^{T} + (I - U U^{T})</span>
 
 <span class="sd">    where :math:`U` and :math:`\hat{\Lambda}` are from rank-:math:`l` randomized Nyström</span>
 <span class="sd">    approximation (here :math:`\hat{\lambda}_{l}` is the :math:`l`:sup:`th` diagonal</span>
@@ -346,7 +356,9 @@ document.write(`
 <span class="sd">    the maximal number of iterations.</span>
 
 <span class="sd">    References:</span>
-<span class="sd">      - Z\. Frangella, J. A. Tropp, and M. Udell, `Randomized Nyström preconditioning &lt;https://epubs.siam.org/doi/10.1137/21M1466244&gt;`_. SIAM Journal on Matrix Analysis and Applications, vol. 44, iss. 2, 2023, pp. 718-752.</span>
+<span class="sd">      - Z\. Frangella, J. A. Tropp, and M. Udell, `Randomized Nyström preconditioning</span>
+<span class="sd">        &lt;https://epubs.siam.org/doi/10.1137/21M1466244&gt;`_. SIAM Journal on Matrix</span>
+<span class="sd">        Analysis and Applications, vol. 44, iss. 2, 2023, pp. 718-752.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      A: A two-dimensional array representing a positive-semidefinite matrix.</span>
@@ -374,7 +386,6 @@ document.write(`
 <span class="sd">      - **status** – Whether or not the approximate solution has converged for each</span>
 <span class="sd">        righthand side. Status has the same size as the number of righthand side(s).</span>
 <span class="sd">      - **k** – Total number of iterations to reach to the approximate solution.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># perform randomized Nyström approximation</span>
     <span class="n">U</span><span class="p">,</span> <span class="n">S</span> <span class="o">=</span> <span class="n">rand_nystrom_approx</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
@@ -447,6 +458,7 @@ document.write(`
     <span class="n">mask0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">b</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">initial_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">r0</span><span class="p">,</span> <span class="n">z0</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">mask0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
+    <span class="c1"># perform iterative solve</span>
     <span class="n">x_final</span><span class="p">,</span> <span class="n">r_final</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">mask_final</span><span class="p">,</span> <span class="n">k_final</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span>
         <span class="n">cond_fun</span><span class="p">,</span> <span class="n">body_fun</span><span class="p">,</span> <span class="n">initial_value</span>
     <span class="p">)</span>
@@ -457,6 +469,426 @@ document.write(`
         <span class="n">r_final</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">r_final</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">x_final</span><span class="p">,</span> <span class="n">r_final</span><span class="p">,</span> <span class="o">~</span><span class="n">mask_final</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">),</span> <span class="n">k_final</span>  <span class="c1"># type: ignore</span></div>
+
+
+
+<div class="viewcode-block" id="NysADMMState">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.NysADMMState">[docs]</a>
+<span class="k">class</span> <span class="nc">NysADMMState</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The NysADMM optimizer state.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      iter_num: Number of iterations the optimizer has performed.</span>
+<span class="sd">      res_primal: Primal residual at the current iterate.</span>
+<span class="sd">      res_dual: Dual residual at the current iterate.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">iter_num</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">res_primal</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">res_dual</span><span class="p">:</span> <span class="n">Array</span></div>
+
+
+
+<div class="viewcode-block" id="NysADMM">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.NysADMM">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">NysADMM</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The NysADMM optimizer.</span>
+
+<span class="sd">    NysADMM is an inexact ADMM algorithm that uses randomized Nyström preconditioned</span>
+<span class="sd">    conjugate gradients to approximately solve one of the subproblems in each iteration.</span>
+<span class="sd">    The Nyström preconditioner is typically able to utilize the low-rank structure of</span>
+<span class="sd">    the problem and thus speed up the iterative optimization process.</span>
+
+<span class="sd">    The optimizer seeks to solve the following composite minimization problem</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \underset{x}{\mathrm{minimize}} ~ \Big\{\mathrm{fun}(x) + \mathrm{reg\_g}(x) + </span>
+<span class="sd">        \mathrm{reg\_h}(x)\Big\}</span>
+
+<span class="sd">    We provide more detailed description of some arguments below. </span>
+
+<span class="sd">    .. _objective fun:</span>
+<span class="sd">    </span>
+<span class="sd">    ``fun`` specifies the objective function of the optimization problem. The argument </span>
+<span class="sd">    is **required**. It must have: </span>
+<span class="sd">        </span>
+<span class="sd">    - scalar output</span>
+<span class="sd">    - optimization variable as **first** argument</span>
+<span class="sd">    - argument ``data`` for data input</span>
+<span class="sd">    </span>
+<span class="sd">    For instance, ``fun`` could take the form :python:`value = fun(params, data, </span>
+<span class="sd">    **fun_params)`. </span>
+
+<span class="sd">    ----</span>
+
+<span class="sd">    .. _smooth regularization:</span>
+<span class="sd">    </span>
+<span class="sd">    ``reg_g`` specifies the smooth component of the regularization of the problem. The </span>
+<span class="sd">    argument is **required**. It must have: </span>
+
+<span class="sd">    - scalar output</span>
+<span class="sd">    - optimization variable as **first** argument</span>
+<span class="sd">    </span>
+<span class="sd">    For instance, ``reg_g`` could take the form :python:`value = reg_g(params, </span>
+<span class="sd">    **reg_g_params)`. </span>
+
+<span class="sd">    ----</span>
+
+<span class="sd">    .. _prox nonsmooth regularization:</span>
+
+<span class="sd">    ``prox_reg_h`` specifies the proximal operator of the non-smooth component of the </span>
+<span class="sd">    regularization of the problem. The argument is **required**. It must have: </span>
+<span class="sd">        </span>
+<span class="sd">    - point to be mapped as **first** argument</span>
+<span class="sd">    - keyword argument ``scaling`` that sets the scaling factor of the operator</span>
+<span class="sd">    </span>
+<span class="sd">    More precisely, ``prox_reg_h`` solves the following optimization problem</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">       </span>
+<span class="sd">        \mathrm{prox\_reg\_h}(x, \mathrm{scaling}) = </span>
+<span class="sd">        \underset{y}{\mathrm{argmin}} ~ \Big\{\mathrm{reg\_h}(x) </span>
+<span class="sd">        + \frac{1}{2 \cdot \mathrm{scaling}} \lVert x - y \rVert_2^2\Big\}</span>
+
+<span class="sd">    For instance, ``prox_reg_h`` could take the form :python:`mapped_point = </span>
+<span class="sd">    prox_reg_g(point, scaling, **prox_reg_h_params)`. </span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">      SketchyOpts has some common proximal operators built in. These implementations can</span>
+<span class="sd">      be found in the :doc:`sketchyopts.prox` module. </span>
+<span class="sd">    </span>
+<span class="sd">    ----</span>
+
+<span class="sd">    .. _gradient oracle:</span>
+<span class="sd">      </span>
+<span class="sd">    ``grad_fun`` specifies the gradient oracle that computes the gradient of the </span>
+<span class="sd">    objective function ``fun`` with respect to its first argument (*i.e.* the </span>
+<span class="sd">    optimization variable). The argument is **optional**. </span>
+
+<span class="sd">    - It is expected to have the same function signature as the objective function </span>
+<span class="sd">      ``fun``. For instance, ``grad_fun`` could take the form </span>
+<span class="sd">      :python:`grad = grad_fun(params, data, **fun_params)`.</span>
+<span class="sd">    - The gradient output should have the same shape and type as the the optimization </span>
+<span class="sd">      variable. </span>
+
+<span class="sd">    ----</span>
+
+<span class="sd">    .. _hvp oracle:</span>
+
+<span class="sd">    ``hvp_fun`` specifies the Hessian-vector product oracle that computes the </span>
+<span class="sd">    product of the Hessian and an arbitrary compatible vector. It is **optional**. </span>
+<span class="sd">    If provided, it must have: </span>
+
+<span class="sd">    - optimization variable as **first** argument</span>
+<span class="sd">    - arbitrary vector (of the same shape and type as the optimization variable) as </span>
+<span class="sd">      **second** argument</span>
+<span class="sd">    - same additional arguments as the objective function ``fun`` (``data``, etc.)</span>
+<span class="sd">    - function output of the same shape and type as the optimization variable</span>
+
+<span class="sd">    For instance, ``hvp_fun`` could take the form :python:`vec_output = </span>
+<span class="sd">    hvp_fun(params, vec, data, **fun_params)`. </span>
+<span class="sd">    </span>
+<span class="sd">    ----</span>
+
+<span class="sd">    .. _tolerance sequence:</span>
+
+<span class="sd">    ``tol_seq`` specifies the tolerance sequence for the Nyström PCG subproblem. The </span>
+<span class="sd">    sequence should be positive summable. By default, the optimizer uses the geometric </span>
+<span class="sd">    mean of  the ADMM primal residual :math:`r_p` and dual residual :math:`r_d` at the </span>
+<span class="sd">    previous iteration</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \varepsilon^{(k+1)} = \sqrt{r_p^{(k)} r_d^{(k)}}</span>
+
+<span class="sd">    Alternatively, use can provide a custom function that generate such sequence. The</span>
+<span class="sd">    function should take </span>
+
+<span class="sd">    - :math:`x`: optimization variable</span>
+<span class="sd">    - :math:`z`: auxiliary variable</span>
+<span class="sd">    - :math:`u`: (scaled) dual variable</span>
+<span class="sd">    - :math:`r_p`: primal residual</span>
+<span class="sd">    - :math:`r_d`: dual residual</span>
+<span class="sd">    - :math:`b`: right-hand side of the Nyström PCG subproblem</span>
+<span class="sd">    - iteration number</span>
+
+<span class="sd">    as positional arguments and return a positive value. </span>
+
+<span class="sd">    ----</span>
+
+<span class="sd">    .. _stopping criteria:</span>
+
+<span class="sd">    ``abs_tol`` and ``rel_tol`` specify absolute and relative tolerances for terminating </span>
+<span class="sd">    the optimizer. Specifically, the optimization stops when </span>
+
+<span class="sd">    - the Nyström PCG has failed to solve the subproblem to the required tolerance </span>
+<span class="sd">      (based on the tolerance sequence)</span>
+<span class="sd">    - or, the maximal number of iterations has been reached</span>
+<span class="sd">    - or, the following stopping criteria have been met</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \begin{aligned}</span>
+<span class="sd">            &amp; \lVert r_p^{(k)} \rVert_2 \leqslant \mathrm{abs\_tol} + \mathrm{rel\_tol} </span>
+<span class="sd">            \cdot \max \big\{\lVert x^{(k)} \rVert_2, \lVert z^{(k)} \rVert_2\big\} \\</span>
+<span class="sd">            &amp; \lVert r_d^{(k)} \rVert_2 \leqslant \mathrm{abs\_tol} + \mathrm{rel\_tol} </span>
+<span class="sd">            \cdot \lVert \mathrm{step\_size} \, u^{(k)} \rVert_2 \\</span>
+<span class="sd">        \end{aligned}</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">      .. highlight:: python</span>
+<span class="sd">      .. code-block:: python</span>
+
+<span class="sd">        import jax.numpy as jnp</span>
+<span class="sd">        from sketchyopts.prox import prox_l1</span>
+<span class="sd">        from sketchyopts.solver import NysADMM</span>
+
+<span class="sd">        def least_squares_objective(params, data):</span>
+<span class="sd">            # data has dimension num_samples * (feature_dim + 1)</span>
+<span class="sd">            X, y = data[:,:feature_dim], data[:,feature_dim:]</span>
+<span class="sd">            residuals = jnp.dot(X, params) - y</span>
+<span class="sd">            return jnp.mean(residuals ** 2) + 0.5 * reg * jnp.dot(w ** 2)</span>
+
+<span class="sd">        def l2_squared_reg(params, scaling):</span>
+<span class="sd">            return (0.5 * scaling) * jnp.dot(params, params)</span>
+
+<span class="sd">        reg_g_params = {&#39;scaling&#39;: reg * (1 - l1_ratio)}</span>
+<span class="sd">        prox_reg_h_params = {&#39;l1reg&#39;: reg * l1_ratio}</span>
+
+<span class="sd">        opt = NysADMM(least_squares_objective, l2_squared_reg, prox_l1, ...)</span>
+<span class="sd">        opt.run(init_params, data, reg_g_params=reg_g_params, </span>
+<span class="sd">        prox_reg_h_params=prox_reg_h_params)</span>
+
+<span class="sd">    References:</span>
+<span class="sd">      - S\. Zhao, Z. Frangella, and M. Udell, `NysADMM: faster composite convex</span>
+<span class="sd">        optimization via low-rank approximation &lt;https://proceedings.mlr.press/v162/zhao</span>
+<span class="sd">        22a&gt;`_, Proceedings of the 39\ :sup:`th` International Conference on Machine</span>
+<span class="sd">        Learning, PMLR 162: 26824–26840, 2022.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      fun: Scalar-valued objective function. :ref:`↪ More Details&lt;objective fun&gt;`</span>
+<span class="sd">      reg_g: Smooth component of regularization function. :ref:`↪ More Details&lt;smooth regularization&gt;`</span>
+<span class="sd">      prox_reg_h: Proximal operator of the non-smooth component of regularization function. :ref:`↪ More Details&lt;prox nonsmooth regularization&gt;`</span>
+<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective</span>
+<span class="sd">        function ``fun``. :ref:`↪ More Details&lt;gradient oracle&gt;`</span>
+<span class="sd">      hvp_fun: Optional Hessian-vector product oracle corresponding to the provided</span>
+<span class="sd">        objective function ``fun``. :ref:`↪ More Details&lt;hvp oracle&gt;`</span>
+<span class="sd">      step_size: Step size of the optimizer. Expect a non-negative value.</span>
+<span class="sd">      sketch_size: Rank of the Nyström preconditioner. Expect a positive value (default</span>
+<span class="sd">        ``10``).</span>
+<span class="sd">      tol_seq: Optional tolerance function for the subproblem. If not provided, the</span>
+<span class="sd">        optimizer uses the geometric mean of the primal and dual residuals at the </span>
+<span class="sd">        previous iteration (default ``None``). :ref:`↪ More Details&lt;tolerance sequence&gt;`</span>
+<span class="sd">      seed: Initial seed for the random number generator (default ``0``).</span>
+<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``).</span>
+<span class="sd">        Expect a positive value.</span>
+<span class="sd">      abs_tol: Absolute criterion for terminating the optimizer (default ``1e-4``). :ref:`↪ More Details&lt;stopping criteria&gt;`</span>
+<span class="sd">      rel_tol: Relative criterion for terminating the optimizer (default ``1e-4``). :ref:`↪ More Details&lt;stopping criteria&gt;`</span>
+<span class="sd">      verbose: Whether to print diagnostic message (default ``False``).</span>
+<span class="sd">      jit: Whether to JIT-compile the optimization process (default ``True``).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fun</span><span class="p">:</span> <span class="n">Callable</span>
+    <span class="n">reg_g</span><span class="p">:</span> <span class="n">Callable</span>
+    <span class="n">prox_reg_h</span><span class="p">:</span> <span class="n">Callable</span>
+
+    <span class="n">grad_fun</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">hvp_fun</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">step_size</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">sketch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">tol_seq</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">maxiter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">abs_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span>
+    <span class="n">rel_tol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span>
+    <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">jit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function constructs ``tol_seq`` if not provided.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol_seq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tol_seq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tol_seq_residual_geo_mean</span>
+
+    <span class="k">def</span> <span class="nf">_tol_seq_residual_geo_mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">iter_num</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function computes the tolerance value based on the geometric mean of the</span>
+<span class="sd">        ADMM primal and dual residuals.&quot;&quot;&quot;</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">iter_num</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tree_vdot</span><span class="p">(</span><span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_is_terminable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function determines if the stopping criteria are met.&quot;&quot;&quot;</span>
+        <span class="n">tol_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">abs_tol</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rel_tol</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span>
+            <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">tol_d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">abs_tol</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">rel_tol</span> <span class="o">*</span> <span class="n">tree_l2_norm</span><span class="p">(</span>
+            <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step_size</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">r_p</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">tol_p</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">r_d</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">tol_d</span><span class="p">)</span>
+
+<div class="viewcode-block" id="NysADMM.run">
+<a class="viewcode-back" href="../../api/sketchyopts.solver.html#sketchyopts.solver.NysADMM.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">init_params</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">fun_params</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">reg_g_params</span><span class="o">=</span><span class="p">{},</span>
+        <span class="n">prox_reg_h_params</span><span class="o">=</span><span class="p">{},</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function runs the optimization loop.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">          init_params: Initial value of the optimization variable.</span>
+<span class="sd">          data: Full dataset. Expect an array of shape ``(num_samples, ...)``.</span>
+<span class="sd">          fun_params: Additional keyword arguments to be passed to ``fun`` (and</span>
+<span class="sd">            ``grad_fun``, ``hvp_fun`` if provided).</span>
+<span class="sd">          reg_g_params: Additional keyword arguments to be passed to ``reg_g``.</span>
+<span class="sd">          prox_reg_h_params: Additional keyword arguments to be passed to ``prox_reg_h``.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">          Final optimization variable and solver state. The variable has the same shape</span>
+<span class="sd">          as the provided initial value ``init_params``, and the state is an</span>
+<span class="sd">          :class:`NysADMM` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># obtain unraveling function</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">unravel_fun</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">init_params</span><span class="p">)</span>
+
+        <span class="c1"># obtain gradient functions</span>
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span><span class="p">):</span>
+            <span class="n">grad_f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span><span class="p">(</span><span class="n">unravel_fun</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="o">**</span><span class="n">fun_params</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">grad_f</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">(</span><span class="n">unravel_fun</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="o">**</span><span class="n">fun_params</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">grad_g</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">reg_g</span><span class="p">(</span><span class="n">unravel_fun</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="o">**</span><span class="n">reg_g_params</span><span class="p">))</span>
+
+        <span class="c1"># terminate the loop if one of the following holds:</span>
+        <span class="c1"># - x step PCG did not converge to the tolerance</span>
+        <span class="c1"># - maximal number of iterations has been reached</span>
+        <span class="c1"># - stopping criteria have been met</span>
+        <span class="k">def</span> <span class="nf">cond_fun</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">,</span> <span class="n">iter_num</span><span class="p">,</span> <span class="n">pcg_status</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">pcg_status</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="o">&amp;</span> <span class="p">(</span><span class="n">iter_num</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">)</span>
+                <span class="o">&amp;</span> <span class="p">(</span><span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_terminable</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">body_fun</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">,</span> <span class="n">iter_num</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">value</span>
+
+            <span class="c1"># unravel iterate x</span>
+            <span class="n">x_unravaled</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">z_unravaled</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+            <span class="n">u_unravaled</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+
+            <span class="c1"># form linear system</span>
+            <span class="n">H_f</span> <span class="o">=</span> <span class="n">HessianLinearOperator</span><span class="p">(</span>
+                <span class="n">fun</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">,</span>
+                <span class="n">grad_fun</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span><span class="p">,</span>
+                <span class="n">hvp_fun</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hvp_fun</span><span class="p">,</span>
+                <span class="n">params</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">fun_params</span><span class="p">,</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">H_g</span> <span class="o">=</span> <span class="n">HessianLinearOperator</span><span class="p">(</span>
+                <span class="n">fun</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reg_g</span><span class="p">,</span>
+                <span class="n">grad_fun</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">hvp_fun</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">params</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">reg_g_params</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="n">AddLinearOperator</span><span class="p">(</span><span class="n">H_f</span><span class="p">,</span> <span class="n">H_g</span><span class="p">)</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">step_size</span> <span class="o">*</span> <span class="p">(</span><span class="n">z_unravaled</span> <span class="o">-</span> <span class="n">u_unravaled</span><span class="p">)</span>
+                <span class="o">+</span> <span class="n">H_f</span> <span class="o">@</span> <span class="n">x_unravaled</span>
+                <span class="o">+</span> <span class="n">H_g</span> <span class="o">@</span> <span class="n">x_unravaled</span>
+                <span class="o">-</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">x_unravaled</span><span class="p">)</span>
+                <span class="o">-</span> <span class="n">grad_g</span><span class="p">(</span><span class="n">x_unravaled</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="c1"># x step</span>
+            <span class="n">key</span><span class="p">,</span> <span class="n">pcg_key</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">pcg_tol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol_seq</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">iter_num</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">pcg_status</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">nystrom_pcg</span><span class="p">(</span>
+                <span class="n">A</span><span class="p">,</span>
+                <span class="n">b</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">step_size</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,</span>
+                <span class="n">pcg_key</span><span class="p">,</span>
+                <span class="n">x0</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">x_unravaled</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+                <span class="n">maxiter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">tol</span><span class="o">=</span><span class="n">pcg_tol</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">unravel_fun</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+            <span class="c1"># z step</span>
+            <span class="n">z_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prox_reg_h</span><span class="p">(</span>
+                <span class="n">tree_add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">),</span> <span class="o">**</span><span class="n">prox_reg_h_params</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">step_size</span>
+            <span class="p">)</span>
+
+            <span class="c1"># u step</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">tree_add</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">tree_sub</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z_</span><span class="p">))</span>
+
+            <span class="c1"># compute residuals</span>
+            <span class="n">r_p</span> <span class="o">=</span> <span class="n">tree_sub</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z_</span><span class="p">)</span>
+            <span class="n">r_d</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step_size</span><span class="p">,</span> <span class="n">tree_sub</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">z_</span><span class="p">))</span>
+
+            <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">z_</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">,</span> <span class="n">iter_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pcg_status</span><span class="p">,</span> <span class="n">key</span>
+
+        <span class="c1"># initialization</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">init_params</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">tree_zeros_like</span><span class="p">(</span><span class="n">init_params</span><span class="p">)</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">tree_zeros_like</span><span class="p">(</span><span class="n">init_params</span><span class="p">)</span>
+        <span class="n">r_p</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">tree_zeros_like</span><span class="p">(</span><span class="n">init_params</span><span class="p">))</span>
+        <span class="n">r_d</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">tree_zeros_like</span><span class="p">(</span><span class="n">init_params</span><span class="p">))</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+
+        <span class="n">initial_value</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="n">z</span><span class="p">,</span>
+            <span class="n">u</span><span class="p">,</span>
+            <span class="n">r_p</span><span class="p">,</span>
+            <span class="n">r_d</span><span class="p">,</span>
+            <span class="n">integer_asarray</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">),</span>
+            <span class="n">key</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># perform iterative solve</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">jit</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">,</span> <span class="n">iter_num</span><span class="p">,</span> <span class="n">pcg_status</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span>
+                <span class="n">cond_fun</span><span class="p">,</span> <span class="n">body_fun</span><span class="p">,</span> <span class="n">initial_value</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">initial_value</span>
+            <span class="k">while</span> <span class="n">cond_fun</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">body_fun</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">,</span> <span class="n">iter_num</span><span class="p">,</span> <span class="n">pcg_status</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># print out warning message if needed</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_terminable</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">pcg_status</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;Warning: run was terminated because linear solve has failed to converge the tolerance.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;Warning: run was terminated because the maximum number of iterations has been reached.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">NysADMMState</span><span class="p">(</span><span class="n">iter_num</span><span class="o">=</span><span class="n">iter_num</span><span class="p">,</span> <span class="n">res_primal</span><span class="o">=</span><span class="n">r_p</span><span class="p">,</span> <span class="n">res_dual</span><span class="o">=</span><span class="n">r_d</span><span class="p">),</span>
+        <span class="p">)</span></div>
+</div>
 
 
 
@@ -489,10 +921,10 @@ document.write(`
 <span class="k">class</span> <span class="nc">SketchySGD</span><span class="p">(</span><span class="n">PromiseSolver</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchySGD optimizer.</span>
 
-<span class="sd">    SketchySGD is a stochastic quasi-Newton method that uses sketching to approximate the</span>
-<span class="sd">    curvature of the loss function. It maintains a preconditioner for SGD (stochastic gradient</span>
-<span class="sd">    descent) using subsampled Hessian and automatically selects an appropriate learning whenever</span>
-<span class="sd">    it updates the preconditioner.</span>
+<span class="sd">    SketchySGD is a stochastic quasi-Newton method that uses sketching to approximate</span>
+<span class="sd">    the curvature of the loss function. It maintains a preconditioner for SGD</span>
+<span class="sd">    (stochastic gradient descent) using subsampled Hessian and automatically selects an</span>
+<span class="sd">    appropriate learning whenever it updates the preconditioner.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">      .. highlight:: python</span>
@@ -511,30 +943,48 @@ document.write(`
 <span class="sd">        opt.run(init_params, data, reg)</span>
 
 <span class="sd">    References:</span>
-<span class="sd">      - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `SketchySGD: Reliable Stochastic Optimization via Randomized Curvature Estimates &lt;https://arxiv.org/abs/2211.08597&gt;`_.</span>
+<span class="sd">      - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `SketchySGD: Reliable</span>
+<span class="sd">        Stochastic Optimization via Randomized Curvature Estimates</span>
+<span class="sd">        &lt;https://arxiv.org/abs/2211.08597&gt;`_.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      fun: Scalar-valued objective function. :term:`↪ More Details&lt;fun&gt;`</span>
-<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective function ``fun``. :term:`↪ More Details&lt;grad_fun&gt;`</span>
-<span class="sd">      hvp_fun: Optional Hessian-vector product oracle for the Nyström subsampled Newton preconditioner. :term:`↪ More Details&lt;hvp_fun&gt;`</span>
-<span class="sd">      sqrt_hess_fun: Required oracle that computes the square root of the Hessian matrix for the subsampled Newton preconditioner (*i.e.* cannot be empty if ``precond`` is set to ``ssn``). :term:`↪ More Details&lt;sqrt_hess_fun&gt;`</span>
-<span class="sd">      pre_update: Optional function to execute before optimizer&#39;s each update on the iterate. :term:`↪ More Details&lt;pre_update&gt;`</span>
-<span class="sd">      precond: Type of preconditioner to use. Either ``nyssn`` for Nyström subsampled Newton or ``ssn`` for subsampled Newton (default ``nyssn``).</span>
-<span class="sd">      rho: Regularization parameter for the preconditioner. Expect a non-negative value (default ``1e-3``).</span>
-<span class="sd">      rank: Rank of the Nyström subsampled Newton preconditioner. Expect a positive value (default ``10``).</span>
-<span class="sd">      grad_batch_size: Size of the batch of data to compute stochastic gradient at each iteration. Expect a positive value.</span>
-<span class="sd">      hess_batch_size: Size of the batch of data to estimate the stochastic Hessian when updating the preconditioner. Expect a positive value.</span>
-<span class="sd">      update_freq: Update frequency of the preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or</span>
-<span class="sd">        ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at</span>
-<span class="sd">        the beginning of the optimization process.</span>
+<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective</span>
+<span class="sd">        function ``fun``. :term:`↪ More Details&lt;grad_fun&gt;`</span>
+<span class="sd">      hvp_fun: Optional Hessian-vector product oracle for the Nyström subsampled Newton</span>
+<span class="sd">        preconditioner. :term:`↪ More Details&lt;hvp_fun&gt;`</span>
+<span class="sd">      sqrt_hess_fun: Required oracle that computes the square root of the Hessian matrix</span>
+<span class="sd">        for the subsampled Newton preconditioner (*i.e.* cannot be empty if ``precond``</span>
+<span class="sd">        is set to ``ssn``). :term:`↪ More Details&lt;sqrt_hess_fun&gt;`</span>
+<span class="sd">      pre_update: Optional function to execute before optimizer&#39;s each update on the</span>
+<span class="sd">        iterate. :term:`↪ More Details&lt;pre_update&gt;`</span>
+<span class="sd">      precond: Type of preconditioner to use. Either ``nyssn`` for Nyström subsampled</span>
+<span class="sd">        Newton or ``ssn`` for subsampled Newton (default ``nyssn``).</span>
+<span class="sd">      rho: Regularization parameter for the preconditioner. Expect a non-negative value</span>
+<span class="sd">        (default ``1e-3``).</span>
+<span class="sd">      rank: Rank of the Nyström subsampled Newton preconditioner. Expect a positive</span>
+<span class="sd">        value (default ``10``).</span>
+<span class="sd">      grad_batch_size: Size of the batch of data to compute stochastic gradient at each</span>
+<span class="sd">        iteration. Expect a positive value.</span>
+<span class="sd">      hess_batch_size: Size of the batch of data to estimate the stochastic Hessian when</span>
+<span class="sd">        updating the preconditioner. Expect a positive value.</span>
+<span class="sd">      update_freq: Update frequency of the preconditioner. When set to ``0`` or</span>
+<span class="sd">        :math:`\infty` (*e.g.* ``jax.numpy.inf`` or ``numpy.inf``), the optimizer uses</span>
+<span class="sd">        constant preconditioner that is constructed at the beginning of the optimization</span>
+<span class="sd">        process.</span>
 <span class="sd">      seed: Initial seed for the random number generator (default ``0``).</span>
-<span class="sd">      learning_rate: Step size for applying updates (default ``0.5``). It can either be a fixed scalar value or a schedule (callable) based on step count. :term:`↪ More Details&lt;learning_rate&gt;`</span>
-<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``). Expect a positive value.</span>
-<span class="sd">      tol: Threshold of the gradient norm used for terminating the optimizer (default ``1e-3``).</span>
+<span class="sd">      learning_rate: Step size for applying updates (default ``0.5``). It can either be</span>
+<span class="sd">        a fixed scalar value or a schedule (callable) based on step count.</span>
+<span class="sd">        :term:`↪ More Details&lt;learning_rate&gt;`</span>
+<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``).</span>
+<span class="sd">        Expect a positive value.</span>
+<span class="sd">      tol: Threshold of the gradient norm used for terminating the optimizer (default</span>
+<span class="sd">        ``1e-3``).</span>
 <span class="sd">      verbose: Whether to print diagnostic message (default ``False``).</span>
-<span class="sd">      jit: Whether to JIT-compile the optimization process (default ``True``). :term:`↪ More Details&lt;jit&gt;`</span>
-<span class="sd">      sparse: Whether to sparsify the optimization process (default ``False``). :term:`↪ More Details&lt;sparse&gt;`</span>
-
+<span class="sd">      jit: Whether to JIT-compile the optimization process (default ``True``).</span>
+<span class="sd">        :term:`↪ More Details&lt;jit&gt;`</span>
+<span class="sd">      sparse: Whether to sparsify the optimization process (default ``False``).</span>
+<span class="sd">        :term:`↪ More Details&lt;sparse&gt;`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
@@ -594,10 +1044,14 @@ document.write(`
 <span class="sd">          init_params: Initial value of the optimization variable.</span>
 <span class="sd">          data: Full dataset. Expect an array of shape ``(num_samples, ...)``.</span>
 <span class="sd">          reg: Regularization strength. Expect a non-negative value (default ``0``).</span>
-<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
-<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
+<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and</span>
+<span class="sd">            ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
+<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and</span>
+<span class="sd">            ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
 <span class="sd">        Returns:</span>
-<span class="sd">          Final optimization variable and solver state. The variable has the same shape as the provided initial value ``init_params``, and the state is an :class:`SketchySGDState` object.</span>
+<span class="sd">          Final optimization variable and solver state. The variable has the same shape</span>
+<span class="sd">          as the provided initial value ``init_params``, and the state is an</span>
+<span class="sd">          :class:`SketchySGDState` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># initialize iterate and state</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>
@@ -691,11 +1145,11 @@ document.write(`
 <span class="k">class</span> <span class="nc">SketchySVRG</span><span class="p">(</span><span class="n">PromiseSolver</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchySVRG optimizer.</span>
 
-<span class="sd">    SketchySVRG is a preconditioned version of SVRG [#f1]_ (stochastic variance reduced gradient).</span>
-<span class="sd">    The optimizer stores and periodically updates a snapshot of the iterate, and uses the snapshot</span>
-<span class="sd">    and its full gradient to perform variance reduction. The preconditioning is then applied to</span>
-<span class="sd">    the variance-reduced stochastic gradient at each step. The preconditioner and learning rate get</span>
-<span class="sd">    updated periodically.</span>
+<span class="sd">    SketchySVRG is a preconditioned version of SVRG [#f1]_ (stochastic variance reduced</span>
+<span class="sd">    gradient). The optimizer stores and periodically updates a snapshot of the iterate,</span>
+<span class="sd">    and uses the snapshot and its full gradient to perform variance reduction. The</span>
+<span class="sd">    preconditioning is then applied to the variance-reduced stochastic gradient at each</span>
+<span class="sd">    step. The preconditioner and learning rate get updated periodically.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">      .. highlight:: python</span>
@@ -715,33 +1169,55 @@ document.write(`
 
 <span class="sd">    .. rubric:: References</span>
 
-<span class="sd">    .. [#f1] R\. Johnson and T. Zhang, `Accelerating Stochastic Gradient Descent using Predictive Variance Reduction &lt;https://papers.nips.cc/paper/4937-accelerating-stochastic-gradient-descent-using-predictive-variance-reduction&gt;`_, Advances in Neural Information Processing Systems, 26, 2013.</span>
+<span class="sd">    .. [#f1] R\. Johnson and T. Zhang, `Accelerating Stochastic Gradient Descent using</span>
+<span class="sd">      Predictive Variance Reduction &lt;https://papers.nips.cc/paper/4937-accelerating-</span>
+<span class="sd">      stochastic-gradient-descent-using-predictive-variance-reduction&gt;`_, Advances in</span>
+<span class="sd">      Neural Information Processing Systems, 26, 2013.</span>
 
-<span class="sd">    - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
+<span class="sd">    - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned</span>
+<span class="sd">      Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates</span>
+<span class="sd">      &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      fun: Scalar-valued objective function. :term:`↪ More Details&lt;fun&gt;`</span>
-<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective function ``fun``. :term:`↪ More Details&lt;grad_fun&gt;`</span>
-<span class="sd">      hvp_fun: Optional Hessian-vector product oracle for the Nyström subsampled Newton preconditioner. :term:`↪ More Details&lt;hvp_fun&gt;`</span>
-<span class="sd">      sqrt_hess_fun: Required oracle that computes the square root of the Hessian matrix for the subsampled Newton preconditioner (*i.e.* cannot be empty if ``precond`` is set to ``ssn``). :term:`↪ More Details&lt;sqrt_hess_fun&gt;`</span>
-<span class="sd">      pre_update: Optional function to execute before optimizer&#39;s each update on the iterate. :term:`↪ More Details&lt;pre_update&gt;`</span>
-<span class="sd">      precond: Type of preconditioner to use (default ``nyssn``). Either ``nyssn`` for Nyström subsampled Newton or ``ssn`` for subsampled Newton. :term:`↪ More Details&lt;precond&gt;`</span>
-<span class="sd">      rho: Regularization parameter for the preconditioner. Expect a non-negative value (default ``1e-3``).</span>
-<span class="sd">      rank: Rank of the Nyström subsampled Newton preconditioner. Expect a positive value (default ``10``).</span>
-<span class="sd">      grad_batch_size: Size of the batch of data to compute stochastic gradient at each iteration. Expect a positive value.</span>
-<span class="sd">      hess_batch_size: Size of the batch of data to estimate the stochastic Hessian when updating the preconditioner. Expect a positive value.</span>
-<span class="sd">      update_freq: Update frequency of the preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or</span>
-<span class="sd">        ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at</span>
-<span class="sd">        the beginning of the optimization process.</span>
+<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective</span>
+<span class="sd">        function ``fun``. :term:`↪ More Details&lt;grad_fun&gt;`</span>
+<span class="sd">      hvp_fun: Optional Hessian-vector product oracle for the Nyström subsampled Newton</span>
+<span class="sd">        preconditioner. :term:`↪ More Details&lt;hvp_fun&gt;`</span>
+<span class="sd">      sqrt_hess_fun: Required oracle that computes the square root of the Hessian matrix</span>
+<span class="sd">        for the subsampled Newton preconditioner (*i.e.* cannot be empty if ``precond``</span>
+<span class="sd">        is set to ``ssn``). :term:`↪ More Details&lt;sqrt_hess_fun&gt;`</span>
+<span class="sd">      pre_update: Optional function to execute before optimizer&#39;s each update on the</span>
+<span class="sd">        iterate. :term:`↪ More Details&lt;pre_update&gt;`</span>
+<span class="sd">      precond: Type of preconditioner to use (default ``nyssn``). Either ``nyssn`` for</span>
+<span class="sd">        Nyström subsampled Newton or ``ssn`` for subsampled Newton.</span>
+<span class="sd">        :term:`↪ More Details&lt;precond&gt;`</span>
+<span class="sd">      rho: Regularization parameter for the preconditioner. Expect a non-negative value</span>
+<span class="sd">        (default ``1e-3``).</span>
+<span class="sd">      rank: Rank of the Nyström subsampled Newton preconditioner. Expect a positive</span>
+<span class="sd">        value (default ``10``).</span>
+<span class="sd">      grad_batch_size: Size of the batch of data to compute stochastic gradient at each</span>
+<span class="sd">        iteration. Expect a positive value.</span>
+<span class="sd">      hess_batch_size: Size of the batch of data to estimate the stochastic Hessian when</span>
+<span class="sd">        updating the preconditioner. Expect a positive value.</span>
+<span class="sd">      update_freq: Update frequency of the preconditioner. When set to ``0`` or</span>
+<span class="sd">        :math:`\infty` (*e.g.* ``jax.numpy.inf`` or ``numpy.inf``), the optimizer uses</span>
+<span class="sd">        constant preconditioner that is constructed at the beginning of the optimization</span>
+<span class="sd">        process.</span>
 <span class="sd">      snapshop_update_freq: Update frequency of the snapshot. Expect a positive value.</span>
 <span class="sd">      seed: Initial seed for the random number generator (default ``0``).</span>
-<span class="sd">      learning_rate: Step size for applying updates (default ``0.5``). It can either be a fixed scalar value or a schedule (callable) based on step count. :term:`↪ More Details&lt;learning_rate&gt;`</span>
-<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``). Expect a positive value.</span>
-<span class="sd">      tol: Threshold of the gradient norm used for terminating the optimizer (default ``1e-3``).</span>
+<span class="sd">      learning_rate: Step size for applying updates (default ``0.5``). It can either be</span>
+<span class="sd">        a fixed scalar value or a schedule (callable) based on step count.</span>
+<span class="sd">        :term:`↪ More Details&lt;learning_rate&gt;`</span>
+<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``).</span>
+<span class="sd">        Expect a positive value.</span>
+<span class="sd">      tol: Threshold of the gradient norm used for terminating the optimizer (default</span>
+<span class="sd">        ``1e-3``).</span>
 <span class="sd">      verbose: Whether to print diagnostic message (default ``False``).</span>
-<span class="sd">      jit: Whether to JIT-compile the optimization process (default ``True``). :term:`↪ More Details&lt;jit&gt;`</span>
-<span class="sd">      sparse: Whether to sparsify the optimization process (default ``False``). :term:`↪ More Details&lt;sparse&gt;`</span>
-
+<span class="sd">      jit: Whether to JIT-compile the optimization process (default ``True``).</span>
+<span class="sd">        :term:`↪ More Details&lt;jit&gt;`</span>
+<span class="sd">      sparse: Whether to sparsify the optimization process (default ``False``).</span>
+<span class="sd">        :term:`↪ More Details&lt;sparse&gt;`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">snapshop_update_freq</span><span class="p">:</span> <span class="nb">int</span>
@@ -830,10 +1306,14 @@ document.write(`
 <span class="sd">          init_params: Initial value of the optimization variable.</span>
 <span class="sd">          data: Full dataset. Expect an array of shape ``(num_samples, ...)``.</span>
 <span class="sd">          reg: Regularization strength. Expect a non-negative value (default ``0``).</span>
-<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
-<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
+<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and</span>
+<span class="sd">            ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
+<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and</span>
+<span class="sd">            ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
 <span class="sd">        Returns:</span>
-<span class="sd">          Final optimization variable and solver state. The variable has the same shape as the provided initial value ``init_params``, and the state is an :class:`SketchySVRGState` object.</span>
+<span class="sd">          Final optimization variable and solver state. The variable has the same shape</span>
+<span class="sd">          as the provided initial value ``init_params``, and the state is an</span>
+<span class="sd">          :class:`SketchySVRGState` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># initialize iterate and state</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>
@@ -940,12 +1420,17 @@ document.write(`
 <span class="k">class</span> <span class="nc">SketchySAGA</span><span class="p">(</span><span class="n">PromiseSolver</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchySAGA optimizer.</span>
 
-<span class="sd">    SketchySAGA is a preconditioned version of a minibatch variant [#f3]_ (b-nice SAGA) of SAGA [#f2]_.</span>
-<span class="sd">    The optimizer maintains and updates a gradient table and table average. At each iteration,</span>
-<span class="sd">    the optimizer computes auxiliary vector and uses it to update the variance-reduced stochastic</span>
-<span class="sd">    gradient. The update is then based on the preconditioned variance-reduced stochastic gradient.</span>
+<span class="sd">    SketchySAGA is a preconditioned version of a minibatch variant [#f3]_ (b-nice SAGA)</span>
+<span class="sd">    of SAGA [#f2]_. The optimizer maintains and updates a gradient table and table</span>
+<span class="sd">    average. At each iteration, the optimizer computes auxiliary vector and uses it to</span>
+<span class="sd">    update the variance-reduced stochastic gradient. The update is then based on the</span>
+<span class="sd">    preconditioned variance-reduced stochastic gradient.</span>
 
-<span class="sd">    .. note:: Because SketchySAGA computes gradient of each individual component function, the provided objective function ``fun`` or gradient function ``grad_fun`` needs to be compatible with 1-dimensional data input (*i.e.* when the data input is a vector representing a single sample). The following example expands the vector to a 2-dimensional array to handle the single sample case.</span>
+<span class="sd">    .. note:: Because SketchySAGA computes gradient of each individual component</span>
+<span class="sd">      function, the provided objective function ``fun`` or gradient function</span>
+<span class="sd">      ``grad_fun`` needs to be compatible with 1-dimensional data input (*i.e.* when the</span>
+<span class="sd">      data input is a vector representing a single sample). The following example</span>
+<span class="sd">      expands the vector to a 2-dimensional array to handle the single sample case.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">      .. highlight:: python</span>
@@ -968,39 +1453,69 @@ document.write(`
 
 <span class="sd">    .. rubric:: References</span>
 
-<span class="sd">    .. [#f2] A\. Defazio, F. Bach, and S. Lacoste-Julien, `SAGA: A Fast Incremental Gradient Method With Support for Non-Strongly Convex Composite Objectives &lt;https://papers.nips.cc/paper_files/paper/2014/hash/ede7e2b6d13a41ddf9f4bdef84fdc737-Abstract.html&gt;`_, Advances in Neural Information Processing Systems, 27, 2014.</span>
-<span class="sd">    .. [#f3] N\. Gazagnadou, R. M. Gower, and J. Salmon, `Optimal Mini-Batch and Step Sizes for SAGA &lt;https://proceedings.mlr.press/v97/gazagnadou19a.html&gt;`_, in *Proceedings of the 36*\ :sup:`th` *International Conference on Machine Learning*, Proceedings of Machine Learning Research (PMLR), 97: 2142-2150, 2019.</span>
+<span class="sd">    .. [#f2] A\. Defazio, F. Bach, and S. Lacoste-Julien, `SAGA: A Fast Incremental</span>
+<span class="sd">      Gradient Method With Support for Non-Strongly Convex Composite Objectives</span>
+<span class="sd">      &lt;https://papers.nips.cc/paper_files/paper/2014/hash/</span>
+<span class="sd">      ede7e2b6d13a41ddf9f4bdef84fdc737-Abstract.html&gt;`_, Advances in Neural Information</span>
+<span class="sd">      Processing Systems, 27, 2014.</span>
+<span class="sd">    .. [#f3] N\. Gazagnadou, R. M. Gower, and J. Salmon, `Optimal Mini-Batch and Step</span>
+<span class="sd">      Sizes for SAGA &lt;https://proceedings.mlr.press/v97/gazagnadou19a.html&gt;`_, in</span>
+<span class="sd">      *Proceedings of the 36*\ :sup:`th` *International Conference on Machine Learning*,</span>
+<span class="sd">      Proceedings of Machine Learning Research (PMLR), 97: 2142-2150, 2019.</span>
 
-<span class="sd">    - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
+<span class="sd">    - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned</span>
+<span class="sd">      Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates</span>
+<span class="sd">      &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      fun: Scalar-valued objective function compatible with 1-dimensional ``data`` input. :term:`↪ More Details&lt;fun&gt;`</span>
-<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective function ``fun``. It also needs to be compatible with 1-dimensional ``data`` input. :term:`↪ More Details&lt;grad_fun&gt;`</span>
-<span class="sd">      hvp_fun: Optional Hessian-vector product oracle for the Nyström subsampled Newton preconditioner. :term:`↪ More Details&lt;hvp_fun&gt;`</span>
-<span class="sd">      sqrt_hess_fun: Required oracle that computes the square root of the Hessian matrix for the subsampled Newton preconditioner (*i.e.* cannot be empty if ``precond`` is set to ``ssn``). :term:`↪ More Details&lt;sqrt_hess_fun&gt;`</span>
-<span class="sd">      pre_update: Optional function to execute before optimizer&#39;s each update on the iterate. :term:`↪ More Details&lt;pre_update&gt;`</span>
-<span class="sd">      precond: Type of preconditioner to use (default ``nyssn``). Either ``nyssn`` for Nyström subsampled Newton or ``ssn`` for subsampled Newton. :term:`↪ More Details&lt;precond&gt;`</span>
-<span class="sd">      rho: Regularization parameter for the preconditioner. Expect a non-negative value (default ``1e-3``).</span>
-<span class="sd">      rank: Rank of the Nyström subsampled Newton preconditioner. Expect a positive value (default ``10``).</span>
-<span class="sd">      grad_batch_size: Size of the batch of data to compute stochastic gradient at each iteration. Expect a positive value.</span>
-<span class="sd">      hess_batch_size: Size of the batch of data to estimate the stochastic Hessian when updating the preconditioner. Expect a positive value.</span>
-<span class="sd">      update_freq: Update frequency of the preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or</span>
-<span class="sd">        ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at</span>
-<span class="sd">        the beginning of the optimization process.</span>
+<span class="sd">      fun: Scalar-valued objective function compatible with 1-dimensional ``data``</span>
+<span class="sd">        input. :term:`↪ More Details&lt;fun&gt;`</span>
+<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective</span>
+<span class="sd">        function ``fun``. It also needs to be compatible with 1-dimensional ``data``</span>
+<span class="sd">        input. :term:`↪ More Details&lt;grad_fun&gt;`</span>
+<span class="sd">      hvp_fun: Optional Hessian-vector product oracle for the Nyström subsampled Newton</span>
+<span class="sd">        preconditioner. :term:`↪ More Details&lt;hvp_fun&gt;`</span>
+<span class="sd">      sqrt_hess_fun: Required oracle that computes the square root of the Hessian matrix</span>
+<span class="sd">        for the subsampled Newton preconditioner (*i.e.* cannot be empty if ``precond``</span>
+<span class="sd">        is set to ``ssn``). :term:`↪ More Details&lt;sqrt_hess_fun&gt;`</span>
+<span class="sd">      pre_update: Optional function to execute before optimizer&#39;s each update on the</span>
+<span class="sd">        iterate. :term:`↪ More Details&lt;pre_update&gt;`</span>
+<span class="sd">      precond: Type of preconditioner to use (default ``nyssn``). Either ``nyssn`` for</span>
+<span class="sd">        Nyström subsampled Newton or ``ssn`` for subsampled Newton.</span>
+<span class="sd">        :term:`↪ More Details&lt;precond&gt;`</span>
+<span class="sd">      rho: Regularization parameter for the preconditioner. Expect a non-negative value</span>
+<span class="sd">        (default ``1e-3``).</span>
+<span class="sd">      rank: Rank of the Nyström subsampled Newton preconditioner. Expect a positive</span>
+<span class="sd">        value (default ``10``).</span>
+<span class="sd">      grad_batch_size: Size of the batch of data to compute stochastic gradient at each</span>
+<span class="sd">        iteration. Expect a positive value.</span>
+<span class="sd">      hess_batch_size: Size of the batch of data to estimate the stochastic Hessian when</span>
+<span class="sd">        updating the preconditioner. Expect a positive value.</span>
+<span class="sd">      update_freq: Update frequency of the preconditioner. When set to ``0`` or</span>
+<span class="sd">        :math:`\infty` (*e.g.* ``jax.numpy.inf`` or ``numpy.inf``), the optimizer uses</span>
+<span class="sd">        constant preconditioner that is constructed at the beginning of the optimization</span>
+<span class="sd">        process.</span>
 <span class="sd">      seed: Initial seed for the random number generator (default ``0``).</span>
-<span class="sd">      learning_rate: Step size for applying updates (default ``0.5``). It can either be a fixed scalar value or a schedule (callable) based on step count. :term:`↪ More Details&lt;learning_rate&gt;`</span>
-<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``). Expect a positive value.</span>
-<span class="sd">      tol: Threshold of the gradient norm used for terminating the optimizer (default ``1e-3``).</span>
+<span class="sd">      learning_rate: Step size for applying updates (default ``0.5``). It can either be</span>
+<span class="sd">        a fixed scalar value or a schedule (callable) based on step count.</span>
+<span class="sd">        :term:`↪ More Details&lt;learning_rate&gt;`</span>
+<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``).</span>
+<span class="sd">        Expect a positive value.</span>
+<span class="sd">      tol: Threshold of the gradient norm used for terminating the optimizer (default</span>
+<span class="sd">        ``1e-3``).</span>
 <span class="sd">      verbose: Whether to print diagnostic message (default ``False``).</span>
-<span class="sd">      jit: Whether to JIT-compile the optimization process (default ``True``). :term:`↪ More Details&lt;jit&gt;`</span>
-<span class="sd">      sparse: Whether to sparsify the optimization process (default ``False``). :term:`↪ More Details&lt;sparse&gt;`</span>
-
+<span class="sd">      jit: Whether to JIT-compile the optimization process (default ``True``).</span>
+<span class="sd">        :term:`↪ More Details&lt;jit&gt;`</span>
+<span class="sd">      sparse: Whether to sparsify the optimization process (default ``False``).</span>
+<span class="sd">        :term:`↪ More Details&lt;sparse&gt;`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
 
     <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function overrides the superclass&#39;s method and constructs`` value_and_grad`` function that computes the gradient of each individual component.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function overrides the superclass&#39;s method and constructs</span>
+<span class="sd">        ``value_and_grad`` function that computes the gradient of each individual</span>
+<span class="sd">        component.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span><span class="p">):</span>
             <span class="n">comp_grad_fun</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_fun</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1087,10 +1602,14 @@ document.write(`
 <span class="sd">          init_params: Initial value of the optimization variable.</span>
 <span class="sd">          data: Full dataset. Expect an array of shape ``(num_samples, ...)``.</span>
 <span class="sd">          reg: Regularization strength. Expect a non-negative value (default ``0``).</span>
-<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
-<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
+<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and `</span>
+<span class="sd">            `grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
+<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and</span>
+<span class="sd">            ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
 <span class="sd">        Returns:</span>
-<span class="sd">          Final optimization variable and solver state. The variable has the same shape as the provided initial value ``init_params``, and the state is an :class:`SketchySAGAState` object.</span>
+<span class="sd">          Final optimization variable and solver state. The variable has the same shape</span>
+<span class="sd">          as the provided initial value ``init_params``, and the state is an</span>
+<span class="sd">          :class:`SketchySAGAState` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># initialize iterate and state</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>
@@ -1192,9 +1711,11 @@ document.write(`
 <span class="k">class</span> <span class="nc">SketchyKatyusha</span><span class="p">(</span><span class="n">PromiseSolver</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchyKatyusha optimizer.</span>
 
-<span class="sd">    SketchyKatyusha is a preconditioned version of Loopless Katyusha [#f5]_ that extends the original Katyusha [#f4]_.</span>
-<span class="sd">    The optimizer calculates the preconditioned variance-reduced stochastic gradient and performs momentum update.</span>
-<span class="sd">    The optimizer periodically updates the preconditioner, and probabilistically updates snapshot and full gradient.</span>
+<span class="sd">    SketchyKatyusha is a preconditioned version of Loopless Katyusha [#f5]_ that extends</span>
+<span class="sd">    the original Katyusha [#f4]_. The optimizer calculates the preconditioned</span>
+<span class="sd">    variance-reduced stochastic gradient and performs momentum update. The optimizer</span>
+<span class="sd">    periodically updates the preconditioner, and probabilistically updates snapshot and</span>
+<span class="sd">    full gradient.</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">      .. highlight:: python</span>
@@ -1214,36 +1735,60 @@ document.write(`
 
 <span class="sd">    .. rubric:: References</span>
 
-<span class="sd">    .. [#f4] Z\. Allen-Zhu, `Katyusha: The First Direct Acceleration of Stochastic Gradient Methods &lt;https://jmlr.org/papers/v18/16-410.html&gt;`_, Journal of Machine Learning Research, 18(221): 1-51, 2018.</span>
-<span class="sd">    .. [#f5] D\. Kovalev, S. Horváth, and P. Richtárik, `Don&#39;t Jump Through Hoops and Remove Those Loops: SVRG and Katyusha are Better Without the Outer Loop &lt;https://proceedings.mlr.press/v117/kovalev20a.html&gt;`_, in *Proceedings of the 31*\ :sup:`th` *International Conference on Algorithmic Learning Theory*, Proceedings of Machine Learning Research (PMLR), 117: 451-467, 2020.</span>
+<span class="sd">    .. [#f4] Z\. Allen-Zhu, `Katyusha: The First Direct Acceleration of Stochastic</span>
+<span class="sd">      Gradient Methods &lt;https://jmlr.org/papers/v18/16-410.html&gt;`_, Journal of Machine</span>
+<span class="sd">      Learning Research, 18(221): 1-51, 2018.</span>
+<span class="sd">    .. [#f5] D\. Kovalev, S. Horváth, and P. Richtárik, `Don&#39;t Jump Through Hoops and</span>
+<span class="sd">      Remove Those Loops: SVRG and Katyusha are Better Without the Outer Loop</span>
+<span class="sd">      &lt;https://proceedings.mlr.press/v117/kovalev20a.html&gt;`_, in *Proceedings of the</span>
+<span class="sd">      31*\ :sup:`th` *International Conference on Algorithmic Learning Theory*,</span>
+<span class="sd">      Proceedings of Machine Learning Research (PMLR), 117: 451-467, 2020.</span>
 
-<span class="sd">    - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
+<span class="sd">    - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned</span>
+<span class="sd">      Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates</span>
+<span class="sd">      &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      fun: Scalar-valued objective function. :term:`↪ More Details&lt;fun&gt;`</span>
-<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective function ``fun``. :term:`↪ More Details&lt;grad_fun&gt;`</span>
-<span class="sd">      hvp_fun: Optional Hessian-vector product oracle for the Nyström subsampled Newton preconditioner. :term:`↪ More Details&lt;hvp_fun&gt;`</span>
-<span class="sd">      sqrt_hess_fun: Required oracle that computes the square root of the Hessian matrix for the subsampled Newton preconditioner (*i.e.* cannot be empty if ``precond`` is set to ``ssn``). :term:`↪ More Details&lt;sqrt_hess_fun&gt;`</span>
-<span class="sd">      pre_update: Optional function to execute before optimizer&#39;s each update on the iterate. :term:`↪ More Details&lt;pre_update&gt;`</span>
-<span class="sd">      precond: Type of preconditioner to use (default ``nyssn``). Either ``nyssn`` for Nyström subsampled Newton or ``ssn`` for subsampled Newton. :term:`↪ More Details&lt;precond&gt;`</span>
-<span class="sd">      rho: Regularization parameter for the preconditioner. Expect a non-negative value (default ``1e-3``).</span>
-<span class="sd">      rank: Rank of the Nyström subsampled Newton preconditioner. Expect a positive value (default ``10``).</span>
+<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective</span>
+<span class="sd">        function ``fun``. :term:`↪ More Details&lt;grad_fun&gt;`</span>
+<span class="sd">      hvp_fun: Optional Hessian-vector product oracle for the Nyström subsampled Newton</span>
+<span class="sd">        preconditioner. :term:`↪ More Details&lt;hvp_fun&gt;`</span>
+<span class="sd">      sqrt_hess_fun: Required oracle that computes the square root of the Hessian matrix</span>
+<span class="sd">        for the subsampled Newton preconditioner (*i.e.* cannot be empty if ``precond``</span>
+<span class="sd">        is set to ``ssn``). :term:`↪ More Details&lt;sqrt_hess_fun&gt;`</span>
+<span class="sd">      pre_update: Optional function to execute before optimizer&#39;s each update on the</span>
+<span class="sd">        iterate. :term:`↪ More Details&lt;pre_update&gt;`</span>
+<span class="sd">      precond: Type of preconditioner to use (default ``nyssn``). Either ``nyssn`` for</span>
+<span class="sd">        Nyström subsampled Newton or ``ssn`` for subsampled Newton.</span>
+<span class="sd">        :term:`↪ More Details&lt;precond&gt;`</span>
+<span class="sd">      rho: Regularization parameter for the preconditioner. Expect a non-negative value</span>
+<span class="sd">        (default ``1e-3``).</span>
+<span class="sd">      rank: Rank of the Nyström subsampled Newton preconditioner. Expect a positive</span>
+<span class="sd">        value (default ``10``).</span>
 <span class="sd">      mu: Strong convexity parameter. Expect a positive value.</span>
-<span class="sd">      grad_batch_size: Size of the batch of data to compute stochastic gradient at each iteration. Expect a positive value.</span>
-<span class="sd">      hess_batch_size: Size of the batch of data to estimate the stochastic Hessian when updating the preconditioner. Expect a positive value.</span>
-<span class="sd">      update_freq: Update frequency of the preconditioner. When set to ``0`` or :math:`\infty` (*e.g.* ``jax.numpy.inf`` or</span>
-<span class="sd">        ``numpy.inf``), the optimizer uses constant preconditioner that is constructed at</span>
-<span class="sd">        the beginning of the optimization process.</span>
-<span class="sd">      snapshop_update_prob: Probability of updating the snapshot. Expect a value in :math:`(0,1)`.</span>
+<span class="sd">      grad_batch_size: Size of the batch of data to compute stochastic gradient at each</span>
+<span class="sd">        iteration. Expect a positive value.</span>
+<span class="sd">      hess_batch_size: Size of the batch of data to estimate the stochastic Hessian when</span>
+<span class="sd">        updating the preconditioner. Expect a positive value.</span>
+<span class="sd">      update_freq: Update frequency of the preconditioner. When set to ``0`` or</span>
+<span class="sd">        :math:`\infty` (*e.g.* ``jax.numpy.inf`` or ``numpy.inf``), the optimizer uses</span>
+<span class="sd">        constant preconditioner that is constructed at the beginning of the optimization</span>
+<span class="sd">        process.</span>
+<span class="sd">      snapshop_update_prob: Probability of updating the snapshot. Expect a value in</span>
+<span class="sd">        :math:`(0,1)`.</span>
 <span class="sd">      seed: Initial seed for the random number generator (default ``0``).</span>
 <span class="sd">      momentum_param: Momentum parameter (default ``1/2``).</span>
 <span class="sd">      momentum_multiplier: Momentum multiplier (default ``2/3``).</span>
-<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``). Expect a positive value.</span>
-<span class="sd">      tol: Threshold of the gradient norm used for terminating the optimizer (default ``1e-3``).</span>
+<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``).</span>
+<span class="sd">        Expect a positive value.</span>
+<span class="sd">      tol: Threshold of the gradient norm used for terminating the optimizer (default</span>
+<span class="sd">        ``1e-3``).</span>
 <span class="sd">      verbose: Whether to print diagnostic message (default ``False``).</span>
-<span class="sd">      jit: Whether to JIT-compile the optimization process (default ``True``). :term:`↪ More Details&lt;jit&gt;`</span>
-<span class="sd">      sparse: Whether to sparsify the optimization process (default ``False``). :term:`↪ More Details&lt;sparse&gt;`</span>
-
+<span class="sd">      jit: Whether to JIT-compile the optimization process (default ``True``).</span>
+<span class="sd">        :term:`↪ More Details&lt;jit&gt;`</span>
+<span class="sd">      sparse: Whether to sparsify the optimization process (default ``False``).</span>
+<span class="sd">        :term:`↪ More Details&lt;sparse&gt;`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">mu</span><span class="p">:</span> <span class="nb">float</span>
@@ -1271,7 +1816,8 @@ document.write(`
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_update_step_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labda</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function overrides the superclass&#39;s method and updates relevant values using the provided preconditioned smoothness constant labda.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function overrides the superclass&#39;s method and updates relevant values</span>
+<span class="sd">        using the provided preconditioned smoothness constant labda.&quot;&quot;&quot;</span>
         <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">/</span> <span class="n">labda</span>
         <span class="n">theta</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span>
             <span class="mf">0.5</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">momentum_multiplier</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">)</span>
@@ -1285,7 +1831,8 @@ document.write(`
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_update_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function updates snapshot and full gradient with specified update probability.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function updates snapshot and full gradient with specified update</span>
+<span class="sd">        probability.&quot;&quot;&quot;</span>
 
         <span class="k">def</span> <span class="nf">update</span><span class="p">():</span>
             <span class="n">_</span><span class="p">,</span> <span class="n">full_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
@@ -1366,10 +1913,14 @@ document.write(`
 <span class="sd">          init_params: Initial value of the optimization variable.</span>
 <span class="sd">          data: Full dataset. Expect an array of shape ``(num_samples, ...)``.</span>
 <span class="sd">          reg: Regularization strength. Expect a non-negative value (default ``0``).</span>
-<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
-<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
+<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and</span>
+<span class="sd">            ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
+<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and</span>
+<span class="sd">            ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
 <span class="sd">        Returns:</span>
-<span class="sd">          Final optimization variable and solver state. The variable has the same shape as the provided initial value ``init_params``, and the state is an :class:`SketchyKatyushaState` object.</span>
+<span class="sd">          Final optimization variable and solver state. The variable has the same shape</span>
+<span class="sd">          as the provided initial value ``init_params``, and the state is an</span>
+<span class="sd">          :class:`SketchyKatyushaState` object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># initialize iterate and state</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>

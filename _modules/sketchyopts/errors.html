@@ -166,6 +166,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.prox.html">Proximal Operators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.util.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.error.html">Error Messages</a></li>
 </ul>
@@ -305,7 +306,6 @@ document.write(`
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Incorrect Input Dimension.</span>
 
 <span class="sd">    This error occurs when an argument of a function has unexpected dimension.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -334,7 +334,6 @@ document.write(`
 
 <span class="sd">    This error occurs when an argument representing a non-square matrix gets passed to a</span>
 <span class="sd">    function that expects a square matrix.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">actual_shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

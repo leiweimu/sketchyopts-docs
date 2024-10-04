@@ -166,6 +166,7 @@
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.solver.html">Solvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.prox.html">Proximal Operators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.util.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.error.html">Error Messages</a></li>
 </ul>
@@ -309,9 +310,11 @@ document.write(`
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.base.html#sketchyopts.base.HessianLinearOperator.__init__">__init__() (sketchyopts.base.HessianLinearOperator method)</a>
+      <li><a href="api/sketchyopts.base.html#sketchyopts.base.AddLinearOperator.__init__">__init__() (sketchyopts.base.AddLinearOperator method)</a>
 
       <ul>
+        <li><a href="api/sketchyopts.base.html#sketchyopts.base.HessianLinearOperator.__init__">(sketchyopts.base.HessianLinearOperator method)</a>
+</li>
         <li><a href="api/sketchyopts.base.html#sketchyopts.base.LinearOperator.__init__">(sketchyopts.base.LinearOperator method)</a>
 </li>
       </ul></li>
@@ -325,7 +328,7 @@ document.write(`
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.base.html#sketchyopts.base.HessianLinearOperator.as_matrix">as_matrix() (sketchyopts.base.HessianLinearOperator method)</a>
+      <li><a href="api/sketchyopts.base.html#sketchyopts.base.AddLinearOperator">AddLinearOperator (class in sketchyopts.base)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -407,9 +410,11 @@ document.write(`
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.base.html#sketchyopts.base.HessianLinearOperator.matmul">matmul() (sketchyopts.base.HessianLinearOperator method)</a>
+      <li><a href="api/sketchyopts.base.html#sketchyopts.base.AddLinearOperator.matmul">matmul() (sketchyopts.base.AddLinearOperator method)</a>
 
       <ul>
+        <li><a href="api/sketchyopts.base.html#sketchyopts.base.HessianLinearOperator.matmul">(sketchyopts.base.HessianLinearOperator method)</a>
+</li>
         <li><a href="api/sketchyopts.base.html#sketchyopts.base.LinearOperator.matmul">(sketchyopts.base.LinearOperator method)</a>
 </li>
       </ul></li>
@@ -423,6 +428,12 @@ document.write(`
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.NysADMM">NysADMM (class in sketchyopts.solver)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.NysADMMState">NysADMMState (class in sketchyopts.solver)</a>
+</li>
       <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.nystrom_pcg">nystrom_pcg() (in module sketchyopts.solver)</a>
 </li>
   </ul></td>
@@ -433,11 +444,33 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/sketchyopts.solver.html#term-pre_update"><strong>pre_update</strong></a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/sketchyopts.solver.html#term-precond"><strong>precond</strong></a>
 </li>
       <li><a href="api/sketchyopts.base.html#sketchyopts.base.PromiseSolver">PromiseSolver (class in sketchyopts.base)</a>
+</li>
+      <li><a href="api/sketchyopts.prox.html#sketchyopts.prox.prox_box">prox_box() (in module sketchyopts.prox)</a>
+</li>
+      <li><a href="api/sketchyopts.prox.html#sketchyopts.prox.prox_const">prox_const() (in module sketchyopts.prox)</a>
+</li>
+      <li><a href="api/sketchyopts.prox.html#sketchyopts.prox.prox_elastic_net">prox_elastic_net() (in module sketchyopts.prox)</a>
+</li>
+      <li><a href="api/sketchyopts.prox.html#sketchyopts.prox.prox_halfspace">prox_halfspace() (in module sketchyopts.prox)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.prox.html#sketchyopts.prox.prox_hyperplane">prox_hyperplane() (in module sketchyopts.prox)</a>
+</li>
+      <li><a href="api/sketchyopts.prox.html#sketchyopts.prox.prox_l1">prox_l1() (in module sketchyopts.prox)</a>
+</li>
+      <li><a href="api/sketchyopts.prox.html#sketchyopts.prox.prox_l2">prox_l2() (in module sketchyopts.prox)</a>
+</li>
+      <li><a href="api/sketchyopts.prox.html#sketchyopts.prox.prox_l2_squared">prox_l2_squared() (in module sketchyopts.prox)</a>
+</li>
+      <li><a href="api/sketchyopts.prox.html#sketchyopts.prox.prox_nonnegative">prox_nonnegative() (in module sketchyopts.prox)</a>
+</li>
+      <li><a href="api/sketchyopts.prox.html#sketchyopts.prox.prox_nonnegative_l1">prox_nonnegative_l1() (in module sketchyopts.prox)</a>
+</li>
+      <li><a href="api/sketchyopts.prox.html#sketchyopts.prox.prox_nonnegative_l2_squared">prox_nonnegative_l2_squared() (in module sketchyopts.prox)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -449,9 +482,11 @@ document.write(`
 </li>
       <li><a href="api/sketchyopts.util.html#sketchyopts.util.ravel_tree">ravel_tree() (in module sketchyopts.util)</a>
 </li>
-      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchyKatyusha.run">run() (sketchyopts.solver.SketchyKatyusha method)</a>
+      <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.NysADMM.run">run() (sketchyopts.solver.NysADMM method)</a>
 
       <ul>
+        <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchyKatyusha.run">(sketchyopts.solver.SketchyKatyusha method)</a>
+</li>
         <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySAGA.run">(sketchyopts.solver.SketchySAGA method)</a>
 </li>
         <li><a href="api/sketchyopts.solver.html#sketchyopts.solver.SketchySGD.run">(sketchyopts.solver.SketchySGD method)</a>
@@ -501,15 +536,23 @@ document.write(`
 </li>
       <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_flatten">tree_flatten() (in module sketchyopts.util)</a>
 </li>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_l2_norm">tree_l2_norm() (in module sketchyopts.util)</a>
+</li>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_map">tree_map() (in module sketchyopts.util)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_l2_norm">tree_l2_norm() (in module sketchyopts.util)</a>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_ones_like">tree_ones_like() (in module sketchyopts.util)</a>
 </li>
       <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_scalar_mul">tree_scalar_mul() (in module sketchyopts.util)</a>
 </li>
       <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_sub">tree_sub() (in module sketchyopts.util)</a>
 </li>
       <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_unflatten">tree_unflatten() (in module sketchyopts.util)</a>
+</li>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_vdot">tree_vdot() (in module sketchyopts.util)</a>
+</li>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_zeros_like">tree_zeros_like() (in module sketchyopts.util)</a>
 </li>
   </ul></td>
 </tr></table>

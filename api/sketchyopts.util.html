@@ -53,7 +53,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Error Messages" href="sketchyopts.error.html" />
-    <link rel="prev" title="Base" href="sketchyopts.base.html" />
+    <link rel="prev" title="Proximal Operators" href="sketchyopts.prox.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -167,6 +167,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.solver.html">Solvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.prox.html">Proximal Operators</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.error.html">Error Messages</a></li>
 </ul>
@@ -334,13 +335,17 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytree-utilities">Pytree Utilities</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.ravel_tree"><code class="docutils literal notranslate"><span class="pre">ravel_tree()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_map"><code class="docutils literal notranslate"><span class="pre">tree_map()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_flatten"><code class="docutils literal notranslate"><span class="pre">tree_flatten()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_unflatten"><code class="docutils literal notranslate"><span class="pre">tree_unflatten()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_add"><code class="docutils literal notranslate"><span class="pre">tree_add()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_sub"><code class="docutils literal notranslate"><span class="pre">tree_sub()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_scalar_mul"><code class="docutils literal notranslate"><span class="pre">tree_scalar_mul()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_add_scalar_mul"><code class="docutils literal notranslate"><span class="pre">tree_add_scalar_mul()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_vdot"><code class="docutils literal notranslate"><span class="pre">tree_vdot()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_l2_norm"><code class="docutils literal notranslate"><span class="pre">tree_l2_norm()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_zeros_like"><code class="docutils literal notranslate"><span class="pre">tree_zeros_like()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_ones_like"><code class="docutils literal notranslate"><span class="pre">tree_ones_like()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-type-utilities">Data Type Utilities</a><ul class="nav section-nav flex-column">
@@ -368,26 +373,38 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.ravel_tree" title="sketchyopts.util.ravel_tree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ravel_tree</span></code></a>(pytree)</p></td>
 <td><p>Ravel a tree to a 1-dimensional array.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.tree_flatten" title="sketchyopts.util.tree_flatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_flatten</span></code></a>(tree[, is_leaf])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.tree_map" title="sketchyopts.util.tree_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_map</span></code></a>(f, tree, *rest[, is_leaf])</p></td>
+<td><p>Apply a function at the leaves of pytrees.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.tree_flatten" title="sketchyopts.util.tree_flatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_flatten</span></code></a>(tree[, is_leaf])</p></td>
 <td><p>Flatten a tree to a list of leaves.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.tree_unflatten" title="sketchyopts.util.tree_unflatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_unflatten</span></code></a>(treedef, leaves)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.tree_unflatten" title="sketchyopts.util.tree_unflatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_unflatten</span></code></a>(treedef, leaves)</p></td>
 <td><p>Unflatten a tree from leaves.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.tree_add" title="sketchyopts.util.tree_add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_add</span></code></a>(tree, *rest[, is_leaf])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.tree_add" title="sketchyopts.util.tree_add"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_add</span></code></a>(tree, *rest[, is_leaf])</p></td>
 <td><p>Compute tree addition.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.tree_sub" title="sketchyopts.util.tree_sub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_sub</span></code></a>(tree, *rest[, is_leaf])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.tree_sub" title="sketchyopts.util.tree_sub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_sub</span></code></a>(tree, *rest[, is_leaf])</p></td>
 <td><p>Compute tree subtraction.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.tree_scalar_mul" title="sketchyopts.util.tree_scalar_mul"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_scalar_mul</span></code></a>(scalar, tree_x)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.tree_scalar_mul" title="sketchyopts.util.tree_scalar_mul"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_scalar_mul</span></code></a>(scalar, tree_x)</p></td>
 <td><p>Compute a tree multiplied by a scalar.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.tree_add_scalar_mul" title="sketchyopts.util.tree_add_scalar_mul"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_add_scalar_mul</span></code></a>(tree_x, scalar, tree_y)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.tree_add_scalar_mul" title="sketchyopts.util.tree_add_scalar_mul"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_add_scalar_mul</span></code></a>(tree_x, scalar, tree_y)</p></td>
 <td><p>Compute the sum of a tree and another scalar multiplied tree.</p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.tree_vdot" title="sketchyopts.util.tree_vdot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_vdot</span></code></a>(tree_x, tree_y)</p></td>
+<td><p>Compute the inner product of trees.</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.tree_l2_norm" title="sketchyopts.util.tree_l2_norm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_l2_norm</span></code></a>(tree_x[, squared])</p></td>
-<td><p>Compute the L2 norm of a tree.</p></td>
+<td><p>Compute the <span class="math">\(\ell^2\)</span> norm of a tree.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.tree_zeros_like" title="sketchyopts.util.tree_zeros_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_zeros_like</span></code></a>(tree_x)</p></td>
+<td><p>Create an all-zero tree with the same structure.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.tree_ones_like" title="sketchyopts.util.tree_ones_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_ones_like</span></code></a>(tree_x)</p></td>
+<td><p>Create an all-ones tree with the same structure.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.default_floating_dtype" title="sketchyopts.util.default_floating_dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_floating_dtype</span></code></a>()</p></td>
 <td><p>Get default floating dtype.</p></td>
@@ -408,13 +425,15 @@ document.write(`
 <h2>Pytree Utilities<a class="headerlink" href="#pytree-utilities" title="Link to this heading">#</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Implementation of the following pytree utility functions is adapted from <a class="reference external" href="https://jaxopt.github.io/stable/api.html#tree-utilities">JAXopt</a>. Original code is available from the <a class="reference external" href="https://github.com/google/jaxopt/blob/main/jaxopt/_src/tree_util.py">official repo</a>.</p>
+<p>Implementation of the following pytree utility functions is adapted from <a class="reference external" href="https://jaxopt.github.io/stable/api.html#tree-utilities">JAXopt</a>. Original code is
+available from the <a class="reference external" href="https://github.com/google/jaxopt/blob/main/jaxopt/_src/tree_util.py">official repo</a>.</p>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="sketchyopts.util.ravel_tree">
 <span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">ravel_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pytree</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sketchyopts.util.ravel_tree" title="Link to this definition">#</a></dt>
 <dd><p>Ravel a tree to a 1-dimensional array.</p>
-<p>This function flattens a tree to a 1-dimensional array (<em>i.e.</em> the flattened and concatenated leaf values). An alias of <a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.flatten_util.ravel_pytree.html#jax.flatten_util.ravel_pytree" title="(in JAX)"><code class="xref py py-func docutils literal notranslate"><span class="pre">jax.flatten_util.ravel_pytree()</span></code></a>.</p>
+<p>This function flattens a tree to a 1-dimensional array (<em>i.e.</em> the flattened and
+concatenated leaf values). An alias of <a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.flatten_util.ravel_pytree.html#jax.flatten_util.ravel_pytree" title="(in JAX)"><code class="xref py py-func docutils literal notranslate"><span class="pre">jax.flatten_util.ravel_pytree()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pytree</strong> – A pytree of arrays and scalars to ravel.</p>
@@ -422,15 +441,46 @@ document.write(`
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><p>A two-element tuple containing</p>
 <ul class="simple">
-<li><p><strong>raveled_tree</strong> – 1-dimensional array representing the flattened and concatenated leaf values.</p></li>
-<li><p><strong>unravel_fun</strong> – Callable for unflattening a 1-dimensional array back to a tree of the same structure as <code class="docutils literal notranslate"><span class="pre">pytree</span></code>.</p></li>
+<li><p><strong>raveled_tree</strong> – 1-dimensional array representing the flattened and concatenated
+leaf values.</p></li>
+<li><p><strong>unravel_fun</strong> – Callable for unflattening a 1-dimensional array back to a tree of
+the same structure as <code class="docutils literal notranslate"><span class="pre">pytree</span></code>.</p></li>
 </ul>
 </p>
 </dd>
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#sketchyopts.util.tree_flatten" title="sketchyopts.util.tree_flatten"><code class="xref py py-func docutils literal notranslate"><span class="pre">tree_flatten()</span></code></a></p>
+<p><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.flatten_util.ravel_pytree.html#jax.flatten_util.ravel_pytree" title="(in JAX)"><code class="xref py py-func docutils literal notranslate"><span class="pre">jax.flatten_util.ravel_pytree()</span></code></a>
+<a class="reference internal" href="#sketchyopts.util.tree_flatten" title="sketchyopts.util.tree_flatten"><code class="xref py py-func docutils literal notranslate"><span class="pre">tree_flatten()</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.util.tree_map">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">tree_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">rest</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_leaf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sketchyopts.util.tree_map" title="Link to this definition">#</a></dt>
+<dd><p>Apply a function at the leaves of pytrees.</p>
+<p>This function maps a multi-input function over pytree arguments to produce a new pytree.
+An alias of <a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.tree.map.html#jax.tree.map" title="(in JAX)"><code class="xref py py-func docutils literal notranslate"><span class="pre">jax.tree.map()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> – A function be applied at the leaves of pytrees.</p></li>
+<li><p><strong>tree</strong> – A pytree to be mapped over. Each leaf of the pytree serves as the first
+positional argument to the function <code class="docutils literal notranslate"><span class="pre">f</span></code>.</p></li>
+<li><p><strong>rest</strong> – A tuple of pytrees.</p></li>
+<li><p><strong>is_leaf</strong> – Optional function used to decide what component of the tree is considered a
+leaf and thus does not flattening (default <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new pytree with the same structure as <code class="docutils literal notranslate"><span class="pre">tree</span></code> but with the value at each leaf given
+by <code class="docutils literal notranslate"><span class="pre">f(tree_leaf,</span> <span class="pre">*rest_leaves)</span></code>.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.tree.map.html#jax.tree.map" title="(in JAX)"><code class="xref py py-func docutils literal notranslate"><span class="pre">jax.tree.map()</span></code></a></p>
 </div>
 </dd></dl>
 
@@ -438,12 +488,14 @@ document.write(`
 <dt class="sig sig-object py" id="sketchyopts.util.tree_flatten">
 <span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">tree_flatten</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_leaf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sketchyopts.util.tree_flatten" title="Link to this definition">#</a></dt>
 <dd><p>Flatten a tree to a list of leaves.</p>
-<p>This function flattens a tree to the corresponding list of leaf values. An alias of <a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.tree.flatten.html#jax.tree.flatten" title="(in JAX)"><code class="xref py py-func docutils literal notranslate"><span class="pre">jax.tree.flatten()</span></code></a>.</p>
+<p>This function flattens a tree to the corresponding list of leaf values. An alias of
+<a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.tree.flatten.html#jax.tree.flatten" title="(in JAX)"><code class="xref py py-func docutils literal notranslate"><span class="pre">jax.tree.flatten()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>tree</strong> – Pytree to flatten.</p></li>
-<li><p><strong>is_leaf</strong> – Optional function used to decide what component of the tree is considered a leaf and thus does not flattening (default <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
+<li><p><strong>is_leaf</strong> – Optional function used to decide what component of the tree is considered a
+leaf and thus does not flattening (default <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -461,7 +513,8 @@ document.write(`
 <dt class="sig sig-object py" id="sketchyopts.util.tree_unflatten">
 <span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">tree_unflatten</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">treedef</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaves</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sketchyopts.util.tree_unflatten" title="Link to this definition">#</a></dt>
 <dd><p>Unflatten a tree from leaves.</p>
-<p>This function reconstructs a tree from the treedef and the leaves. An alias of <a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.tree.unflatten.html#jax.tree.unflatten" title="(in JAX)"><code class="xref py py-func docutils literal notranslate"><span class="pre">jax.tree.unflatten()</span></code></a>.</p>
+<p>This function reconstructs a tree from the treedef and the leaves. An alias of
+<a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.tree.unflatten.html#jax.tree.unflatten" title="(in JAX)"><code class="xref py py-func docutils literal notranslate"><span class="pre">jax.tree.unflatten()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -485,7 +538,8 @@ document.write(`
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>tree</strong> – Pytree that precedes the addition operator.</p></li>
 <li><p><strong>rest</strong> – Pytree that succeeds the addition operator.</p></li>
-<li><p><strong>is_leaf</strong> – Optional function used to decide what component of the tree is considered a leaf (default <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
+<li><p><strong>is_leaf</strong> – Optional function used to decide what component of the tree is considered a
+leaf (default <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -504,7 +558,8 @@ document.write(`
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>tree</strong> – Pytree that precedes the subtraction operator.</p></li>
 <li><p><strong>rest</strong> – Pytree that succeeds the subtraction operator.</p></li>
-<li><p><strong>is_leaf</strong> – Optional function used to decide what component of the tree is considered a leaf (default <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
+<li><p><strong>is_leaf</strong> – Optional function used to decide what component of the tree is considered a
+leaf (default <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -551,11 +606,29 @@ document.write(`
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.util.tree_vdot">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">tree_vdot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree_y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/tree_util.html#tree_vdot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.util.tree_vdot" title="Link to this definition">#</a></dt>
+<dd><p>Compute the inner product of trees.</p>
+<p>The function computes <span class="math">\(\langle tree_x, \, tree_y \rangle\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree_x</strong> – Pytree as the first argument to the inner product.</p></li>
+<li><p><strong>tree_y</strong> – Pytree as the second argument to the inner product.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resulting inner product.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="sketchyopts.util.tree_l2_norm">
 <span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">tree_l2_norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">squared</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/tree_util.html#tree_l2_norm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.util.tree_l2_norm" title="Link to this definition">#</a></dt>
-<dd><p>Compute the L2 norm of a tree.</p>
-<p>The function computes <span class="math">\(\lVert tree_x \rVert\)</span>.
-If <code class="docutils literal notranslate"><span class="pre">squared</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, it returns the squared norm instead.</p>
+<dd><p>Compute the <span class="math">\(\ell^2\)</span> norm of a tree.</p>
+<p>The function computes <span class="math">\(\lVert tree_x \rVert\)</span>. If <code class="docutils literal notranslate"><span class="pre">squared</span></code> is set to
+<code class="docutils literal notranslate"><span class="pre">True</span></code>, it returns the squared norm instead.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -569,6 +642,34 @@ If <code class="docutils literal notranslate"><span class="pre">squared</span></
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.util.tree_zeros_like">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">tree_zeros_like</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree_x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/tree_util.html#tree_zeros_like"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.util.tree_zeros_like" title="Link to this definition">#</a></dt>
+<dd><p>Create an all-zero tree with the same structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tree_x</strong> – Pytree whose structure and data-type define the returned tree.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Pytree of zeros with the same structure and type as <code class="docutils literal notranslate"><span class="pre">tree_x</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.util.tree_ones_like">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">tree_ones_like</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree_x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/tree_util.html#tree_ones_like"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.util.tree_ones_like" title="Link to this definition">#</a></dt>
+<dd><p>Create an all-ones tree with the same structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tree_x</strong> – Pytree whose structure and data-type define the returned tree.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Pytree of ones with the same structure and type as <code class="docutils literal notranslate"><span class="pre">tree_x</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="data-type-utilities">
 <h2>Data Type Utilities<a class="headerlink" href="#data-type-utilities" title="Link to this heading">#</a></h2>
@@ -578,7 +679,8 @@ If <code class="docutils literal notranslate"><span class="pre">squared</span></
 <dd><p>Get default floating dtype.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>If double-precision mode is enabled in JAX, the function returns <code class="docutils literal notranslate"><span class="pre">float64</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">float32</span></code>.</p>
+<dd class="field-odd"><p>If double-precision mode is enabled in JAX, the function returns <code class="docutils literal notranslate"><span class="pre">float64</span></code>,
+otherwise <code class="docutils literal notranslate"><span class="pre">float32</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -589,7 +691,8 @@ If <code class="docutils literal notranslate"><span class="pre">squared</span></
 <dd><p>Get default integer dtype.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>If double-precision mode is enabled in JAX, the function returns <code class="docutils literal notranslate"><span class="pre">int64</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">int32</span></code>.</p>
+<dd class="field-odd"><p>If double-precision mode is enabled in JAX, the function returns <code class="docutils literal notranslate"><span class="pre">int64</span></code>,
+otherwise <code class="docutils literal notranslate"><span class="pre">int32</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -598,8 +701,9 @@ If <code class="docutils literal notranslate"><span class="pre">squared</span></
 <dt class="sig sig-object py" id="sketchyopts.util.inexact_asarray">
 <span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">inexact_asarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/util.html#inexact_asarray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.util.inexact_asarray" title="Link to this definition">#</a></dt>
 <dd><p>Convert the input array to an array of explicitly specified inexact dtype.</p>
-<p>The function converts the input to an array of default floating dtype if the current dtype of the input is not an inexact type.
-Otherwise the function converts the array to a strongly-typed one.</p>
+<p>The function converts the input to an array of default floating dtype if the current
+dtype of the input is not an inexact type. Otherwise the function converts the array
+to a strongly-typed one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>x</strong> – Input array.</p>
@@ -618,8 +722,9 @@ Otherwise the function converts the array to a strongly-typed one.</p>
 <dt class="sig sig-object py" id="sketchyopts.util.integer_asarray">
 <span class="sig-prename descclassname"><span class="pre">sketchyopts.util.</span></span><span class="sig-name descname"><span class="pre">integer_asarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/util.html#integer_asarray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.util.integer_asarray" title="Link to this definition">#</a></dt>
 <dd><p>Convert the input scalar to an scalar of explicitly specified integer dtype.</p>
-<p>The function converts the input to an scalar of default integer dtype if the current dtype of the input is not an integer type.
-Otherwise the function converts the scalar to a strongly-typed one.</p>
+<p>The function converts the input to an scalar of default integer dtype if the current
+dtype of the input is not an integer type. Otherwise the function converts the
+scalar to a strongly-typed one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>x</strong> – Input scalar.</p>
@@ -649,12 +754,12 @@ Otherwise the function converts the scalar to a strongly-typed one.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="sketchyopts.base.html"
+       href="sketchyopts.prox.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Base</p>
+        <p class="prev-next-title">Proximal Operators</p>
       </div>
     </a>
     <a class="right-next"
@@ -684,13 +789,17 @@ Otherwise the function converts the scalar to a strongly-typed one.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytree-utilities">Pytree Utilities</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.ravel_tree"><code class="docutils literal notranslate"><span class="pre">ravel_tree()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_map"><code class="docutils literal notranslate"><span class="pre">tree_map()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_flatten"><code class="docutils literal notranslate"><span class="pre">tree_flatten()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_unflatten"><code class="docutils literal notranslate"><span class="pre">tree_unflatten()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_add"><code class="docutils literal notranslate"><span class="pre">tree_add()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_sub"><code class="docutils literal notranslate"><span class="pre">tree_sub()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_scalar_mul"><code class="docutils literal notranslate"><span class="pre">tree_scalar_mul()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_add_scalar_mul"><code class="docutils literal notranslate"><span class="pre">tree_add_scalar_mul()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_vdot"><code class="docutils literal notranslate"><span class="pre">tree_vdot()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_l2_norm"><code class="docutils literal notranslate"><span class="pre">tree_l2_norm()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_zeros_like"><code class="docutils literal notranslate"><span class="pre">tree_zeros_like()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.tree_ones_like"><code class="docutils literal notranslate"><span class="pre">tree_ones_like()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-type-utilities">Data Type Utilities</a><ul class="nav section-nav flex-column">

@@ -166,6 +166,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.prox.html">Proximal Operators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.util.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.error.html">Error Messages</a></li>
 </ul>
@@ -287,8 +288,10 @@ document.write(`
                   
   <h1>Source code for sketchyopts.tree_util</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Pytree utilities in this module are adapted from JAXopt with modifications.</span>
-<span class="c1"># - documentation of the JAXopt tree utilities: https://jaxopt.github.io/stable/api.html#tree-utilities</span>
-<span class="c1"># - original implementation: https://github.com/google/jaxopt/blob/main/jaxopt/_src/tree_util.py</span>
+<span class="c1"># - Documentation of the JAXopt tree utilities:</span>
+<span class="c1">#   https://jaxopt.github.io/stable/api.html#tree-utilities</span>
+<span class="c1"># - Original implementation:</span>
+<span class="c1">#   https://github.com/google/jaxopt/blob/main/jaxopt/_src/tree_util.py</span>
 <span class="c1">#</span>
 <span class="c1"># Copyright license information:</span>
 <span class="c1">#</span>
@@ -322,7 +325,8 @@ document.write(`
 <span class="n">ravel_tree</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">Ravel a tree to a 1-dimensional array.</span>
 
-<span class="s2">This function flattens a tree to a 1-dimensional array (*i.e.* the flattened and concatenated leaf values). An alias of :func:`jax.flatten_util.ravel_pytree`.</span>
+<span class="s2">This function flattens a tree to a 1-dimensional array (*i.e.* the flattened and </span>
+<span class="s2">concatenated leaf values). An alias of :func:`jax.flatten_util.ravel_pytree`.</span>
 
 <span class="s2">Args: </span>
 <span class="s2">  pytree: A pytree of arrays and scalars to ravel. </span>
@@ -330,18 +334,39 @@ document.write(`
 <span class="s2">Returns:</span>
 <span class="s2">  A two-element tuple containing</span>
 
-<span class="s2">  - **raveled_tree** – 1-dimensional array representing the flattened and concatenated leaf values. </span>
-<span class="s2">  - **unravel_fun** – Callable for unflattening a 1-dimensional array back to a tree of the same structure as ``pytree``.</span>
+<span class="s2">  - **raveled_tree** – 1-dimensional array representing the flattened and concatenated </span>
+<span class="s2">    leaf values. </span>
+<span class="s2">  - **unravel_fun** – Callable for unflattening a 1-dimensional array back to a tree of </span>
+<span class="s2">    the same structure as ``pytree``.</span>
 
 <span class="s2">See Also:</span>
+<span class="s2">  :func:`jax.flatten_util.ravel_pytree`</span>
 <span class="s2">  :func:`tree_flatten`</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
 <span class="n">tree_map</span> <span class="o">=</span> <span class="n">jtu</span><span class="o">.</span><span class="n">tree_map</span>
 <span class="n">tree_map</span><span class="o">.</span><span class="vm">__annotations__</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">tree_map</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="p">(</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Map a multi-input function over pytree args to produce a new pytree.&quot;&quot;&quot;</span>
-<span class="p">)</span>
+<span class="n">tree_map</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Apply a function at the leaves of pytrees.  </span>
+
+<span class="s2">This function maps a multi-input function over pytree arguments to produce a new pytree. </span>
+<span class="s2">An alias of :func:`jax.tree.map`.</span>
+
+<span class="s2">Args: </span>
+<span class="s2">  f: A function be applied at the leaves of pytrees. </span>
+<span class="s2">  tree: A pytree to be mapped over. Each leaf of the pytree serves as the first </span>
+<span class="s2">    positional argument to the function ``f``. </span>
+<span class="s2">  rest: A tuple of pytrees. </span>
+<span class="s2">  is_leaf: Optional function used to decide what component of the tree is considered a </span>
+<span class="s2">    leaf and thus does not flattening (default ``None``).</span>
+
+<span class="s2">Returns:</span>
+<span class="s2">  A new pytree with the same structure as ``tree`` but with the value at each leaf given </span>
+<span class="s2">  by ``f(tree_leaf, *rest_leaves)``. </span>
+
+<span class="s2">See Also:</span>
+<span class="s2">  :func:`jax.tree.map`</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
 <span class="n">tree_reduce</span> <span class="o">=</span> <span class="n">jtu</span><span class="o">.</span><span class="n">tree_reduce</span>
 <span class="n">tree_reduce</span><span class="o">.</span><span class="vm">__annotations__</span> <span class="o">=</span> <span class="p">{}</span>
@@ -352,11 +377,13 @@ document.write(`
 <span class="n">tree_flatten</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">Flatten a tree to a list of leaves.</span>
 
-<span class="s2">This function flattens a tree to the corresponding list of leaf values. An alias of :func:`jax.tree.flatten`.</span>
+<span class="s2">This function flattens a tree to the corresponding list of leaf values. An alias of </span>
+<span class="s2">:func:`jax.tree.flatten`.</span>
 
 <span class="s2">Args: </span>
 <span class="s2">  tree: Pytree to flatten. </span>
-<span class="s2">  is_leaf: Optional function used to decide what component of the tree is considered a leaf and thus does not flattening (default ``None``). </span>
+<span class="s2">  is_leaf: Optional function used to decide what component of the tree is considered a </span>
+<span class="s2">    leaf and thus does not flattening (default ``None``). </span>
 
 <span class="s2">Returns:</span>
 <span class="s2">  A two-element tuple containing</span>
@@ -370,7 +397,8 @@ document.write(`
 <span class="n">tree_unflatten</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">Unflatten a tree from leaves. </span>
 
-<span class="s2">This function reconstructs a tree from the treedef and the leaves. An alias of :func:`jax.tree.unflatten`.</span>
+<span class="s2">This function reconstructs a tree from the treedef and the leaves. An alias of </span>
+<span class="s2">:func:`jax.tree.unflatten`.</span>
 
 <span class="s2">Args: </span>
 <span class="s2">  treedef: Treedef to use for tree reconstruction. </span>
@@ -385,11 +413,13 @@ document.write(`
 <span class="n">tree_leaves</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">Get the leaves of a tree.</span>
 
-<span class="s2">Similar to :func:`tree_flatten`, the function flattens a tree. The difference is that only a list of leaf values gets returned. An alias of :func:`jax.tree.leaves`.</span>
+<span class="s2">Similar to :func:`tree_flatten`, the function flattens a tree. The difference is that </span>
+<span class="s2">only a list of leaf values gets returned. An alias of :func:`jax.tree.leaves`.</span>
 
 <span class="s2">Args: </span>
 <span class="s2">  tree: Pytree to flatten. </span>
-<span class="s2">  is_leaf: Optional function used to decide what component of the tree is considered a leaf and thus does not flattening (default ``None``). </span>
+<span class="s2">  is_leaf: Optional function used to decide what component of the tree is considered a </span>
+<span class="s2">    leaf and thus does not flattening (default ``None``). </span>
 
 <span class="s2">Returns:</span>
 <span class="s2">  A list of tree leaves.</span>
@@ -413,8 +443,8 @@ document.write(`
 <span class="sd">      broadcasting.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">      ValueError: If two or more pytrees in ``*trees`` that are not leaf pytrees</span>
-<span class="sd">        differ in their structure (treedef).</span>
+<span class="sd">      ValueError: If two or more pytrees in ``*trees`` that are not leaf pytrees differ</span>
+<span class="sd">        in their structure (treedef).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">leaves</span><span class="p">,</span> <span class="n">treedef</span><span class="p">,</span> <span class="n">is_leaf</span> <span class="o">=</span> <span class="p">[],</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">tree</span> <span class="ow">in</span> <span class="n">trees</span><span class="p">:</span>
@@ -449,7 +479,8 @@ document.write(`
 <span class="s2">Args: </span>
 <span class="s2">  tree: Pytree that precedes the addition operator. </span>
 <span class="s2">  rest: Pytree that succeeds the addition operator. </span>
-<span class="s2">  is_leaf: Optional function used to decide what component of the tree is considered a leaf (default ``None``). </span>
+<span class="s2">  is_leaf: Optional function used to decide what component of the tree is considered a </span>
+<span class="s2">    leaf (default ``None``). </span>
 
 <span class="s2">Returns:</span>
 <span class="s2">  Resulting pytree. </span>
@@ -464,7 +495,8 @@ document.write(`
 <span class="s2">Args: </span>
 <span class="s2">  tree: Pytree that precedes the subtraction operator. </span>
 <span class="s2">  rest: Pytree that succeeds the subtraction operator. </span>
-<span class="s2">  is_leaf: Optional function used to decide what component of the tree is considered a leaf (default ``None``). </span>
+<span class="s2">  is_leaf: Optional function used to decide what component of the tree is considered a </span>
+<span class="s2">    leaf (default ``None``). </span>
 
 <span class="s2">Returns:</span>
 <span class="s2">  Resulting pytree. </span>
@@ -479,7 +511,8 @@ document.write(`
 <span class="s2">Args: </span>
 <span class="s2">  tree: Pytree that precedes the (Hadamard) multiplication operator. </span>
 <span class="s2">  rest: Pytree that succeeds the (Hadamard) multiplication operator. </span>
-<span class="s2">  is_leaf: Optional function used to decide what component of the tree is considered a leaf (default ``None``). </span>
+<span class="s2">  is_leaf: Optional function used to decide what component of the tree is considered a </span>
+<span class="s2">    leaf (default ``None``). </span>
 
 <span class="s2">Returns:</span>
 <span class="s2">  Resulting pytree. </span>
@@ -494,7 +527,8 @@ document.write(`
 <span class="s2">Args: </span>
 <span class="s2">  tree: Pytree that precedes the (Hadamard) division operator. </span>
 <span class="s2">  rest: Pytree that succeeds the (Hadamard) division operator. </span>
-<span class="s2">  is_leaf: Optional function used to decide what component of the tree is considered a leaf (default ``None``). </span>
+<span class="s2">  is_leaf: Optional function used to decide what component of the tree is considered a </span>
+<span class="s2">    leaf (default ``None``). </span>
 
 <span class="s2">Returns:</span>
 <span class="s2">  Resulting pytree. </span>
@@ -545,19 +579,29 @@ document.write(`
     <span class="k">return</span> <span class="n">_vdot</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
 
 
+<div class="viewcode-block" id="tree_vdot">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.tree_vdot">[docs]</a>
 <span class="k">def</span> <span class="nf">tree_vdot</span><span class="p">(</span><span class="n">tree_x</span><span class="p">,</span> <span class="n">tree_y</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the inner product of trees.</span>
 
-<span class="sd">    The function computes :math:`\langle tree_x, tree_y \rangle&#39;.</span>
+<span class="sd">    The function computes :math:`\langle tree_x, \, tree_y \rangle`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      tree_x: Pytree as the first argument to the inner product.</span>
+<span class="sd">      tree_y: Pytree as the second argument to the inner product.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      Resulting inner product.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">vdots</span> <span class="o">=</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">_vdot_safe</span><span class="p">,</span> <span class="n">tree_x</span><span class="p">,</span> <span class="n">tree_y</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">tree_reduce</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="n">vdots</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tree_reduce</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="n">vdots</span><span class="p">)</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">_vdot_real</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Vector dot-product guaranteed to have a real valued result despite</span>
-<span class="sd">    possibly complex input. Thus neglects the real-imaginary cross-terms.</span>
-<span class="sd">    The result is a real float.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Vector dot-product guaranteed to have a real valued result despite possibly</span>
+<span class="sd">    complex input. Thus neglects the real-imaginary cross-terms. The result is a real</span>
+<span class="sd">    float.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># result = _vdot(x.real, y.real)</span>
     <span class="c1"># if jnp.iscomplexobj(x) and jnp.iscomplexobj(y):</span>
@@ -599,10 +643,10 @@ document.write(`
 <div class="viewcode-block" id="tree_l2_norm">
 <a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.tree_l2_norm">[docs]</a>
 <span class="k">def</span> <span class="nf">tree_l2_norm</span><span class="p">(</span><span class="n">tree_x</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the L2 norm of a tree.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the :math:`\ell^2` norm of a tree.</span>
 
-<span class="sd">    The function computes :math:`\lVert tree_x \rVert`.</span>
-<span class="sd">    If ``squared`` is set to ``True``, it returns the squared norm instead.</span>
+<span class="sd">    The function computes :math:`\lVert tree_x \rVert`. If ``squared`` is set to</span>
+<span class="sd">    ``True``, it returns the squared norm instead.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      tree_x: Pytree of interest.</span>
@@ -622,14 +666,34 @@ document.write(`
 
 
 
+<div class="viewcode-block" id="tree_zeros_like">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.tree_zeros_like">[docs]</a>
 <span class="k">def</span> <span class="nf">tree_zeros_like</span><span class="p">(</span><span class="n">tree_x</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Create an all-zero tree with the same structure.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">,</span> <span class="n">tree_x</span><span class="p">)</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Create an all-zero tree with the same structure.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      tree_x: Pytree whose structure and data-type define the returned tree.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      Pytree of zeros with the same structure and type as ``tree_x``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">,</span> <span class="n">tree_x</span><span class="p">)</span></div>
 
 
+
+<div class="viewcode-block" id="tree_ones_like">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.util.tree_ones_like">[docs]</a>
 <span class="k">def</span> <span class="nf">tree_ones_like</span><span class="p">(</span><span class="n">tree_x</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Create an all-ones tree with the same structure.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones_like</span><span class="p">,</span> <span class="n">tree_x</span><span class="p">)</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Create an all-ones tree with the same structure.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      tree_x: Pytree whose structure and data-type define the returned tree.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      Pytree of ones with the same structure and type as ``tree_x``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones_like</span><span class="p">,</span> <span class="n">tree_x</span><span class="p">)</span></div>
+
 
 
 <span class="k">def</span> <span class="nf">tree_average</span><span class="p">(</span><span class="n">trees</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
@@ -650,7 +714,8 @@ document.write(`
 <span class="k">def</span> <span class="nf">tree_gram</span><span class="p">(</span><span class="n">trees</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute Gram matrix from pytrees.</span>
 
-<span class="sd">    The function computes matrix :math:`G` given by :math:`G_{i,j} = \langle tree_i, tree_j \rangle`.</span>
+<span class="sd">    The function computes matrix :math:`G` given by :math:`G_{i,j} = \langle tree_i,</span>
+<span class="sd">    tree_j \rangle`.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      trees: Array of trees with shape ``(num_trees,...)``.</span>
@@ -676,16 +741,16 @@ document.write(`
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;jnp.where for trees.</span>
 
 <span class="sd">    Mimic broadcasting semantic of :func:`jax.numpy.where`.</span>
-<span class="sd">    ``cond``, ``a`` and ``b`` can be arrays (including scalars) broadcastable to the leaves of</span>
-<span class="sd">    the other input arguments.</span>
+<span class="sd">    ``cond``, ``a`` and ``b`` can be arrays (including scalars) broadcastable to the</span>
+<span class="sd">    leaves of the other input arguments.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      cond: Pytree of booleans arrays, or single array broadcastable to the shapes</span>
-<span class="sd">        of leaves of ``a`` and ``b``.</span>
-<span class="sd">      a: Pytree of arrays, or single array broadcastable to the shapes of leaves</span>
-<span class="sd">        of ``cond`` and ``b``.</span>
-<span class="sd">      b: Pytree of arrays, or single array broadcastable to the shapes of leaves</span>
-<span class="sd">        of ``cond`` and ``a``.</span>
+<span class="sd">      cond: Pytree of booleans arrays, or single array broadcastable to the shapes of</span>
+<span class="sd">        leaves of ``a`` and ``b``.</span>
+<span class="sd">      a: Pytree of arrays, or single array broadcastable to the shapes of leaves of</span>
+<span class="sd">        ``cond`` and ``b``.</span>
+<span class="sd">      b: Pytree of arrays, or single array broadcastable to the shapes of leaves of</span>
+<span class="sd">        ``cond`` and ``a``.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">      Pytree of arrays, or single array</span>
@@ -705,7 +770,9 @@ document.write(`
 <span class="k">def</span> <span class="nf">tree_reciprocal</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute leaf-wise inverse.</span>
 
-<span class="sd">    The function computes :math:`1 \oslash tree`. In other words, the function returns a pytree that consists of :math:`1/leaf` where :math:`leaf` is the corresponding leaf of the original tree :math:`tree`.</span>
+<span class="sd">    The function computes :math:`1 \oslash tree`. In other words, the function returns a</span>
+<span class="sd">    pytree that consists of :math:`1/leaf` where :math:`leaf` is the corresponding leaf</span>
+<span class="sd">    of the original tree :math:`tree`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">reciprocal</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">tree</span><span class="p">)</span>
 
@@ -713,22 +780,24 @@ document.write(`
 <span class="k">def</span> <span class="nf">tree_mean</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Mean reduction for a tree.</span>
 
-<span class="sd">    The function computes :math:`\frac{1}{\text{num_leaves}} \sum_{leaf \in tree} \frac{1}{\lvert leaf \rvert} \sum_{i \in leaf} i`.</span>
+<span class="sd">    The function computes :math:`\frac{1}{\text{num_leaves}} \sum_{leaf \in tree}</span>
+<span class="sd">    \frac{1}{\lvert leaf \rvert} \sum_{i \in leaf} i`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">leaves_avg</span> <span class="o">=</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">tree</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">tree_sum</span><span class="p">(</span><span class="n">leaves_avg</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">tree_leaves</span><span class="p">(</span><span class="n">leaves_avg</span><span class="p">))</span>
 
 
 <span class="k">def</span> <span class="nf">tree_single_dtype</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">convert_in_jax_dtype</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The dtype for all values in a tree, provided that all leaves share the same type.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The dtype for all values in a tree, provided that all leaves share the same</span>
+<span class="sd">    type.</span>
 
 <span class="sd">    If the leaves have different type, raise a ``ValueError``.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      tree: Tree to get the dtype of.</span>
 <span class="sd">      convert_in_jax_type: Whether to convert the types in JAX precision.</span>
-<span class="sd">        Namely, a ``numpy`` ``int64`` type is converted in a ``jax.numpy`` ``int32`` type</span>
-<span class="sd">        by default unless one enables double precision using</span>
+<span class="sd">        Namely, a ``numpy`` ``int64`` type is converted in a ``jax.numpy`` ``int32``</span>
+<span class="sd">        type by default unless one enables double precision using</span>
 <span class="sd">        ``jax.config.update(&quot;jax_enable_x64&quot;, True)``.</span>
 
 <span class="sd">    Return:</span>
@@ -765,7 +834,8 @@ document.write(`
 <span class="k">def</span> <span class="nf">tree_conj</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Complex conjugate of a tree.</span>
 
-<span class="sd">    The function computes :math:`\overline{tree}` where conjugacy applies to the tree leaf-wise.</span>
+<span class="sd">    The function computes :math:`\overline{tree}` where conjugacy applies to the tree</span>
+<span class="sd">    leaf-wise.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">conj</span><span class="p">,</span> <span class="n">tree</span><span class="p">)</span>
 
@@ -773,7 +843,8 @@ document.write(`
 <span class="k">def</span> <span class="nf">tree_real</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Real part of a tree.</span>
 
-<span class="sd">    The function computes :math:`\operatorname{Re}(tree)` where :math:`\operatorname{Re}` applies to the tree leaf-wise.</span>
+<span class="sd">    The function computes :math:`\operatorname{Re}(tree)` where</span>
+<span class="sd">    :math:`\operatorname{Re}` applies to the tree leaf-wise.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">tree</span><span class="p">)</span>
 
@@ -781,7 +852,8 @@ document.write(`
 <span class="k">def</span> <span class="nf">tree_imag</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Imaginary part of a tree.</span>
 
-<span class="sd">    The function computes :math:`\operatorname{Im}(tree)` where :math:`\operatorname{Im}` applies to the tree leaf-wise.</span>
+<span class="sd">    The function computes :math:`\operatorname{Im}(tree)` where</span>
+<span class="sd">    :math:`\operatorname{Im}` applies to the tree leaf-wise.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">tree</span><span class="p">)</span>
 </pre></div>

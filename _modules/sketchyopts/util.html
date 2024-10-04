@@ -166,6 +166,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.prox.html">Proximal Operators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.util.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.error.html">Error Messages</a></li>
 </ul>
@@ -297,6 +298,7 @@ document.write(`
 <span class="n">KeyArrayLike</span> <span class="o">=</span> <span class="n">ArrayLike</span>
 
 <span class="n">ravel_tree</span> <span class="o">=</span> <span class="n">tree_util</span><span class="o">.</span><span class="n">ravel_tree</span>
+<span class="n">tree_map</span> <span class="o">=</span> <span class="n">tree_util</span><span class="o">.</span><span class="n">tree_map</span>
 <span class="n">tree_flatten</span> <span class="o">=</span> <span class="n">tree_util</span><span class="o">.</span><span class="n">tree_flatten</span>
 <span class="n">tree_unflatten</span> <span class="o">=</span> <span class="n">tree_util</span><span class="o">.</span><span class="n">tree_unflatten</span>
 <span class="n">tree_leaves</span> <span class="o">=</span> <span class="n">tree_util</span><span class="o">.</span><span class="n">tree_leaves</span>
@@ -304,7 +306,10 @@ document.write(`
 <span class="n">tree_sub</span> <span class="o">=</span> <span class="n">tree_util</span><span class="o">.</span><span class="n">tree_sub</span>
 <span class="n">tree_scalar_mul</span> <span class="o">=</span> <span class="n">tree_util</span><span class="o">.</span><span class="n">tree_scalar_mul</span>
 <span class="n">tree_add_scalar_mul</span> <span class="o">=</span> <span class="n">tree_util</span><span class="o">.</span><span class="n">tree_add_scalar_mul</span>
+<span class="n">tree_vdot</span> <span class="o">=</span> <span class="n">tree_util</span><span class="o">.</span><span class="n">tree_vdot</span>
 <span class="n">tree_l2_norm</span> <span class="o">=</span> <span class="n">tree_util</span><span class="o">.</span><span class="n">tree_l2_norm</span>
+<span class="n">tree_zeros_like</span> <span class="o">=</span> <span class="n">tree_util</span><span class="o">.</span><span class="n">tree_zeros_like</span>
+<span class="n">tree_ones_like</span> <span class="o">=</span> <span class="n">tree_util</span><span class="o">.</span><span class="n">tree_ones_like</span>
 
 
 <div class="viewcode-block" id="default_floating_dtype">
@@ -313,7 +318,8 @@ document.write(`
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Get default floating dtype.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">      If double-precision mode is enabled in JAX, the function returns ``float64``, otherwise ``float32``.</span>
+<span class="sd">      If double-precision mode is enabled in JAX, the function returns ``float64``,</span>
+<span class="sd">      otherwise ``float32``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">jax</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">jax_enable_x64</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
         <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">float64</span>
@@ -328,7 +334,8 @@ document.write(`
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Get default integer dtype.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">      If double-precision mode is enabled in JAX, the function returns ``int64``, otherwise ``int32``.</span>
+<span class="sd">      If double-precision mode is enabled in JAX, the function returns ``int64``,</span>
+<span class="sd">      otherwise ``int32``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">jax</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">jax_enable_x64</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
         <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">int64</span>
@@ -342,8 +349,9 @@ document.write(`
 <span class="k">def</span> <span class="nf">inexact_asarray</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Convert the input array to an array of explicitly specified inexact dtype.</span>
 
-<span class="sd">    The function converts the input to an array of default floating dtype if the current dtype of the input is not an inexact type.</span>
-<span class="sd">    Otherwise the function converts the array to a strongly-typed one.</span>
+<span class="sd">    The function converts the input to an array of default floating dtype if the current</span>
+<span class="sd">    dtype of the input is not an inexact type. Otherwise the function converts the array</span>
+<span class="sd">    to a strongly-typed one.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      x: Input array.</span>
@@ -366,8 +374,9 @@ document.write(`
 <span class="k">def</span> <span class="nf">integer_asarray</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Convert the input scalar to an scalar of explicitly specified integer dtype.</span>
 
-<span class="sd">    The function converts the input to an scalar of default integer dtype if the current dtype of the input is not an integer type.</span>
-<span class="sd">    Otherwise the function converts the scalar to a strongly-typed one.</span>
+<span class="sd">    The function converts the input to an scalar of default integer dtype if the current</span>
+<span class="sd">    dtype of the input is not an integer type. Otherwise the function converts the</span>
+<span class="sd">    scalar to a strongly-typed one.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      x: Input scalar.</span>

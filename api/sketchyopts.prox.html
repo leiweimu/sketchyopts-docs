@@ -1,0 +1,1184 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Proximal Operators &#8212; SketchyOpts  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/katex-math.css?v=91adb8b6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=9a799264" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/katex.min.js?v=be8ff15f"></script>
+    <script src="../_static/auto-render.min.js?v=ad136472"></script>
+    <script src="../_static/katex_autorenderer.js?v=8953b41a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/sketchyopts.prox';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Utilities" href="sketchyopts.util.html" />
+    <link rel="prev" title="Base" href="sketchyopts.base.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SketchyOpts  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ridge_regression.html">Ridge Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/l2_logistic_regression.html"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.preconditioner.html">Preconditioners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.solver.html">Solvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Proximal Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.util.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.error.html">Error Messages</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/udellgroup/sketchyopts" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/sketchyopts.prox.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Proximal Operators</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constant-function">Constant Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_const"><code class="docutils literal notranslate"><span class="pre">prox_const()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#norms">Norms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_l1"><code class="docutils literal notranslate"><span class="pre">prox_l1()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_nonnegative_l1"><code class="docutils literal notranslate"><span class="pre">prox_nonnegative_l1()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_elastic_net"><code class="docutils literal notranslate"><span class="pre">prox_elastic_net()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_l2"><code class="docutils literal notranslate"><span class="pre">prox_l2()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_l2_squared"><code class="docutils literal notranslate"><span class="pre">prox_l2_squared()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_nonnegative_l2_squared"><code class="docutils literal notranslate"><span class="pre">prox_nonnegative_l2_squared()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#indicators-projections">Indicators (projections)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_nonnegative"><code class="docutils literal notranslate"><span class="pre">prox_nonnegative()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_box"><code class="docutils literal notranslate"><span class="pre">prox_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_hyperplane"><code class="docutils literal notranslate"><span class="pre">prox_hyperplane()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_halfspace"><code class="docutils literal notranslate"><span class="pre">prox_halfspace()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="proximal-operators">
+<h1>Proximal Operators<a class="headerlink" href="#proximal-operators" title="Link to this heading">#</a></h1>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.prox.prox_const" title="sketchyopts.prox.prox_const"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prox_const</span></code></a>(x[, hyperparams, scaling])</p></td>
+<td><p>Proximal operator for the constant function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.prox.prox_l1" title="sketchyopts.prox.prox_l1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prox_l1</span></code></a>(x[, l1reg, scaling])</p></td>
+<td><p>Proximal operator for the <span class="math">\(\ell^1\)</span> norm.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.prox.prox_nonnegative_l1" title="sketchyopts.prox.prox_nonnegative_l1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prox_nonnegative_l1</span></code></a>(x[, l1reg, scaling])</p></td>
+<td><p>Proximal operator for the <span class="math">\(\ell^1\)</span> norm on the nonnegative orthant.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.prox.prox_elastic_net" title="sketchyopts.prox.prox_elastic_net"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prox_elastic_net</span></code></a>(x[, hyperparams, scaling])</p></td>
+<td><p>Proximal operator for the elastic net.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.prox.prox_l2" title="sketchyopts.prox.prox_l2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prox_l2</span></code></a>(x[, l2reg, scaling])</p></td>
+<td><p>Proximal operator for the <span class="math">\(\ell^2\)</span> norm.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.prox.prox_l2_squared" title="sketchyopts.prox.prox_l2_squared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prox_l2_squared</span></code></a>(x[, l2reg, scaling])</p></td>
+<td><p>Proximal operator for the squared <span class="math">\(\ell^2\)</span> norm.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.prox.prox_nonnegative_l2_squared" title="sketchyopts.prox.prox_nonnegative_l2_squared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prox_nonnegative_l2_squared</span></code></a>(x[, l2reg, scaling])</p></td>
+<td><p>Proximal operator for the squared <span class="math">\(\ell^2\)</span> norm on the nonnegative orthant.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.prox.prox_nonnegative" title="sketchyopts.prox.prox_nonnegative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prox_nonnegative</span></code></a>(x[, hyperparams, scaling])</p></td>
+<td><p>Proximal operator for indicator of the nonnegative orthant.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.prox.prox_box" title="sketchyopts.prox.prox_box"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prox_box</span></code></a>(x, hyperparams[, scaling])</p></td>
+<td><p>Proximal operator for indicator of a box (high-dimensional closed interval).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.prox.prox_hyperplane" title="sketchyopts.prox.prox_hyperplane"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prox_hyperplane</span></code></a>(x, hyperparams[, scaling])</p></td>
+<td><p>Proximal operator for indicator of a hyperplane.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.prox.prox_halfspace" title="sketchyopts.prox.prox_halfspace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prox_halfspace</span></code></a>(x, hyperparams[, scaling])</p></td>
+<td><p>Proximal operator for indicator of a halfspace.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Implementation of the following proximal operators is adapted from JAXopt
+<a class="reference external" href="https://jaxopt.github.io/stable/non_smooth.html#proximal-operators">proximal operators</a> and
+<a class="reference external" href="https://jaxopt.github.io/stable/constrained.html#projections">projections</a>. Original code is
+available from the official repo: <a class="reference external" href="https://github.com/google/jaxopt/blob/main/jaxopt/_src/prox.py">source 1</a> and <a class="reference external" href="https://github.com/google/jaxopt/blob/main/jaxopt/_src/projection.py">source 2</a>.</p>
+</div>
+<section id="constant-function">
+<h2>Constant Function<a class="headerlink" href="#constant-function" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.prox.prox_const">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.prox.</span></span><span class="sig-name descname"><span class="pre">prox_const</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperparams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/prox.html#prox_const"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.prox.prox_const" title="Link to this definition">#</a></dt>
+<dd><p>Proximal operator for the constant function.</p>
+<p>For any constant function <span class="math">\(f(x) \equiv c\)</span> for some constant <span class="math">\(c\)</span>, and
+any positive scaling factor <span class="math">\(\operatorname{scaling}\)</span>, the resulting proximal
+operator is the identity operator</p>
+<div class="math">
+\[\operatorname{prox}_{\operatorname{scaling} \cdot f}(x)
+= \underset{y}{\argmin}
+\bigg\{
+  f(y)
+  + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2
+\bigg\}
+= x\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Pytree input.</p></li>
+<li><p><strong>hyperparams</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>) – Additional parameters of the proximal operator (for function
+signature consistency). Ignored here.</p></li>
+<li><p><strong>scaling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Scaling factor for the proximal operator (for function signature
+consistency). Ignored here.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output pytree, with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="norms">
+<h2>Norms<a class="headerlink" href="#norms" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.prox.prox_l1">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.prox.</span></span><span class="sig-name descname"><span class="pre">prox_l1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l1reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/prox.html#prox_l1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.prox.prox_l1" title="Link to this definition">#</a></dt>
+<dd><p>Proximal operator for the <span class="math">\(\ell^1\)</span> norm.</p>
+<p>The proximal operator of <span class="math">\(f(x) = \lVert x \rVert_1\)</span> for <span class="math">\(x \in
+\mathbb{R}^d\)</span> is known as the soft-thresholding operator</p>
+<div class="math">
+\[\begin{aligned}
+\big[
+  \operatorname{prox}
+  _{\operatorname{scaling} \cdot \operatorname{l1reg} \cdot f}(x)
+\big]_i
+&= \underset{y}{\argmin}
+\bigg\{
+  \operatorname{l1reg} \, \lVert y \rVert_1
+  + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x_i \rVert_2^2
+\bigg\} \\
+&=
+\begin{cases}
+  ~ 0
+    & \lvert x_i \rvert
+    \leqslant \operatorname{scaling} \cdot \operatorname{l1reg} \\
+  ~ x_i
+  - \operatorname{scaling} \cdot \operatorname{l1reg} \cdot
+  \operatorname{sign}(x_i)
+    & \lvert x_i \rvert
+    > \operatorname{scaling} \cdot \operatorname{l1reg} \\
+\end{cases} \\
+\end{aligned}\]</div>
+<p>In lasso regression, the function is used as <span class="math">\(\ell^1\)</span>-regularization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Pytree input.</p></li>
+<li><p><strong>l1reg</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>) – Regularization strength. It could either be scalar (same strength across
+tree leaves) or a pytree with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code> (leaf-wise strength).</p></li>
+<li><p><strong>scaling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Scaling factor for the proximal operator.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output pytree, with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.prox.prox_nonnegative_l1">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.prox.</span></span><span class="sig-name descname"><span class="pre">prox_nonnegative_l1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l1reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/prox.html#prox_nonnegative_l1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.prox.prox_nonnegative_l1" title="Link to this definition">#</a></dt>
+<dd><p>Proximal operator for the <span class="math">\(\ell^1\)</span> norm on the nonnegative orthant.</p>
+<p>The proximal operator of <span class="math">\(f(x) = \lVert x \rVert_1 +
+\mathbb{1}_{\mathbb{R}_{+}^{d}}(x)\)</span> for <span class="math">\(x \in \mathbb{R}^d\)</span> is given by</p>
+<div class="math">
+\[\begin{aligned}
+\big[
+  \operatorname{prox}
+  _{\operatorname{scaling} \cdot \operatorname{l1reg} \cdot f}(x)
+\big]_i
+&= \underset{y}{\argmin}
+\bigg\{
+  \operatorname{l1reg} \,
+  \big(\lVert y \rVert_1 + \mathbb{1}_{\mathbb{R}_{+}}(y)\big)
+  + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x_i \rVert_2^2
+\bigg\} \\
+&= \underset{y \geqslant 0}{\argmin}
+\bigg\{
+  \operatorname{l1reg} \, \lVert y \rVert_1
+  + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x_i \rVert_2^2
+\bigg\} \\
+&=
+\begin{cases}
+  ~ 0
+    & x_i \leqslant \operatorname{scaling} \cdot \operatorname{l1reg} \\
+  ~ x_i - \operatorname{scaling} \cdot \operatorname{l1reg}
+    & x_i > \operatorname{scaling} \cdot \operatorname{l1reg} \\
+\end{cases} \\
+\end{aligned}\]</div>
+<p>where <span class="math">\(\mathbb{1}_{\mathbb{R}_{+}^{d}}\)</span> is the indicator function of
+nonnegative orthant <span class="math">\(\mathbb{R}_{+}^{d} \colonequals
+\{x \in \mathbb{R}^d \mid x \succcurlyeq 0\}\)</span></p>
+<div class="math">
+\[\mathbb{1}_{\mathbb{R}_{+}^{d}}(a)
+=
+\begin{cases}
+  ~ 0
+    & a_i \geqslant 0 ~\text{for}~i = 1, \cdots, d \\
+  ~ \infty
+    & \text{otherwise}
+\end{cases}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Pytree input.</p></li>
+<li><p><strong>l1reg</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Regularization strength. It could either be scalar (same strength across
+tree leaves) or a pytree with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code> (leaf-wise strength).</p></li>
+<li><p><strong>scaling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Scaling factor for the proximal operator.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output pytree, with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.prox.prox_elastic_net">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.prox.</span></span><span class="sig-name descname"><span class="pre">prox_elastic_net</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperparams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/prox.html#prox_elastic_net"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.prox.prox_elastic_net" title="Link to this definition">#</a></dt>
+<dd><p>Proximal operator for the elastic net.</p>
+<p>The proximal operator of</p>
+<div class="math">
+\[f_{\operatorname{hyperparams}}(x)
+= \operatorname{hyperparams}_0 \, \lVert x \rVert_1
++ \frac{\operatorname{hyperparams}_1}{2} \, \lVert x \rVert_2^2\]</div>
+<p>for <span class="math">\(x \in \mathbb{R}^d\)</span> is given by soft-thresholding followed by
+multiplicative shrinkage</p>
+<div class="math">
+\[\begin{aligned}
+\big[
+  \operatorname{prox}
+  _{\operatorname{scaling} \cdot f_{\operatorname{hyperparams}}}(x)
+\big]_i
+&= \bigg[\underset{y}{\argmin}
+\bigg\{
+  f_{\operatorname{hyperparams}}(y)
+  + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2
+\bigg\}\bigg]_i \\
+&= \frac{
+  \psi_{\operatorname{scaling} \cdot \operatorname{hyperparams}_0}(x_i)
+}{1 + \operatorname{scaling} \cdot \operatorname{hyperparams}_1} \\
+\end{aligned}\]</div>
+<p>where <span class="math">\(\psi_{\operatorname{scaling} \cdot \operatorname{hyperparams}_0}\)</span> is the
+soft-thresholding operator parameterized by <span class="math">\(\operatorname{scaling} \cdot
+\operatorname{hyperparams}_0\)</span></p>
+<div class="math">
+\[\psi(x_i) =
+\begin{cases}
+  ~ 0
+    & \lvert x_i \rvert
+    \leqslant \operatorname{scaling} \cdot \operatorname{hyperparams}_0 \\
+  ~ x_i
+  - \operatorname{scaling} \cdot \operatorname{hyperparams}_0 \cdot
+  \operatorname{sign}(x_i)
+    & \lvert x_i \rvert
+    > \operatorname{scaling} \cdot \operatorname{hyperparams}_0 \\
+\end{cases}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Pytree input.</p></li>
+<li><p><strong>hyperparams</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]]</span>) – A tuple, where both <code class="docutils literal notranslate"><span class="pre">hyperparams[0]</span></code> and <code class="docutils literal notranslate"><span class="pre">hyperparams[1]</span></code> can be
+either floats or pytrees with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p></li>
+<li><p><strong>scaling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Scaling factor for the proximal operator.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output pytree, with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.prox.prox_l2">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.prox.</span></span><span class="sig-name descname"><span class="pre">prox_l2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/prox.html#prox_l2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.prox.prox_l2" title="Link to this definition">#</a></dt>
+<dd><p>Proximal operator for the <span class="math">\(\ell^2\)</span> norm.</p>
+<p>The proximal operator of <span class="math">\(f(x) = \lVert x \rVert_2\)</span> for <span class="math">\(x \in
+\mathbb{R}^d\)</span> is known as the block soft-thresholding operator</p>
+<div class="math">
+\[\begin{aligned}
+\operatorname{prox}
+_{\operatorname{scaling} \cdot \operatorname{l2reg} \cdot f}(x)
+&= \underset{y}{\argmin}
+\bigg\{
+  \operatorname{l2reg} \, \lVert y \rVert_2
+  + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2
+\bigg\} \\
+&=
+\begin{cases}
+  ~ 0
+    & \lVert x \rVert_2
+    \leqslant \operatorname{scaling} \cdot \operatorname{l2reg} \\
+  ~ \bigg(1 - \dfrac
+  {\operatorname{scaling} \cdot \operatorname{l2reg}}
+  {\lVert x \rVert_2}\bigg) \, x
+    & \lVert x \rVert_2
+    > \operatorname{scaling} \cdot \operatorname{l2reg} \\
+\end{cases} \\
+\end{aligned}\]</div>
+<p>In group lasso, the function (also known as <span class="math">\(\ell^1/\ell^2\)</span> norm) takes the form</p>
+<div class="math">
+\[f(x) = \sum_{g \in \mathcal{G}} \lVert x_{\mathcal{I}_g} \rVert_2\]</div>
+<p>where <span class="math">\(\mathcal{G}\)</span> is a partition of <span class="math">\([d]\)</span> and <span class="math">\(\mathcal{I}_g\)</span> is
+the index set belonging to the <span class="math">\(g\)</span><sup>th</sup> group. The corresponding proximal
+operator in this case is given by</p>
+<div class="math">
+\[\big[
+  \operatorname{prox}
+  _{\operatorname{scaling} \cdot \operatorname{l2reg} \cdot f}(x)
+\big]_{i}
+=
+\begin{cases}
+  ~ 0
+    & \lVert x_{\mathcal{I}_g} \rVert_2
+    \leqslant \operatorname{scaling} \cdot \operatorname{l2reg} \\
+  ~ \bigg(1 - \dfrac
+  {\operatorname{scaling} \cdot \operatorname{l2reg}}
+  {\lVert x_{\mathcal{I}_g} \rVert_2}\bigg) \, x_{i}
+    & \lVert x_{\mathcal{I}_g} \rVert_2
+    > \operatorname{scaling} \cdot \operatorname{l2reg} \\
+\end{cases} \\\]</div>
+<p>for all <span class="math">\(i \in \mathcal{I}_g\)</span> and <span class="math">\(g \in \mathcal{G}\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The proximal operator is implemented for the <span class="math">\(\ell^2\)</span> norm (<em>i.e.</em> single
+group case). To use it for group lasso, one can use <a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.vmap.html#jax.vmap" title="(in JAX)"><code class="xref py py-func docutils literal notranslate"><span class="pre">jax.vmap()</span></code></a> or
+<a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.tree.map.html#jax.tree.map" title="(in JAX)"><code class="xref py py-func docutils literal notranslate"><span class="pre">jax.tree.map()</span></code></a> to apply the proximal mapping to groups as shown in the
+following example.</p>
+</div>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.prox</span> <span class="kn">import</span> <span class="n">prox_l2</span>
+
+<span class="c1"># array with 2 or more dimensions and first axis across groups</span>
+<span class="k">def</span> <span class="nf">prox_group_lasso_array</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">l2reg</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+  <span class="c1"># collapse each group into a single dimension</span>
+  <span class="n">groups</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">collapse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="c1"># apply the operator to each group</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">prox_l2</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))(</span><span class="n">groups</span><span class="p">,</span> <span class="n">l2reg</span><span class="p">,</span> <span class="n">scaling</span><span class="p">)</span>
+  <span class="c1"># make result the original shape</span>
+  <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># pytree with groups as leaves</span>
+<span class="k">def</span> <span class="nf">prox_group_lasso_pytree</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">l2reg</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+  <span class="c1"># define partial function that only depends on the pytree</span>
+  <span class="n">partial_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="n">prox_l2</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">l2reg</span><span class="p">,</span> <span class="n">scaling</span><span class="p">)</span>
+  <span class="c1"># apply the operator to each group</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">partial_fun</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Pytree input.</p></li>
+<li><p><strong>l2reg</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Regularization strength.</p></li>
+<li><p><strong>scaling</strong> – Scaling factor for the proximal operator.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output pytree, with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.prox.prox_l2_squared">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.prox.</span></span><span class="sig-name descname"><span class="pre">prox_l2_squared</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/prox.html#prox_l2_squared"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.prox.prox_l2_squared" title="Link to this definition">#</a></dt>
+<dd><p>Proximal operator for the squared <span class="math">\(\ell^2\)</span> norm.</p>
+<p>The proximal operator of <span class="math">\(f(x) = (1/2) \, \lVert x \rVert_2^2\)</span> for <span class="math">\(x \in
+\mathbb{R}^d\)</span> is given by</p>
+<div class="math">
+\[\begin{aligned}
+\operatorname{prox}
+_{\operatorname{scaling} \cdot \operatorname{l2reg} \cdot f}(x)
+&= \underset{y}{\argmin}
+\bigg\{
+  \frac{\operatorname{l2reg}}{2} \, \lVert y \rVert_2^2
+  + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2
+\bigg\} \\
+&= \frac{1}{1 + \operatorname{scaling} \cdot \operatorname{l2reg}} \, x \\
+\end{aligned}\]</div>
+<p>In ridge regression, the function is used as <span class="math">\(\ell^2\)</span>-regularization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Pytree input.</p></li>
+<li><p><strong>l2reg</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Regularization strength.</p></li>
+<li><p><strong>scaling</strong> – Scaling factor for the proximal operator.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output pytree, with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.prox.prox_nonnegative_l2_squared">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.prox.</span></span><span class="sig-name descname"><span class="pre">prox_nonnegative_l2_squared</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/prox.html#prox_nonnegative_l2_squared"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.prox.prox_nonnegative_l2_squared" title="Link to this definition">#</a></dt>
+<dd><p>Proximal operator for the squared <span class="math">\(\ell^2\)</span> norm on the nonnegative
+orthant.</p>
+<p>The proximal operator of <span class="math">\(f(x) = (1/2) \, \lVert x \rVert_2^2 +
+\mathbb{1}_{\mathbb{R}_{+}^{d}}(x)\)</span> for <span class="math">\(x \in \mathbb{R}^d\)</span> is given by</p>
+<div class="math">
+\[\begin{aligned}
+\operatorname{prox}
+_{\operatorname{scaling} \cdot \operatorname{l2reg} \cdot f}(x)
+&= \underset{y}{\argmin}
+\bigg\{
+  \operatorname{l2reg} \,
+  \bigg(
+    \frac{1}{2} \, \lVert y \rVert_2^2
+    + \mathbb{1}_{\mathbb{R}_{+}^{d}}(y)
+  \bigg)
+  + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2
+\bigg\} \\
+&= \underset{y \succcurlyeq 0}{\argmin}
+\bigg\{
+  \frac{\operatorname{l2reg}}{2} \, \lVert y \rVert_2^2
+  + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2
+\bigg\} \\
+&= \bigg(
+  \frac{1}{1 + \operatorname{scaling} \cdot \operatorname{l2reg}} \, x
+  \bigg)_{+} \\
+\end{aligned}\]</div>
+<p>where <span class="math">\(\mathbb{1}_{\mathbb{R}_{+}^{d}}\)</span> is the indicator function of nonnegative
+orthant <span class="math">\(\mathbb{R}_{+}^{d} \colonequals \{x \in \mathbb{R}^d \mid x
+\succcurlyeq 0\}\)</span></p>
+<div class="math">
+\[\mathbb{1}_{\mathbb{R}_{+}^{d}}(a)
+=
+\begin{cases}
+  ~ 0
+    & a_i \geqslant 0 ~\text{for}~i = 1, \cdots, d \\
+  ~ \infty
+    & \text{otherwise}
+\end{cases}\]</div>
+<p>and <span class="math">\((a)_{+} \colonequals \big[\max \{a_i, 0\}\big]_{i = 1, \cdots, d}\)</span> takes
+element-wise positive part of <span class="math">\(a\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Pytree input.</p></li>
+<li><p><strong>l2reg</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>]</span>) – Regularization strength.</p></li>
+<li><p><strong>scaling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Scaling factor for the proximal operator.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output pytree, with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="indicators-projections">
+<h2>Indicators (projections)<a class="headerlink" href="#indicators-projections" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.prox.prox_nonnegative">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.prox.</span></span><span class="sig-name descname"><span class="pre">prox_nonnegative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperparams</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/prox.html#prox_nonnegative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.prox.prox_nonnegative" title="Link to this definition">#</a></dt>
+<dd><p>Proximal operator for indicator of the nonnegative orthant.</p>
+<p>The proximal operator of indicator <span class="math">\(f(x) = \mathbb{1}_{\mathbb{R}_{+}^{d}}(x)\)</span>
+for <span class="math">\(x \in \mathbb{R}^d\)</span> is the projection onto the nonnegative orthant. Here
+<span class="math">\(\mathbb{1}_{\mathbb{R}_{+}^{d}}\)</span> is the indicator function of nonnegative
+orthant <span class="math">\(\mathbb{R}_{+}^{d} \colonequals \{x \in \mathbb{R}^d \mid x
+\succcurlyeq 0\}\)</span></p>
+<div class="math">
+\[\mathbb{1}_{\mathbb{R}_{+}^{d}}(a)
+=
+\begin{cases}
+  ~ 0
+    & a_i \geqslant 0 ~\text{for}~i = 1, \cdots, d \\
+  ~ \infty
+    & \text{otherwise}
+\end{cases}\]</div>
+<p>The proximal operator is given by</p>
+<div class="math">
+\[\begin{aligned}
+\operatorname{prox}_{\operatorname{scaling} \cdot f}(x)
+&= \underset{y}{\argmin}
+\bigg\{
+  \mathbb{1}_{\mathbb{R}_{+}}(y)
+  + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2
+\bigg\} \\
+&= \underset{y \succcurlyeq 0}{\argmin}
+\bigg\{
+  \lVert y - x \rVert_2^2
+\bigg\} \\
+&= (x)_{+} \\
+\end{aligned}\]</div>
+<p>where <span class="math">\((a)_{+} \colonequals \big[\max \{a_i, 0\}\big]_{i = 1, \cdots, d}\)</span> takes
+element-wise positive part of <span class="math">\(a\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Pytree input.</p></li>
+<li><p><strong>hyperparams</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>) – Additional parameters of the proximal operator (for function
+signature consistency). Ignored here.</p></li>
+<li><p><strong>scaling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Scaling factor for the proximal operator (for function signature
+consistency). Ignored here.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output pytree, with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.prox.prox_box">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.prox.</span></span><span class="sig-name descname"><span class="pre">prox_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperparams</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/prox.html#prox_box"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.prox.prox_box" title="Link to this definition">#</a></dt>
+<dd><p>Proximal operator for indicator of a box (high-dimensional closed interval).</p>
+<p>The proximal operator of indicator <span class="math">\(f(x) = \mathbb{1}_{\mathcal{C}}(x)\)</span> for set</p>
+<div class="math">
+\[\mathcal{C}
+\colonequals
+\{x \in \mathbb{R}^d \mid
+  \operatorname{hyperparams}_0
+    \preccurlyeq x \preccurlyeq
+  \operatorname{hyperparams}_1
+\}\]</div>
+<p>is the projection onto the set <span class="math">\(\mathcal{C}\)</span>. Here <span class="math">\(\mathbb{1}_
+{\mathcal{C}}\)</span> is the indicator function of the box <span class="math">\(\mathcal{C}\)</span></p>
+<div class="math">
+\[\mathbb{1}_{\mathcal{C}}(a)
+=
+\begin{cases}
+  ~ 0
+    & \big[\operatorname{hyperparams}_0\big]_i
+      \leqslant a_i \leqslant
+      \big[\operatorname{hyperparams}_1\big]_i
+    ~\text{for}~i = 1, \cdots, d \\
+  ~ \infty
+    & \text{otherwise}
+\end{cases}\]</div>
+<p>The proximal operator is given by</p>
+<div class="math">
+\[\begin{aligned}
+\operatorname{prox}_{\operatorname{scaling} \cdot f}(x)
+&= \underset{y}{\argmin}
+\bigg\{
+  \mathbb{1}_{\mathcal{C}}(y)
+  + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2
+\bigg\} \\
+&= \underset{y \in \mathcal{C}}{\argmin}
+\bigg\{
+  \lVert y - x \rVert_2^2
+\bigg\} \\
+&= \max\big\{
+  \operatorname{hyperparams}_0, \,
+  \min\{x, \, \operatorname{hyperparams}_1\}
+\big\} \\
+\end{aligned}\]</div>
+<p>where both the minimum and maximum are element-wise operations. Intuitively, the
+proximal operator clamps <span class="math">\(x\)</span> into the interval.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Pytree input.</p></li>
+<li><p><strong>hyperparams</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></span>) – A tuple <code class="docutils literal notranslate"><span class="pre">(lower,</span> <span class="pre">upper)</span></code> specifying lower and upper bounds of the
+box. Both bounds can be either scalar values or pytrees of the same structure as
+<code class="docutils literal notranslate"><span class="pre">x</span></code>.</p></li>
+<li><p><strong>scaling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Scaling factor for the proximal operator (for function signature
+consistency). Ignored here.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output pytree, with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.prox.prox_hyperplane">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.prox.</span></span><span class="sig-name descname"><span class="pre">prox_hyperplane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperparams</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/prox.html#prox_hyperplane"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.prox.prox_hyperplane" title="Link to this definition">#</a></dt>
+<dd><p>Proximal operator for indicator of a hyperplane.</p>
+<p>The proximal operator of indicator <span class="math">\(f(x) = \mathbb{1}_{\mathcal{H}}(x)\)</span> for set</p>
+<div class="math">
+\[\mathcal{H}
+\colonequals
+\{x \in \mathbb{R}^d \mid
+  \operatorname{hyperparams}_0^{\mathsf{T}} x
+  = \operatorname{hyperparams}_1
+\}\]</div>
+<p>is the projection onto the set <span class="math">\(\mathcal{H}\)</span>. Here <span class="math">\(\mathbb{1}_
+{\mathcal{H}}\)</span> is the indicator function of the hyperplane <span class="math">\(\mathcal{H}\)</span></p>
+<div class="math">
+\[\mathbb{1}_{\mathcal{H}}(a)
+=
+\begin{cases}
+  ~ 0
+    & \operatorname{hyperparams}_0^{\mathsf{T}} a
+    = \operatorname{hyperparams}_1 \\
+  ~ \infty
+    & \text{otherwise}
+\end{cases}\]</div>
+<p>The proximal operator is given by</p>
+<div class="math">
+\[\begin{aligned}
+\operatorname{prox}_{\operatorname{scaling} \cdot f}(x)
+&= \underset{y}{\argmin}
+\bigg\{
+  \mathbb{1}_{\mathcal{H}}(y)
+  + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2
+\bigg\} \\
+&= \underset{y \in \mathcal{H}}{\argmin}
+\bigg\{
+  \lVert y - x \rVert_2^2
+\bigg\} \\
+&= x
+- \frac
+{
+  \operatorname{hyperparams}_0^{\mathsf{T}} x
+  - \operatorname{hyperparams}_1
+}{
+  \lVert \operatorname{hyperparams}_0 \rVert_2^2
+} \, \operatorname{hyperparams}_0 \\
+\end{aligned}\]</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Pytree input.</p></li>
+<li><p><strong>hyperparams</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></span>) – A tuple <code class="docutils literal notranslate"><span class="pre">(a,</span> <span class="pre">b)</span></code> specifying both the normal vector and the offset of
+the hyperplane. The normal vector <code class="docutils literal notranslate"><span class="pre">a</span></code> is a pytree with the same structure as
+<code class="docutils literal notranslate"><span class="pre">x</span></code> and the offset <code class="docutils literal notranslate"><span class="pre">b</span></code> is a scalar.</p></li>
+<li><p><strong>scaling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Scaling factor for the proximal operator (for function signature
+consistency). Ignored here.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output pytree, with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.prox.prox_halfspace">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.prox.</span></span><span class="sig-name descname"><span class="pre">prox_halfspace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hyperparams</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/prox.html#prox_halfspace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.prox.prox_halfspace" title="Link to this definition">#</a></dt>
+<dd><p>Proximal operator for indicator of a halfspace.</p>
+<p>The proximal operator of indicator <span class="math">\(f(x) = \mathbb{1}_{\mathcal{H}}(x)\)</span> for set</p>
+<div class="math">
+\[\mathcal{H}
+\colonequals
+\{x \in \mathbb{R}^d \mid
+  \operatorname{hyperparams}_0^{\mathsf{T}} x
+  \leqslant \operatorname{hyperparams}_1
+\}\]</div>
+<p>is the projection onto the set <span class="math">\(\mathcal{H}\)</span>. Here <span class="math">\(\mathbb{1}_
+{\mathcal{H}}\)</span> is the indicator function of the halfspace <span class="math">\(\mathcal{H}\)</span></p>
+<div class="math">
+\[\mathbb{1}_{\mathcal{H}}(a)
+=
+\begin{cases}
+  ~ 0
+    & \operatorname{hyperparams}_0^{\mathsf{T}} a
+    \leqslant \operatorname{hyperparams}_1 \\
+  ~ \infty
+    & \text{otherwise}
+\end{cases}\]</div>
+<p>The proximal operator is given by</p>
+<div class="math">
+\[\begin{aligned}
+\operatorname{prox}_{\operatorname{scaling} \cdot f}(x)
+&= \underset{y}{\argmin}
+\bigg\{
+  \mathbb{1}_{\mathcal{H}}(y)
+  + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2
+\bigg\} \\
+&= \underset{y \in \mathcal{H}}{\argmin}
+\bigg\{
+  \lVert y - x \rVert_2^2
+\bigg\} \\
+&= x
+- \frac
+{
+  (\operatorname{hyperparams}_0^{\mathsf{T}} x
+  - \operatorname{hyperparams}_1)_{+}
+}{
+  \lVert \operatorname{hyperparams}_0 \rVert_2^2
+} \, \operatorname{hyperparams}_0 \\
+\end{aligned}\]</div>
+<p>where <span class="math">\((a)_{+} \colonequals \max \{a, 0\}\)</span> takes the positive part of <span class="math">\(a\)</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Pytree input.</p></li>
+<li><p><strong>hyperparams</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></span>) – A tuple <code class="docutils literal notranslate"><span class="pre">(a,</span> <span class="pre">b)</span></code> specifying both the normal vector and the offset of
+the hyperplane that defines the halfspace. The normal vector <code class="docutils literal notranslate"><span class="pre">a</span></code> is a pytree
+with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code> and the offset <code class="docutils literal notranslate"><span class="pre">b</span></code> is a scalar.</p></li>
+<li><p><strong>scaling</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Scaling factor for the proximal operator (for function signature
+consistency). Ignored here.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Output pytree, with the same structure as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="sketchyopts.base.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Base</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="sketchyopts.util.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Utilities</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constant-function">Constant Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_const"><code class="docutils literal notranslate"><span class="pre">prox_const()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#norms">Norms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_l1"><code class="docutils literal notranslate"><span class="pre">prox_l1()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_nonnegative_l1"><code class="docutils literal notranslate"><span class="pre">prox_nonnegative_l1()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_elastic_net"><code class="docutils literal notranslate"><span class="pre">prox_elastic_net()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_l2"><code class="docutils literal notranslate"><span class="pre">prox_l2()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_l2_squared"><code class="docutils literal notranslate"><span class="pre">prox_l2_squared()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_nonnegative_l2_squared"><code class="docutils literal notranslate"><span class="pre">prox_nonnegative_l2_squared()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#indicators-projections">Indicators (projections)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_nonnegative"><code class="docutils literal notranslate"><span class="pre">prox_nonnegative()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_box"><code class="docutils literal notranslate"><span class="pre">prox_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_hyperplane"><code class="docutils literal notranslate"><span class="pre">prox_hyperplane()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.prox.prox_halfspace"><code class="docutils literal notranslate"><span class="pre">prox_halfspace()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

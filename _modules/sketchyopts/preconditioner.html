@@ -166,6 +166,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.prox.html">Proximal Operators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.util.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.error.html">Error Messages</a></li>
 </ul>
@@ -302,7 +303,9 @@ document.write(`
 <span class="n">KeyArrayLike</span> <span class="o">=</span> <span class="n">ArrayLike</span>
 
 
-<span class="k">def</span> <span class="nf">shifted_cholesky</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">shift</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_shifted_cholesky</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">shift</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cholesky factorization on a matrix with shifted eigenvalues (so that it is</span>
+<span class="sd">    positive definite if ``shift`` is positive).&quot;&quot;&quot;</span>
     <span class="n">eigs</span><span class="p">,</span> <span class="n">eigvectors</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
     <span class="n">new_shift</span> <span class="o">=</span> <span class="n">shift</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">eigs</span><span class="p">))</span>
     <span class="n">L</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span>
@@ -329,15 +332,22 @@ document.write(`
 <span class="sd">    only the eigenvalues (not the full diagonal matrix :math:`\hat{\Lambda}`).</span>
 
 <span class="sd">    References:</span>
-<span class="sd">      - H\. Li, G. C. Linderman, A. Szlam, K. P. Stanton, Y. Kluger, and M. Tygert, `Algorithm 971: An implementation of a randomized algorithm for principal component analysis &lt;https://dl.acm.org/doi/10.1145/3004053&gt;`_, ACM Transactions on Mathematical Software (TOMS), 43: 1–14, 2017.</span>
-<span class="sd">      - J\. A. Tropp, A. Yurtsever, M. Udell, and V. Cevher, `Fixed-rank approximation of a positive-semidefinite matrix from streaming data &lt;https://papers.nips.cc/paper_files/paper/2017/hash/4558dbb6f6f8bb2e16d03b85bde76e2c-Abstract.html&gt;`_, Advances in Neural Information Processing Systems, 30, 2017.</span>
+<span class="sd">      - H\. Li, G. C. Linderman, A. Szlam, K. P. Stanton, Y. Kluger, and M. Tygert,</span>
+<span class="sd">        `Algorithm 971: An implementation of a randomized algorithm for principal</span>
+<span class="sd">        component analysis &lt;https://dl.acm.org/doi/10.1145/3004053&gt;`_, ACM Transactions</span>
+<span class="sd">        on Mathematical Software (TOMS), 43: 1–14, 2017.</span>
+<span class="sd">      - J\. A. Tropp, A. Yurtsever, M. Udell, and V. Cevher, `Fixed-rank approximation</span>
+<span class="sd">        of a positive-semidefinite matrix from streaming data</span>
+<span class="sd">        &lt;https://papers.nips.cc/paper_files/paper/2017/hash/</span>
+<span class="sd">        4558dbb6f6f8bb2e16d03b85bde76e2c-Abstract.html&gt;`_, Advances in Neural</span>
+<span class="sd">        Information Processing Systems, 30, 2017.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      A: A two-dimensional array representing a positive-semidefinite matrix. This can</span>
 <span class="sd">        either be an explicit JAX array or an implicit</span>
 <span class="sd">        :class:`sketchyopts.util.LinearOperator` object.</span>
-<span class="sd">      l: Rank of the Nyström approximated matrix :math:`\hat{A}_{\mathrm{nys}}`</span>
-<span class="sd">        (which coincides with sketch size).</span>
+<span class="sd">      l: Rank of the Nyström approximated matrix :math:`\hat{A}_{\mathrm{nys}}` (which</span>
+<span class="sd">        coincides with sketch size).</span>
 <span class="sd">      key: A PRNG key used as the random key.</span>
 
 <span class="sd">    Returns:</span>
@@ -374,7 +384,7 @@ document.write(`
 
     <span class="n">C</span><span class="p">,</span> <span class="n">shift</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span>
         <span class="n">jnp</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">C</span><span class="p">)),</span>
-        <span class="n">shifted_cholesky</span><span class="p">,</span>
+        <span class="n">_shifted_cholesky</span><span class="p">,</span>
         <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">shift</span><span class="p">),</span>
         <span class="n">cholesky_target</span><span class="p">,</span>
         <span class="n">shift</span><span class="p">,</span>

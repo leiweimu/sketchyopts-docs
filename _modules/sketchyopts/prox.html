@@ -1,0 +1,1147 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sketchyopts.prox &#8212; SketchyOpts  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/katex-math.css?v=91adb8b6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=9a799264" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/katex.min.js?v=be8ff15f"></script>
+    <script src="../../_static/auto-render.min.js?v=ad136472"></script>
+    <script src="../../_static/katex_autorenderer.js?v=8953b41a"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/sketchyopts/prox';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SketchyOpts  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/ridge_regression.html">Ridge Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/l2_logistic_regression.html"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.solver.html">Solvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.prox.html">Proximal Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.util.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.error.html">Error Messages</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/udellgroup/sketchyopts" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for sketchyopts.prox</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Part of the proximal operator implementation is adapted from JAXopt with</span>
+<span class="c1"># modifications.</span>
+<span class="c1"># - Original JAXopt proximal operators implementation:</span>
+<span class="c1">#   https://github.com/google/jaxopt/blob/main/jaxopt/_src/prox.py</span>
+<span class="c1"># - Original JAXopt projections implementation:</span>
+<span class="c1">#   https://github.com/google/jaxopt/blob/main/jaxopt/_src/projection.py</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright license information:</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright 2021 Google LLC</span>
+<span class="c1"># Modifications copyright 2024 the SketchyOpts authors</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     https://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+
+<span class="kn">from</span> <span class="nn">sketchyopts.util</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">tree_add_scalar_mul</span><span class="p">,</span>
+    <span class="n">tree_l2_norm</span><span class="p">,</span>
+    <span class="n">tree_map</span><span class="p">,</span>
+    <span class="n">tree_scalar_mul</span><span class="p">,</span>
+    <span class="n">tree_vdot</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="prox_const">
+<a class="viewcode-back" href="../../api/sketchyopts.prox.html#sketchyopts.prox.prox_const">[docs]</a>
+<span class="k">def</span> <span class="nf">prox_const</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">hyperparams</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scaling</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator for the constant function.</span>
+
+<span class="sd">    For any constant function :math:`f(x) \equiv c` for some constant :math:`c`, and</span>
+<span class="sd">    any positive scaling factor :math:`\operatorname{scaling}`, the resulting proximal</span>
+<span class="sd">    operator is the identity operator</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">      \operatorname{prox}_{\operatorname{scaling} \cdot f}(x)</span>
+<span class="sd">      = \underset{y}{\argmin}</span>
+<span class="sd">      \bigg\{</span>
+<span class="sd">        f(y)</span>
+<span class="sd">        + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2</span>
+<span class="sd">      \bigg\}</span>
+<span class="sd">      = x</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      x: Pytree input.</span>
+<span class="sd">      hyperparams: Additional parameters of the proximal operator (for function</span>
+<span class="sd">        signature consistency). Ignored here.</span>
+<span class="sd">      scaling: Scaling factor for the proximal operator (for function signature</span>
+<span class="sd">        consistency). Ignored here.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">      Output pytree, with the same structure as ``x``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">del</span> <span class="n">hyperparams</span><span class="p">,</span> <span class="n">scaling</span>
+    <span class="k">return</span> <span class="n">x</span></div>
+
+
+
+<div class="viewcode-block" id="prox_l1">
+<a class="viewcode-back" href="../../api/sketchyopts.prox.html#sketchyopts.prox.prox_l1">[docs]</a>
+<span class="k">def</span> <span class="nf">prox_l1</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">l1reg</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scaling</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator for the :math:`\ell^1` norm. </span>
+
+<span class="sd">  The proximal operator of :math:`f(x) = \lVert x \rVert_1` for :math:`x \in </span>
+<span class="sd">  \mathbb{R}^d` is known as the soft-thresholding operator</span>
+
+<span class="sd">  .. math::</span>
+<span class="sd">    </span>
+<span class="sd">    \begin{aligned}</span>
+<span class="sd">    \big[</span>
+<span class="sd">      \operatorname{prox}</span>
+<span class="sd">      _{\operatorname{scaling} \cdot \operatorname{l1reg} \cdot f}(x)</span>
+<span class="sd">    \big]_i</span>
+<span class="sd">    &amp;= \underset{y}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \operatorname{l1reg} \, \lVert y \rVert_1</span>
+<span class="sd">      + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x_i \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= </span>
+<span class="sd">    \begin{cases}</span>
+<span class="sd">      ~ 0 </span>
+<span class="sd">        &amp; \lvert x_i \rvert </span>
+<span class="sd">        \leqslant \operatorname{scaling} \cdot \operatorname{l1reg} \\</span>
+<span class="sd">      ~ x_i </span>
+<span class="sd">      - \operatorname{scaling} \cdot \operatorname{l1reg} \cdot </span>
+<span class="sd">      \operatorname{sign}(x_i) </span>
+<span class="sd">        &amp; \lvert x_i \rvert </span>
+<span class="sd">        &gt; \operatorname{scaling} \cdot \operatorname{l1reg} \\</span>
+<span class="sd">    \end{cases} \\</span>
+<span class="sd">    \end{aligned}</span>
+
+<span class="sd">  In lasso regression, the function is used as :math:`\ell^1`-regularization.  </span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: Pytree input.</span>
+<span class="sd">    l1reg: Regularization strength. It could either be scalar (same strength across </span>
+<span class="sd">      tree leaves) or a pytree with the same structure as ``x`` (leaf-wise strength).</span>
+<span class="sd">    scaling: Scaling factor for the proximal operator. </span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Output pytree, with the same structure as ``x``.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">l1reg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">l1reg</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">l1reg</span><span class="p">):</span>
+        <span class="n">l1reg</span> <span class="o">=</span> <span class="n">tree_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">l1reg</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">fun</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">-</span> <span class="n">v</span> <span class="o">*</span> <span class="n">scaling</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">l1reg</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="prox_nonnegative_l1">
+<a class="viewcode-back" href="../../api/sketchyopts.prox.html#sketchyopts.prox.prox_nonnegative_l1">[docs]</a>
+<span class="k">def</span> <span class="nf">prox_nonnegative_l1</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">l1reg</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scaling</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator for the :math:`\ell^1` norm on the nonnegative orthant. </span>
+
+<span class="sd">  The proximal operator of :math:`f(x) = \lVert x \rVert_1 + </span>
+<span class="sd">  \mathbb{1}_{\mathbb{R}_{+}^{d}}(x)` for :math:`x \in \mathbb{R}^d` is given by</span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \begin{aligned}</span>
+<span class="sd">    \big[</span>
+<span class="sd">      \operatorname{prox}</span>
+<span class="sd">      _{\operatorname{scaling} \cdot \operatorname{l1reg} \cdot f}(x)</span>
+<span class="sd">    \big]_i</span>
+<span class="sd">    &amp;= \underset{y}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \operatorname{l1reg} \, </span>
+<span class="sd">      \big(\lVert y \rVert_1 + \mathbb{1}_{\mathbb{R}_{+}}(y)\big)</span>
+<span class="sd">      + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x_i \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= \underset{y \geqslant 0}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \operatorname{l1reg} \, \lVert y \rVert_1 </span>
+<span class="sd">      + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x_i \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= </span>
+<span class="sd">    \begin{cases}</span>
+<span class="sd">      ~ 0 </span>
+<span class="sd">        &amp; x_i \leqslant \operatorname{scaling} \cdot \operatorname{l1reg} \\</span>
+<span class="sd">      ~ x_i - \operatorname{scaling} \cdot \operatorname{l1reg} </span>
+<span class="sd">        &amp; x_i &gt; \operatorname{scaling} \cdot \operatorname{l1reg} \\</span>
+<span class="sd">    \end{cases} \\</span>
+<span class="sd">    \end{aligned}</span>
+
+<span class="sd">  where :math:`\mathbb{1}_{\mathbb{R}_{+}^{d}}` is the indicator function of </span>
+<span class="sd">  nonnegative orthant :math:`\mathbb{R}_{+}^{d} \colonequals </span>
+<span class="sd">  \{x \in \mathbb{R}^d \mid x \succcurlyeq 0\}`</span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \mathbb{1}_{\mathbb{R}_{+}^{d}}(a)</span>
+<span class="sd">    = </span>
+<span class="sd">    \begin{cases}</span>
+<span class="sd">      ~ 0 </span>
+<span class="sd">        &amp; a_i \geqslant 0 ~\text{for}~i = 1, \cdots, d \\</span>
+<span class="sd">      ~ \infty</span>
+<span class="sd">        &amp; \text{otherwise}</span>
+<span class="sd">    \end{cases}</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: Pytree input.</span>
+<span class="sd">    l1reg: Regularization strength. It could either be scalar (same strength across </span>
+<span class="sd">      tree leaves) or a pytree with the same structure as ``x`` (leaf-wise strength).</span>
+<span class="sd">    scaling: Scaling factor for the proximal operator. </span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Output pytree, with the same structure as ``x``.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">l1reg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">l1reg</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">pytree</span> <span class="o">=</span> <span class="n">tree_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">y</span> <span class="o">-</span> <span class="n">l1reg</span> <span class="o">*</span> <span class="n">scaling</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">pytree</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="prox_elastic_net">
+<a class="viewcode-back" href="../../api/sketchyopts.prox.html#sketchyopts.prox.prox_elastic_net">[docs]</a>
+<span class="k">def</span> <span class="nf">prox_elastic_net</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">hyperparams</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scaling</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator for the elastic net.</span>
+
+<span class="sd">  The proximal operator of </span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    f_{\operatorname{hyperparams}}(x) </span>
+<span class="sd">    = \operatorname{hyperparams}_0 \, \lVert x \rVert_1</span>
+<span class="sd">    + \frac{\operatorname{hyperparams}_1}{2} \, \lVert x \rVert_2^2</span>
+
+<span class="sd">  for :math:`x \in \mathbb{R}^d` is given by soft-thresholding followed by </span>
+<span class="sd">  multiplicative shrinkage</span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \begin{aligned}</span>
+<span class="sd">    \big[</span>
+<span class="sd">      \operatorname{prox}</span>
+<span class="sd">      _{\operatorname{scaling} \cdot f_{\operatorname{hyperparams}}}(x)</span>
+<span class="sd">    \big]_i</span>
+<span class="sd">    &amp;= \bigg[\underset{y}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      f_{\operatorname{hyperparams}}(y)</span>
+<span class="sd">      + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2</span>
+<span class="sd">    \bigg\}\bigg]_i \\</span>
+<span class="sd">    &amp;= \frac{</span>
+<span class="sd">      \psi_{\operatorname{scaling} \cdot \operatorname{hyperparams}_0}(x_i)</span>
+<span class="sd">    }{1 + \operatorname{scaling} \cdot \operatorname{hyperparams}_1} \\</span>
+<span class="sd">    \end{aligned}</span>
+
+<span class="sd">  where :math:`\psi_{\operatorname{scaling} \cdot \operatorname{hyperparams}_0}` is the </span>
+<span class="sd">  soft-thresholding operator parameterized by :math:`\operatorname{scaling} \cdot </span>
+<span class="sd">  \operatorname{hyperparams}_0`</span>
+<span class="sd">  </span>
+<span class="sd">  .. math::</span>
+<span class="sd">  </span>
+<span class="sd">    \psi(x_i) = </span>
+<span class="sd">    \begin{cases}</span>
+<span class="sd">      ~ 0 </span>
+<span class="sd">        &amp; \lvert x_i \rvert </span>
+<span class="sd">        \leqslant \operatorname{scaling} \cdot \operatorname{hyperparams}_0 \\</span>
+<span class="sd">      ~ x_i </span>
+<span class="sd">      - \operatorname{scaling} \cdot \operatorname{hyperparams}_0 \cdot </span>
+<span class="sd">      \operatorname{sign}(x_i) </span>
+<span class="sd">        &amp; \lvert x_i \rvert </span>
+<span class="sd">        &gt; \operatorname{scaling} \cdot \operatorname{hyperparams}_0 \\</span>
+<span class="sd">    \end{cases}</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: Pytree input.</span>
+<span class="sd">    hyperparams: A tuple, where both ``hyperparams[0]`` and ``hyperparams[1]`` can be </span>
+<span class="sd">      either floats or pytrees with the same structure as ``x``.</span>
+<span class="sd">    scaling: Scaling factor for the proximal operator. </span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Output pytree, with the same structure as ``x``.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">hyperparams</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">hyperparams</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="n">lam</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">tree_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">hyperparams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">hyperparams</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span> <span class="n">hyperparams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">gam</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">tree_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">hyperparams</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">hyperparams</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span> <span class="n">hyperparams</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">prox_l1</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">lambd</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">-</span> <span class="n">lambd</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">fun</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">lambd</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">prox_l1</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">scaling</span> <span class="o">*</span> <span class="n">lambd</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">scaling</span> <span class="o">*</span> <span class="n">gamma</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">gam</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="prox_l2">
+<a class="viewcode-back" href="../../api/sketchyopts.prox.html#sketchyopts.prox.prox_l2">[docs]</a>
+<span class="k">def</span> <span class="nf">prox_l2</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">l2reg</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator for the :math:`\ell^2` norm. </span>
+<span class="sd">  </span>
+<span class="sd">  The proximal operator of :math:`f(x) = \lVert x \rVert_2` for :math:`x \in </span>
+<span class="sd">  \mathbb{R}^d` is known as the block soft-thresholding operator</span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \begin{aligned}</span>
+<span class="sd">    \operatorname{prox}</span>
+<span class="sd">    _{\operatorname{scaling} \cdot \operatorname{l2reg} \cdot f}(x)</span>
+<span class="sd">    &amp;= \underset{y}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \operatorname{l2reg} \, \lVert y \rVert_2</span>
+<span class="sd">      + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= </span>
+<span class="sd">    \begin{cases}</span>
+<span class="sd">      ~ 0 </span>
+<span class="sd">        &amp; \lVert x \rVert_2</span>
+<span class="sd">        \leqslant \operatorname{scaling} \cdot \operatorname{l2reg} \\</span>
+<span class="sd">      ~ \bigg(1 - \dfrac</span>
+<span class="sd">      {\operatorname{scaling} \cdot \operatorname{l2reg}}</span>
+<span class="sd">      {\lVert x \rVert_2}\bigg) \, x</span>
+<span class="sd">        &amp; \lVert x \rVert_2</span>
+<span class="sd">        &gt; \operatorname{scaling} \cdot \operatorname{l2reg} \\</span>
+<span class="sd">    \end{cases} \\</span>
+<span class="sd">    \end{aligned}</span>
+<span class="sd">  </span>
+<span class="sd">  In group lasso, the function (also known as :math:`\ell^1/\ell^2` norm) takes the form</span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    f(x) = \sum_{g \in \mathcal{G}} \lVert x_{\mathcal{I}_g} \rVert_2</span>
+
+<span class="sd">  where :math:`\mathcal{G}` is a partition of :math:`[d]` and :math:`\mathcal{I}_g` is </span>
+<span class="sd">  the index set belonging to the :math:`g`:sup:`th` group. The corresponding proximal </span>
+<span class="sd">  operator in this case is given by</span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \big[</span>
+<span class="sd">      \operatorname{prox}</span>
+<span class="sd">      _{\operatorname{scaling} \cdot \operatorname{l2reg} \cdot f}(x)</span>
+<span class="sd">    \big]_{i}</span>
+<span class="sd">    = </span>
+<span class="sd">    \begin{cases}</span>
+<span class="sd">      ~ 0 </span>
+<span class="sd">        &amp; \lVert x_{\mathcal{I}_g} \rVert_2</span>
+<span class="sd">        \leqslant \operatorname{scaling} \cdot \operatorname{l2reg} \\</span>
+<span class="sd">      ~ \bigg(1 - \dfrac</span>
+<span class="sd">      {\operatorname{scaling} \cdot \operatorname{l2reg}}</span>
+<span class="sd">      {\lVert x_{\mathcal{I}_g} \rVert_2}\bigg) \, x_{i}</span>
+<span class="sd">        &amp; \lVert x_{\mathcal{I}_g} \rVert_2</span>
+<span class="sd">        &gt; \operatorname{scaling} \cdot \operatorname{l2reg} \\</span>
+<span class="sd">    \end{cases} \\</span>
+
+<span class="sd">  for all :math:`i \in \mathcal{I}_g` and :math:`g \in \mathcal{G}`. </span>
+
+<span class="sd">  .. note:: </span>
+<span class="sd">    The proximal operator is implemented for the :math:`\ell^2` norm (*i.e.* single </span>
+<span class="sd">    group case). To use it for group lasso, one can use :func:`jax.vmap` or </span>
+<span class="sd">    :func:`jax.tree.map` to apply the proximal mapping to groups as shown in the </span>
+<span class="sd">    following example. </span>
+
+<span class="sd">  Example:</span>
+<span class="sd">    .. highlight:: python</span>
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">      import jax</span>
+<span class="sd">      from sketchyopts.prox import prox_l2</span>
+
+<span class="sd">      # array with 2 or more dimensions and first axis across groups</span>
+<span class="sd">      def prox_group_lasso_array(x, l2reg=1.0, scaling=1.0): </span>
+<span class="sd">        # collapse each group into a single dimension</span>
+<span class="sd">        groups = jax.lax.collapse(x, 1)</span>
+<span class="sd">        # apply the operator to each group</span>
+<span class="sd">        result = jax.vmap(prox_l2, (0, None, None))(groups, l2reg, scaling)</span>
+<span class="sd">        # make result the original shape</span>
+<span class="sd">        return result.reshape(x.shape)</span>
+
+<span class="sd">      # pytree with groups as leaves</span>
+<span class="sd">      def prox_group_lasso_pytree(x, l2reg=1.0, scaling=1.0): </span>
+<span class="sd">        # define partial function that only depends on the pytree</span>
+<span class="sd">        partial_fun = lambda u: prox_l2(u, l2reg, scaling)</span>
+<span class="sd">        # apply the operator to each group</span>
+<span class="sd">        result = jax.tree.map(partial_fun, x)</span>
+<span class="sd">        return result</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: Pytree input.</span>
+<span class="sd">    l2reg: Regularization strength.</span>
+<span class="sd">    scaling: Scaling factor for the proximal operator.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Output pytree, with the same structure as ``x``.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">l2reg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">l2reg</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">l2_norm</span> <span class="o">=</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">l2reg</span> <span class="o">*</span> <span class="n">scaling</span> <span class="o">/</span> <span class="n">l2_norm</span>
+    <span class="n">factor</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">factor</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">factor</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="prox_l2_squared">
+<a class="viewcode-back" href="../../api/sketchyopts.prox.html#sketchyopts.prox.prox_l2_squared">[docs]</a>
+<span class="k">def</span> <span class="nf">prox_l2_squared</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">l2reg</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator for the squared :math:`\ell^2` norm. </span>
+
+<span class="sd">  The proximal operator of :math:`f(x) = (1/2) \, \lVert x \rVert_2^2` for :math:`x \in </span>
+<span class="sd">  \mathbb{R}^d` is given by</span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \begin{aligned}</span>
+<span class="sd">    \operatorname{prox}</span>
+<span class="sd">    _{\operatorname{scaling} \cdot \operatorname{l2reg} \cdot f}(x)</span>
+<span class="sd">    &amp;= \underset{y}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \frac{\operatorname{l2reg}}{2} \, \lVert y \rVert_2^2</span>
+<span class="sd">      + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= \frac{1}{1 + \operatorname{scaling} \cdot \operatorname{l2reg}} \, x \\</span>
+<span class="sd">    \end{aligned}</span>
+
+<span class="sd">  In ridge regression, the function is used as :math:`\ell^2`-regularization.  </span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: Pytree input.</span>
+<span class="sd">    l2reg: Regularization strength.</span>
+<span class="sd">    scaling: Scaling factor for the proximal operator.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Output pytree, with the same structure as ``x``.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">l2reg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">l2reg</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">factor</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">scaling</span> <span class="o">*</span> <span class="n">l2reg</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="prox_nonnegative_l2_squared">
+<a class="viewcode-back" href="../../api/sketchyopts.prox.html#sketchyopts.prox.prox_nonnegative_l2_squared">[docs]</a>
+<span class="k">def</span> <span class="nf">prox_nonnegative_l2_squared</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">l2reg</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">scaling</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator for the squared :math:`\ell^2` norm on the nonnegative </span>
+<span class="sd">  orthant.</span>
+
+<span class="sd">  The proximal operator of :math:`f(x) = (1/2) \, \lVert x \rVert_2^2 + </span>
+<span class="sd">  \mathbb{1}_{\mathbb{R}_{+}^{d}}(x)` for :math:`x \in \mathbb{R}^d` is given by</span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \begin{aligned}</span>
+<span class="sd">    \operatorname{prox}</span>
+<span class="sd">    _{\operatorname{scaling} \cdot \operatorname{l2reg} \cdot f}(x)</span>
+<span class="sd">    &amp;= \underset{y}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \operatorname{l2reg} \, </span>
+<span class="sd">      \bigg(</span>
+<span class="sd">        \frac{1}{2} \, \lVert y \rVert_2^2 </span>
+<span class="sd">        + \mathbb{1}_{\mathbb{R}_{+}^{d}}(y)</span>
+<span class="sd">      \bigg)</span>
+<span class="sd">      + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= \underset{y \succcurlyeq 0}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \frac{\operatorname{l2reg}}{2} \, \lVert y \rVert_2^2</span>
+<span class="sd">      + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= \bigg(</span>
+<span class="sd">      \frac{1}{1 + \operatorname{scaling} \cdot \operatorname{l2reg}} \, x</span>
+<span class="sd">      \bigg)_{+} \\</span>
+<span class="sd">    \end{aligned}</span>
+
+<span class="sd">  where :math:`\mathbb{1}_{\mathbb{R}_{+}^{d}}` is the indicator function of nonnegative </span>
+<span class="sd">  orthant :math:`\mathbb{R}_{+}^{d} \colonequals \{x \in \mathbb{R}^d \mid x </span>
+<span class="sd">  \succcurlyeq 0\}`</span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \mathbb{1}_{\mathbb{R}_{+}^{d}}(a)</span>
+<span class="sd">    = </span>
+<span class="sd">    \begin{cases}</span>
+<span class="sd">      ~ 0 </span>
+<span class="sd">        &amp; a_i \geqslant 0 ~\text{for}~i = 1, \cdots, d \\</span>
+<span class="sd">      ~ \infty</span>
+<span class="sd">        &amp; \text{otherwise}</span>
+<span class="sd">    \end{cases}</span>
+
+<span class="sd">  and :math:`(a)_{+} \colonequals \big[\max \{a_i, 0\}\big]_{i = 1, \cdots, d}` takes </span>
+<span class="sd">  element-wise positive part of :math:`a`. </span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: Pytree input.</span>
+<span class="sd">    l2reg: Regularization strength.</span>
+<span class="sd">    scaling: Scaling factor for the proximal operator.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    Output pytree, with the same structure as ``x``.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">l2reg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">l2reg</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">pytree</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">l2reg</span> <span class="o">*</span> <span class="n">scaling</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">pytree</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="prox_nonnegative">
+<a class="viewcode-back" href="../../api/sketchyopts.prox.html#sketchyopts.prox.prox_nonnegative">[docs]</a>
+<span class="k">def</span> <span class="nf">prox_nonnegative</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">hyperparams</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scaling</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator for indicator of the nonnegative orthant. </span>
+<span class="sd">  </span>
+<span class="sd">  The proximal operator of indicator :math:`f(x) = \mathbb{1}_{\mathbb{R}_{+}^{d}}(x)` </span>
+<span class="sd">  for :math:`x \in \mathbb{R}^d` is the projection onto the nonnegative orthant. Here </span>
+<span class="sd">  :math:`\mathbb{1}_{\mathbb{R}_{+}^{d}}` is the indicator function of nonnegative </span>
+<span class="sd">  orthant :math:`\mathbb{R}_{+}^{d} \colonequals \{x \in \mathbb{R}^d \mid x </span>
+<span class="sd">  \succcurlyeq 0\}`</span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \mathbb{1}_{\mathbb{R}_{+}^{d}}(a)</span>
+<span class="sd">    = </span>
+<span class="sd">    \begin{cases}</span>
+<span class="sd">      ~ 0 </span>
+<span class="sd">        &amp; a_i \geqslant 0 ~\text{for}~i = 1, \cdots, d \\</span>
+<span class="sd">      ~ \infty</span>
+<span class="sd">        &amp; \text{otherwise}</span>
+<span class="sd">    \end{cases}</span>
+
+<span class="sd">  The proximal operator is given by </span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \begin{aligned}</span>
+<span class="sd">    \operatorname{prox}_{\operatorname{scaling} \cdot f}(x)</span>
+<span class="sd">    &amp;= \underset{y}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \mathbb{1}_{\mathbb{R}_{+}}(y)</span>
+<span class="sd">      + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= \underset{y \succcurlyeq 0}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \lVert y - x \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= (x)_{+} \\</span>
+<span class="sd">    \end{aligned}</span>
+
+<span class="sd">  where :math:`(a)_{+} \colonequals \big[\max \{a_i, 0\}\big]_{i = 1, \cdots, d}` takes </span>
+<span class="sd">  element-wise positive part of :math:`a`. </span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: Pytree input.</span>
+<span class="sd">    hyperparams: Additional parameters of the proximal operator (for function </span>
+<span class="sd">      signature consistency). Ignored here.</span>
+<span class="sd">    scaling: Scaling factor for the proximal operator (for function signature</span>
+<span class="sd">      consistency). Ignored here. </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    Output pytree, with the same structure as ``x``.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="k">del</span> <span class="n">hyperparams</span><span class="p">,</span> <span class="n">scaling</span>
+    <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">_clip_safe</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="prox_box">
+<a class="viewcode-back" href="../../api/sketchyopts.prox.html#sketchyopts.prox.prox_box">[docs]</a>
+<span class="k">def</span> <span class="nf">prox_box</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">hyperparams</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">scaling</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator for indicator of a box (high-dimensional closed interval). </span>
+
+<span class="sd">  The proximal operator of indicator :math:`f(x) = \mathbb{1}_{\mathcal{C}}(x)` for set</span>
+<span class="sd">  </span>
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \mathcal{C}</span>
+<span class="sd">    \colonequals</span>
+<span class="sd">    \{x \in \mathbb{R}^d \mid </span>
+<span class="sd">      \operatorname{hyperparams}_0</span>
+<span class="sd">        \preccurlyeq x \preccurlyeq</span>
+<span class="sd">      \operatorname{hyperparams}_1</span>
+<span class="sd">    \}</span>
+
+<span class="sd">  is the projection onto the set :math:`\mathcal{C}`. Here :math:`\mathbb{1}_</span>
+<span class="sd">  {\mathcal{C}}` is the indicator function of the box :math:`\mathcal{C}`</span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \mathbb{1}_{\mathcal{C}}(a)</span>
+<span class="sd">    = </span>
+<span class="sd">    \begin{cases}</span>
+<span class="sd">      ~ 0 </span>
+<span class="sd">        &amp; \big[\operatorname{hyperparams}_0\big]_i </span>
+<span class="sd">          \leqslant a_i \leqslant </span>
+<span class="sd">          \big[\operatorname{hyperparams}_1\big]_i </span>
+<span class="sd">        ~\text{for}~i = 1, \cdots, d \\</span>
+<span class="sd">      ~ \infty</span>
+<span class="sd">        &amp; \text{otherwise}</span>
+<span class="sd">    \end{cases}</span>
+
+<span class="sd">  The proximal operator is given by </span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \begin{aligned}</span>
+<span class="sd">    \operatorname{prox}_{\operatorname{scaling} \cdot f}(x)</span>
+<span class="sd">    &amp;= \underset{y}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \mathbb{1}_{\mathcal{C}}(y)</span>
+<span class="sd">      + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= \underset{y \in \mathcal{C}}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \lVert y - x \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= \max\big\{</span>
+<span class="sd">      \operatorname{hyperparams}_0, \,</span>
+<span class="sd">      \min\{x, \, \operatorname{hyperparams}_1\}</span>
+<span class="sd">    \big\} \\</span>
+<span class="sd">    \end{aligned}</span>
+
+<span class="sd">  where both the minimum and maximum are element-wise operations. Intuitively, the </span>
+<span class="sd">  proximal operator clamps :math:`x` into the interval. </span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: Pytree input.</span>
+<span class="sd">    hyperparams: A tuple ``(lower, upper)`` specifying lower and upper bounds of the </span>
+<span class="sd">      box. Both bounds can be either scalar values or pytrees of the same structure as </span>
+<span class="sd">      ``x``.</span>
+<span class="sd">    scaling: Scaling factor for the proximal operator (for function signature</span>
+<span class="sd">      consistency). Ignored here. </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    Output pytree, with the same structure as ``x``.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="k">del</span> <span class="n">scaling</span>
+    <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">hyperparams</span>
+
+    <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">lower</span><span class="p">):</span>
+        <span class="n">lower</span> <span class="o">=</span> <span class="n">tree_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">lower</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">upper</span><span class="p">):</span>
+        <span class="n">upper</span> <span class="o">=</span> <span class="n">tree_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">y</span><span class="p">:</span> <span class="n">upper</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tree_map</span><span class="p">(</span><span class="n">_clip_safe</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="prox_hyperplane">
+<a class="viewcode-back" href="../../api/sketchyopts.prox.html#sketchyopts.prox.prox_hyperplane">[docs]</a>
+<span class="k">def</span> <span class="nf">prox_hyperplane</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">hyperparams</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">scaling</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator for indicator of a hyperplane. </span>
+
+<span class="sd">  The proximal operator of indicator :math:`f(x) = \mathbb{1}_{\mathcal{H}}(x)` for set</span>
+<span class="sd">  </span>
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \mathcal{H}</span>
+<span class="sd">    \colonequals</span>
+<span class="sd">    \{x \in \mathbb{R}^d \mid </span>
+<span class="sd">      \operatorname{hyperparams}_0^{\mathsf{T}} x </span>
+<span class="sd">      = \operatorname{hyperparams}_1</span>
+<span class="sd">    \}</span>
+
+<span class="sd">  is the projection onto the set :math:`\mathcal{H}`. Here :math:`\mathbb{1}_</span>
+<span class="sd">  {\mathcal{H}}` is the indicator function of the hyperplane :math:`\mathcal{H}`</span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \mathbb{1}_{\mathcal{H}}(a)</span>
+<span class="sd">    = </span>
+<span class="sd">    \begin{cases}</span>
+<span class="sd">      ~ 0 </span>
+<span class="sd">        &amp; \operatorname{hyperparams}_0^{\mathsf{T}} a</span>
+<span class="sd">        = \operatorname{hyperparams}_1 \\</span>
+<span class="sd">      ~ \infty</span>
+<span class="sd">        &amp; \text{otherwise}</span>
+<span class="sd">    \end{cases}</span>
+
+<span class="sd">  The proximal operator is given by </span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \begin{aligned}</span>
+<span class="sd">    \operatorname{prox}_{\operatorname{scaling} \cdot f}(x)</span>
+<span class="sd">    &amp;= \underset{y}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \mathbb{1}_{\mathcal{H}}(y)</span>
+<span class="sd">      + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= \underset{y \in \mathcal{H}}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \lVert y - x \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= x </span>
+<span class="sd">    - \frac</span>
+<span class="sd">    {</span>
+<span class="sd">      \operatorname{hyperparams}_0^{\mathsf{T}} x </span>
+<span class="sd">      - \operatorname{hyperparams}_1</span>
+<span class="sd">    }{</span>
+<span class="sd">      \lVert \operatorname{hyperparams}_0 \rVert_2^2</span>
+<span class="sd">    } \, \operatorname{hyperparams}_0 \\</span>
+<span class="sd">    \end{aligned}</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: Pytree input.</span>
+<span class="sd">    hyperparams: A tuple ``(a, b)`` specifying both the normal vector and the offset of </span>
+<span class="sd">      the hyperplane. The normal vector ``a`` is a pytree with the same structure as </span>
+<span class="sd">      ``x`` and the offset ``b`` is a scalar. </span>
+<span class="sd">    scaling: Scaling factor for the proximal operator (for function signature</span>
+<span class="sd">      consistency). Ignored here. </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    Output pytree, with the same structure as ``x``.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="k">del</span> <span class="n">scaling</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">hyperparams</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="p">(</span><span class="n">tree_vdot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">tree_vdot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">scale</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="prox_halfspace">
+<a class="viewcode-back" href="../../api/sketchyopts.prox.html#sketchyopts.prox.prox_halfspace">[docs]</a>
+<span class="k">def</span> <span class="nf">prox_halfspace</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">hyperparams</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">scaling</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Proximal operator for indicator of a halfspace. </span>
+
+<span class="sd">  The proximal operator of indicator :math:`f(x) = \mathbb{1}_{\mathcal{H}}(x)` for set</span>
+<span class="sd">  </span>
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \mathcal{H}</span>
+<span class="sd">    \colonequals</span>
+<span class="sd">    \{x \in \mathbb{R}^d \mid </span>
+<span class="sd">      \operatorname{hyperparams}_0^{\mathsf{T}} x </span>
+<span class="sd">      \leqslant \operatorname{hyperparams}_1</span>
+<span class="sd">    \}</span>
+
+<span class="sd">  is the projection onto the set :math:`\mathcal{H}`. Here :math:`\mathbb{1}_</span>
+<span class="sd">  {\mathcal{H}}` is the indicator function of the halfspace :math:`\mathcal{H}`</span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \mathbb{1}_{\mathcal{H}}(a)</span>
+<span class="sd">    = </span>
+<span class="sd">    \begin{cases}</span>
+<span class="sd">      ~ 0 </span>
+<span class="sd">        &amp; \operatorname{hyperparams}_0^{\mathsf{T}} a</span>
+<span class="sd">        \leqslant \operatorname{hyperparams}_1 \\</span>
+<span class="sd">      ~ \infty</span>
+<span class="sd">        &amp; \text{otherwise}</span>
+<span class="sd">    \end{cases}</span>
+
+<span class="sd">  The proximal operator is given by </span>
+
+<span class="sd">  .. math::</span>
+
+<span class="sd">    \begin{aligned}</span>
+<span class="sd">    \operatorname{prox}_{\operatorname{scaling} \cdot f}(x)</span>
+<span class="sd">    &amp;= \underset{y}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \mathbb{1}_{\mathcal{H}}(y)</span>
+<span class="sd">      + \frac{1}{2 \cdot \operatorname{scaling}} \, \lVert y - x \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= \underset{y \in \mathcal{H}}{\argmin} </span>
+<span class="sd">    \bigg\{</span>
+<span class="sd">      \lVert y - x \rVert_2^2</span>
+<span class="sd">    \bigg\} \\</span>
+<span class="sd">    &amp;= x </span>
+<span class="sd">    - \frac</span>
+<span class="sd">    {</span>
+<span class="sd">      (\operatorname{hyperparams}_0^{\mathsf{T}} x </span>
+<span class="sd">      - \operatorname{hyperparams}_1)_{+}</span>
+<span class="sd">    }{</span>
+<span class="sd">      \lVert \operatorname{hyperparams}_0 \rVert_2^2</span>
+<span class="sd">    } \, \operatorname{hyperparams}_0 \\</span>
+<span class="sd">    \end{aligned}</span>
+
+<span class="sd">  where :math:`(a)_{+} \colonequals \max \{a, 0\}` takes the positive part of :math:`a`. </span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    x: Pytree input.</span>
+<span class="sd">    hyperparams: A tuple ``(a, b)`` specifying both the normal vector and the offset of </span>
+<span class="sd">      the hyperplane that defines the halfspace. The normal vector ``a`` is a pytree </span>
+<span class="sd">      with the same structure as ``x`` and the offset ``b`` is a scalar. </span>
+<span class="sd">    scaling: Scaling factor for the proximal operator (for function signature</span>
+<span class="sd">      consistency). Ignored here. </span>
+<span class="sd">  Returns:</span>
+<span class="sd">    Output pytree, with the same structure as ``x``.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+    <span class="k">del</span> <span class="n">scaling</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">hyperparams</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">tree_vdot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="n">tree_vdot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="n">scale</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
