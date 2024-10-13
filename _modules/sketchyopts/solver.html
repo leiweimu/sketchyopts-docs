@@ -41,7 +41,7 @@
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../../_static/katex.min.js?v=be8ff15f"></script>
@@ -158,6 +158,7 @@
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/support_vector_machine.html">Support Vector Machine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/ridge_regression.html">Ridge Regression</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/l2_logistic_regression.html"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</a></li>
 </ul>
@@ -623,8 +624,6 @@ document.write(`
 <span class="sd">    ``abs_tol`` and ``rel_tol`` specify absolute and relative tolerances for terminating </span>
 <span class="sd">    the optimizer. Specifically, the optimization stops when </span>
 
-<span class="sd">    - the Nyström PCG has failed to solve the subproblem to the required tolerance </span>
-<span class="sd">      (based on the tolerance sequence)</span>
 <span class="sd">    - or, the maximal number of iterations has been reached</span>
 <span class="sd">    - or, the following stopping criteria have been met</span>
 
@@ -657,9 +656,14 @@ document.write(`
 <span class="sd">        reg_g_params = {&#39;scaling&#39;: reg * (1 - l1_ratio)}</span>
 <span class="sd">        prox_reg_h_params = {&#39;l1reg&#39;: reg * l1_ratio}</span>
 
-<span class="sd">        opt = NysADMM(least_squares_objective, l2_squared_reg, prox_l1, ...)</span>
-<span class="sd">        opt.run(init_params, data, reg_g_params=reg_g_params, </span>
-<span class="sd">        prox_reg_h_params=prox_reg_h_params)</span>
+<span class="sd">        opt = NysADMM(fun=least_squares_objective, </span>
+<span class="sd">                      reg_g=l2_squared_reg, </span>
+<span class="sd">                      prox_reg_h=prox_l1, </span>
+<span class="sd">                      ...)</span>
+<span class="sd">        params, state = opt.run(init_params, </span>
+<span class="sd">                                data, </span>
+<span class="sd">                                reg_g_params=reg_g_params, </span>
+<span class="sd">                                prox_reg_h_params=prox_reg_h_params)</span>
 
 <span class="sd">    References:</span>
 <span class="sd">      - S\. Zhao, Z. Frangella, and M. Udell, `NysADMM: faster composite convex</span>
@@ -770,16 +774,11 @@ document.write(`
         <span class="n">grad_g</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">reg_g</span><span class="p">(</span><span class="n">unravel_fun</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="o">**</span><span class="n">reg_g_params</span><span class="p">))</span>
 
         <span class="c1"># terminate the loop if one of the following holds:</span>
-        <span class="c1"># - x step PCG did not converge to the tolerance</span>
         <span class="c1"># - maximal number of iterations has been reached</span>
         <span class="c1"># - stopping criteria have been met</span>
         <span class="k">def</span> <span class="nf">cond_fun</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">,</span> <span class="n">iter_num</span><span class="p">,</span> <span class="n">pcg_status</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">value</span>
-            <span class="k">return</span> <span class="p">(</span>
-                <span class="n">pcg_status</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="o">&amp;</span> <span class="p">(</span><span class="n">iter_num</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">)</span>
-                <span class="o">&amp;</span> <span class="p">(</span><span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_terminable</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">))</span>
-            <span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">iter_num</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">_is_terminable</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">))</span>
 
         <span class="k">def</span> <span class="nf">body_fun</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">r_p</span><span class="p">,</span> <span class="n">r_d</span><span class="p">,</span> <span class="n">iter_num</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">value</span>
@@ -939,8 +938,8 @@ document.write(`
 <span class="sd">            residuals = jnp.dot(X, params) - y</span>
 <span class="sd">            return jnp.mean(residuals ** 2) + 0.5 * reg * jnp.dot(w ** 2)</span>
 
-<span class="sd">        opt = SketchySGD(ridge_reg_objective, ...)</span>
-<span class="sd">        opt.run(init_params, data, reg)</span>
+<span class="sd">        opt = SketchySGD(fun=ridge_reg_objective, ...)</span>
+<span class="sd">        params, state = opt.run(init_params, data, reg)</span>
 
 <span class="sd">    References:</span>
 <span class="sd">      - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `SketchySGD: Reliable</span>
@@ -1164,8 +1163,8 @@ document.write(`
 <span class="sd">            residuals = jnp.dot(X, params) - y</span>
 <span class="sd">            return jnp.mean(residuals ** 2) + 0.5 * reg * jnp.dot(w ** 2)</span>
 
-<span class="sd">        opt = SketchySVRG(ridge_reg_objective, ...)</span>
-<span class="sd">        opt.run(init_params, data, reg)</span>
+<span class="sd">        opt = SketchySVRG(fun=ridge_reg_objective, ...)</span>
+<span class="sd">        params, state = opt.run(init_params, data, reg)</span>
 
 <span class="sd">    .. rubric:: References</span>
 
@@ -1448,8 +1447,8 @@ document.write(`
 <span class="sd">            residuals = jnp.dot(X, params) - y</span>
 <span class="sd">            return jnp.mean(residuals ** 2) + 0.5 * reg * jnp.dot(w ** 2)</span>
 
-<span class="sd">        opt = SketchySAGA(ridge_reg_objective, ...)</span>
-<span class="sd">        opt.run(init_params, data, reg)</span>
+<span class="sd">        opt = SketchySAGA(fun=ridge_reg_objective, ...)</span>
+<span class="sd">        params, state = opt.run(init_params, data, reg)</span>
 
 <span class="sd">    .. rubric:: References</span>
 
@@ -1730,8 +1729,8 @@ document.write(`
 <span class="sd">            residuals = jnp.dot(X, params) - y</span>
 <span class="sd">            return jnp.mean(residuals ** 2) + 0.5 * reg * jnp.dot(w ** 2)</span>
 
-<span class="sd">        opt = SketchyKatyusha(ridge_reg_objective, ...)</span>
-<span class="sd">        opt.run(init_params, data, reg)</span>
+<span class="sd">        opt = SketchyKatyusha(fun=ridge_reg_objective, ...)</span>
+<span class="sd">        params, state = opt.run(init_params, data, reg)</span>
 
 <span class="sd">    .. rubric:: References</span>
 

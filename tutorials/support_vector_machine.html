@@ -1,0 +1,842 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Support Vector Machine &#8212; SketchyOpts  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/katex-math.css?v=91adb8b6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=9a799264" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/katex.min.js?v=be8ff15f"></script>
+    <script src="../_static/auto-render.min.js?v=ad136472"></script>
+    <script src="../_static/katex_autorenderer.js?v=8953b41a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/support_vector_machine';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Ridge Regression" href="ridge_regression.html" />
+    <link rel="prev" title="SketchyOpts" href="../index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SketchyOpts  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Support Vector Machine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ridge_regression.html">Ridge Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="l2_logistic_regression.html"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../api/sketchyopts.preconditioner.html">Preconditioners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/sketchyopts.solver.html">Solvers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/sketchyopts.prox.html">Proximal Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/sketchyopts.util.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/sketchyopts.error.html">Error Messages</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/udellgroup/sketchyopts" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/tutorials/support_vector_machine.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Support Vector Machine</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-the-model">Fitting the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remarks">Remarks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="support-vector-machine">
+<h1>Support Vector Machine<a class="headerlink" href="#support-vector-machine" title="Link to this heading">#</a></h1>
+<p>In this tutorial section, we use SketchyOpts to train a support vector machine (SVM) classifier. We first introduce some useful notations.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Symbol</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math">\(X \in \mathbb{R}^{n \times p}\)</span></p></td>
+<td><p>input features (or design matrix)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math">\(y \in \{-1, +1\}^{n}\)</span></p></td>
+<td><p>target classes</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math">\((x_i, y_i) \in \mathbb{R}^p \times \{-1, +1\}\)</span></p></td>
+<td><p><span class="math">\(i\)</span><sup>th</sup> training sample</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math">\(\beta = [\beta_0, \beta_{1}^{\mathsf{T}}] \in \mathbb{R}^{p+1}\)</span></p></td>
+<td><p>parameters of the model (including both the weights <span class="math">\(\beta_1\)</span> and bias <span class="math">\(\beta_0\)</span>)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math">\(C \geqslant 0\)</span></p></td>
+<td><p>penalty parameter for misclassification</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>SVM classifies data by maximizing the “margin” around the hyperplane in feature space that separates all data points of one class from those of the other class. The margin, more precisely, is the minimum distance between sample instances and the decision boundary. Often times the dataset we encounter is nonseparable. To address such difficulty and still be able to make classification decisions, we instead allow sample instances to be on the wrong side of the margin (also called soft-margin SVM). This gives rise to the following optimization problem
+<div class="math">
+\[
+\begin{aligned}
+    \underset{\beta, \, \{\xi_i\}_{i=1}^{n}}{\operatorname{minimize}} \quad& \frac{1}{2} \lVert \beta_1 \rVert_2^2 + C \, \sum_{i=1}^{n} \xi_i \\
+    \text{subject to} \quad& y_i(x_i^{\mathsf{T}}\beta_1 + \beta_0) \geqslant 1 - \xi_i, \, \forall i \\
+    & \xi_i \geqslant 0, \, \forall i
+\end{aligned}
+\]</div>
+
+Here <span class="math">\((\xi_1, \cdots, \xi_n)\)</span> are slack variables characterizing the amount by which the prediction <span class="math">\(x_i^{\mathsf{T}}\beta_1 + \beta_0\)</span> is on the wrong side of its margin.</p>
+<ul class="simple">
+<li><p>When <span class="math">\(\xi_i = 0\)</span>, the prediction is outside the margin on the correct side of the separating hyperplane;</p></li>
+<li><p>when <span class="math">\(0 &lt; \xi_i \leqslant 1\)</span>, the prediction falls within the margin on the correct side of the separating hyperplane;</p></li>
+<li><p>when <span class="math">\(\xi_i &gt; 1\)</span>, the prediction lies on the wrong side of the separating hyperplane.</p></li>
+</ul>
+<p>The objective seeks to balance the goals of finding a large margin and ensuring low training classification error. The parameter <span class="math">\(C\)</span> controls the relative weighting between the two. In practice, the value for <span class="math">\(C\)</span> is often determined by cross validation.</p>
+<section id="dataset">
+<h2>Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h2>
+<p>We use the <code class="docutils literal notranslate"><span class="pre">p53</span> <span class="pre">Mutants</span></code> <span id="id1">[<a class="reference internal" href="#id12" title="Richard Lathrop. p53 Mutants. UCI Machine Learning Repository, 2009. DOI: https://doi.org/10.24432/C5T89H.">Lathrop, 2009</a>]</span> dataset from <a class="reference external" href="https://archive.ics.uci.edu/dataset/188/p53+mutants">UCI Machine Learning Repository</a>. The dataset has 16,772 samples and each sample has 5,408 features assembled from biophysical simulations, and a binary label (transcriptonally competent, active p53 vs. cancerous, inactive p53) determined via in vivo assays. The goal is to use these 2D electrostatic and surface based as well as 3D distance based features to predict mutant p53 transcriptional activity.</p>
+<p>We download the dataset, and form training and test subsets with random 70-30 split.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="kn">import</span> <span class="nn">zipfile</span><span class="o">,</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># set seed for reproducibility</span>
+<span class="n">seed</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># download the dataset</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://archive.ics.uci.edu/static/public/188/p53+mutants.zip&#39;</span>
+<span class="n">file_Path</span> <span class="o">=</span> <span class="s1">&#39;p53+mutants.zip&#39;</span>
+<span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">file_Path</span><span class="p">)</span>
+
+<span class="c1"># extract datafile</span>
+<span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">file_Path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
+    <span class="n">zip_ref</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s1">&#39;p53_old_2010.zip&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="s1">&#39;p53_old_2010.zip&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_ref</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">zip_ref</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;p53_old_2010/K8.data&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="c1"># need to ignore last column because the datafile </span>
+        <span class="c1"># contains an extra comma at the end of each line</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">5409</span><span class="p">),</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;p53_old_2010.zip&#39;</span><span class="p">)</span> <span class="c1"># clean up extracted file</span>
+
+<span class="c1"># remove samples with missing value</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="c1"># convert string labels to binary {-1, +1}</span>
+<span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">&#39;inactive&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;active&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">})</span>
+
+<span class="c1"># perform random split</span>
+<span class="n">train_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">train_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">train_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+<span class="k">del</span> <span class="n">df</span><span class="p">,</span> <span class="n">train_df</span><span class="p">,</span> <span class="n">test_df</span>
+
+<span class="c1"># get the shape of training samples</span>
+<span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">n_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="fitting-the-model">
+<h2>Fitting the model<a class="headerlink" href="#fitting-the-model" title="Link to this heading">#</a></h2>
+<p>To train the SVM classifier, we work with the dual problem
+<div class="math">
+\[
+\begin{aligned}
+     \underset{\alpha}{\operatorname{maximize}} \quad& \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i,j}^{n} \alpha_i \alpha_j y_i y_j x_i^{\mathsf{T}} x_j \\
+     \text{subject to} \quad& \sum_{i=1}^{n} \alpha_i y_i = 0 \\
+     & 0 \leqslant \alpha_i \leqslant C, \, \forall i
+\end{aligned}
+\]</div>
+</p>
+<p>We see the objective involves the input features only via inner products. This enables us to use a more flexible variant of SVM that enlarges the feature space using basis expansion with kernel functions. The resulting classifier is capable of finding non-linear boundaries. The updated optimization problem is the following
+<div class="math">
+\[
+\begin{aligned}
+     \underset{\alpha}{\operatorname{maximize}} \quad& \sum_{i=1}^{n} \alpha_i - \frac{1}{2} \sum_{i,j}^{n} \alpha_i \alpha_j y_i y_j \langle \phi(x_i), \, \phi(x_j) \rangle \\
+     \text{subject to} \quad& \sum_{i=1}^{n} \alpha_i y_i = 0 \\
+     & 0 \leqslant \alpha_i \leqslant C, \, \forall i
+\end{aligned}
+\]</div>
+</p>
+<p>where <span class="math">\(\phi(\cdot)\)</span> is the kernel function that transforms feature vectors. The above problem can be expressed more succinctly (as in the form presented by ),
+<div class="math">
+\[
+\begin{aligned}
+     \underset{\alpha}{\operatorname{minimize}} \quad& \frac{1}{2} \alpha^{\mathsf{T}} \operatorname{diag}(y) K \operatorname{diag}(y) \alpha - \vec{1}^{\mathsf{T}}\alpha \\
+     \text{subject to} \quad& y^{\mathsf{T}}\alpha = 0 \\
+     & 0 \leqslant \alpha_i \leqslant C, \, \forall i
+\end{aligned}
+\]</div>
+
+where <span class="math">\(K_{i,j} = K(x_i, x_j) = \langle \phi(x_i), \, \phi(x_j) \rangle\)</span>. We use the radial basis function (RBF) kernel in this example, and thus <span class="math">\(K(\cdot, \cdot)\)</span> takes the form
+<div class="math">
+\[
+    K(x,x') = \exp(-\gamma \lVert x - x' \rVert_2^2)
+\]</div>
+
+where <span class="math">\(\gamma &gt; 0\)</span> is a parameter that sets the kernel width. A smaller value of <span class="math">\(\gamma\)</span> leads to more smooth decision boundaries.</p>
+<p>Here we use the <a class="reference external" href="https://scikit-learn.org/1.5/modules/generated/sklearn.metrics.pairwise.rbf_kernel.html">scikit-learn RBF kernel</a> implementation and, precompute the Gram matrix <span class="math">\(G \coloneqq \operatorname{diag}(y) K \operatorname{diag}(y)\)</span> with kernel width set to <span class="math">\(\gamma = 1/p\)</span> (default value of the implementation).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">rbf_kernel</span>
+
+<span class="c1"># precompute kernel and Gram matrices</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span> <span class="o">@</span> <span class="n">K</span> <span class="o">@</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We demonstrate how to set up NysADMM to train the SVM classifier. To apply NysADMM, we need to reformulate the problem and split the objective into separate components. One way of doing this is to define</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fun</span></code>: <span class="math">\(\frac{1}{2} \alpha^{\mathsf{T}} \operatorname{diag}(y) K \operatorname{diag}(y) \alpha\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reg_g</span></code>: <span class="math">\(-\vec{1}^{\mathsf{T}}\alpha\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reg_h</span></code>: <span class="math">\(1_{\mathcal{C}}\)</span> where <span class="math">\(\mathcal{C} = \{\alpha \in \mathbb{R}^{n} \mid y^{\mathsf{T}}\alpha = 0, \, 0 \leqslant \alpha_i \leqslant C, \, \forall i\}\)</span> is the intersection of a hyperplane and a hypercube</p></li>
+</ul>
+<p>The proximal operator of the indicator function <span class="math">\(1_{\mathcal{C}}\)</span> is the projection onto <span class="math">\(\mathcal{C}\)</span>, which is given by
+<div class="math">
+\[
+    \operatorname{prox}_{\lambda \cdot 1_{\mathcal{C}}}(z) = \Pi_{[0,C]}(z - \mu^{\ast}y)
+\]</div>
+
+where <span class="math">\(\Pi_{[0,C]}(\cdot)\)</span> is the projection onto the hypercube
+<div class="math">
+\[
+    \big[\Pi_{[0,C]}(z)\big]_{j} = 
+    \begin{cases}
+        ~ 0 & \text{if}~ z_j < 0 \\
+        ~ z_j & \text{if}~0 \leqslant z_j \leqslant C \\
+        ~ C & \text{if}~ z_j > C \\
+    \end{cases}
+\]</div>
+
+and <span class="math">\(\mu^{\ast}\)</span> is the root of
+<div class="math">
+\[
+    \varphi(\mu) \coloneqq y^{\mathsf{T}}\Pi_{[0,C]}(z - \mu y)
+\]</div>
+
+We can use bisection method to find <span class="math">\(\mu^{\ast}\)</span>. We implement these component functions along with related oracles and the aforementioned proximal operator.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax</span>
+
+<span class="c1"># define the objective `fun`</span>
+<span class="k">def</span> <span class="nf">fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span> <span class="o">@</span> <span class="n">params</span><span class="p">)</span>
+
+<span class="c1"># define the gradient oracle</span>
+<span class="k">def</span> <span class="nf">grad_fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="n">data</span> <span class="o">@</span> <span class="n">params</span>
+
+<span class="c1"># define the hvp oracle</span>
+<span class="k">def</span> <span class="nf">hvp_fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="n">data</span> <span class="o">@</span> <span class="n">vec</span>
+
+<span class="c1"># define the smooth `reg_g`</span>
+<span class="k">def</span> <span class="nf">reg_g</span><span class="p">(</span><span class="n">params</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="o">-</span><span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+<span class="c1"># define the proximal operator of the non-smooth `reg_h`</span>
+<span class="k">def</span> <span class="nf">prox_reg_h</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">scaling</span><span class="p">,</span> <span class="n">C</span><span class="p">):</span> 
+    <span class="k">del</span> <span class="n">scaling</span>
+
+    <span class="c1"># define hypercube parameters</span>
+    <span class="n">lower</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">upper</span> <span class="o">=</span> <span class="n">C</span>
+
+    <span class="c1"># define hyperplane parameters</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">y_train</span>
+    <span class="n">scalar</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># define projection onto hypercube</span>
+    <span class="k">def</span> <span class="nf">hypercube_proj</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> 
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lower</span><span class="p">),</span> <span class="n">upper</span><span class="p">)</span>
+
+    <span class="c1"># define bisection objective </span>
+    <span class="k">def</span> <span class="nf">phi</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">coeffs</span><span class="p">,</span> <span class="n">hypercube_proj</span><span class="p">(</span><span class="n">point</span> <span class="o">-</span> <span class="n">mu</span> <span class="o">*</span> <span class="n">coeffs</span><span class="p">))</span> <span class="o">-</span> <span class="n">scalar</span>
+
+    <span class="c1"># identify bisection bracket</span>
+    <span class="n">bisect_lower</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span><span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">phi</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">bisect_upper</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span><span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">phi</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># find optimal mu</span>
+    <span class="n">max_iter</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">atol</span> <span class="o">=</span> <span class="mf">1e-5</span>
+    <span class="n">rtol</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+    
+    <span class="k">def</span> <span class="nf">cond_fun</span><span class="p">(</span><span class="n">values</span><span class="p">):</span> 
+        <span class="n">iter_num</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">values</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="n">u</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">iter_num</span> <span class="o">&lt;</span> <span class="n">max_iter</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">phi</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">l</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">atol</span> <span class="o">+</span> <span class="n">rtol</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">body_fun</span><span class="p">(</span><span class="n">values</span><span class="p">):</span> 
+        <span class="n">iter_num</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">values</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="n">u</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">phi</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">phi</span><span class="p">(</span><span class="n">l</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">iter_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="n">l</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">c</span><span class="p">,</span> <span class="n">r</span> <span class="o">*</span> <span class="n">u</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span>
+
+    <span class="n">_</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span><span class="n">cond_fun</span><span class="p">,</span> <span class="n">body_fun</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">bisect_lower</span><span class="p">,</span> <span class="n">bisect_upper</span><span class="p">))</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span> <span class="o">+</span> <span class="n">u</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="c1"># compute projection</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">hypercube_proj</span><span class="p">(</span><span class="n">point</span> <span class="o">-</span> <span class="n">mu</span> <span class="o">*</span> <span class="n">coeffs</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Besides the built-in SketchyOpts proximal operations there are dedicated libraries for computing proximal mappings. For instance, <a class="reference external" href="https://pyproximal.readthedocs.io/en/stable/api/generated/pyproximal.projection.HyperPlaneBoxProj.html">PyProx</a> implements the relevant projection that can be adapted for our use.</p>
+<p>However, we might need to make sure these external implementations are compatible with JAX. Here we choose to implement the proximal operator ourselves because <code class="docutils literal notranslate"><span class="pre">HyperPlaneBoxProj</span></code> from PyProx does not work well with JIT-compilation.</p>
+</div>
+<p>We fit the model using NysADMM with sketch size <span class="math">\(20\)</span>. As discussed in the NysADMM paper <span id="id2">[<a class="reference internal" href="#id13" title="Shipu Zhao, Zachary Frangella, and Madeleine Udell. NysADMM: faster composite convex optimization via low-rank approximation. In Kamalika Chaudhuri, Stefanie Jegelka, Le Song, Csaba Szepesvari, Gang Niu, and Sivan Sabato, editors, Proceedings of the 39th International Conference on Machine Learning, volume 162 of Proceedings of Machine Learning Research, 26824–26840. PMLR, 17–23 Jul 2022. URL: https://proceedings.mlr.press/v162/zhao22a.html.">Zhao <em>et al.</em>, 2022</a>]</span>, the Gram matrix <span class="math">\(\operatorname{diag}(y) K \operatorname{diag}(y)\)</span> is approximately low rank, and we would expect NysADMM to enjoy accelerated convergence in practice even if the effective dimension of the Hessian of the ADMM subproblem is greater than the sketch size.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sketchyopts.solver</span> <span class="kn">import</span> <span class="n">NysADMM</span>
+
+<span class="c1"># define optimizer parameters</span>
+<span class="n">sketch_size</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">step_size</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">maxiter</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">init_params</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">C</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">n</span>
+
+<span class="c1"># run NysADMM to fit SVM classifier</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">NysADMM</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">fun</span><span class="p">,</span> 
+              <span class="n">grad_fun</span><span class="o">=</span><span class="n">grad_fun</span><span class="p">,</span> 
+              <span class="n">hvp_fun</span><span class="o">=</span><span class="n">hvp_fun</span><span class="p">,</span> 
+              <span class="n">reg_g</span><span class="o">=</span><span class="n">reg_g</span><span class="p">,</span> 
+              <span class="n">prox_reg_h</span><span class="o">=</span><span class="n">prox_reg_h</span><span class="p">,</span> 
+              <span class="n">step_size</span><span class="o">=</span><span class="n">step_size</span><span class="p">,</span> 
+              <span class="n">sketch_size</span><span class="o">=</span><span class="n">sketch_size</span><span class="p">,</span> 
+              <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">)</span>
+<span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init_params</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">prox_reg_h_params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="n">C</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To evaluate the test accuracy of the fitted classifier, we first recover optimal primal variables <span class="math">\(\beta^{\ast}\)</span> from the obtained optimal dual variables <span class="math">\(\alpha^{\ast}\)</span>
+<div class="math">
+\[
+\begin{aligned}
+    & \beta_1^{\ast} = \sum_{i=1}^{n} \alpha_i^{\ast} y_i \phi(x_i) \\
+    & \beta_0^{\ast} = y_k - (\beta_1^{\ast})^{\mathsf{T}} \phi(x_k) \quad \text{for any}~k~\text{such that}~0 < \alpha_k^{\ast} < C
+\end{aligned}
+\]</div>
+</p>
+<p>For numerical stability, we take the average of all such <span class="math">\((x_k, y_k, \alpha_k^{\ast})\)</span>’s when computing <span class="math">\(\beta_0^{\ast}\)</span>.</p>
+<p>Then we can make predictions on the unseen example <span class="math">\(x\)</span> using recovered <span class="math">\(\beta^{\ast}\)</span> by the following decision rule
+<div class="math">
+\[
+    \operatorname{sign}\big((\beta_1^{\ast})^{\mathsf{T}} \phi(x) + \beta_0^{\ast}\big)
+    = \operatorname{sign}\bigg(\sum_{i=1}^{n} \alpha_i^{\ast} y_i K(x, x_i) + \beta_0^{\ast}\bigg)
+\]</div>
+
+where <span class="math">\(K(x, x_i) = \langle \phi(x), \phi(x_i) \rangle\)</span>. We now implement prediction function and compute the test accuracy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute new kernel matrix for testing</span>
+<span class="n">K_test</span> <span class="o">=</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">X_train</span><span class="p">)</span>
+
+<span class="c1"># define prediction function</span>
+<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">kernel</span><span class="p">):</span> 
+    <span class="c1"># recover bias</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">argwhere</span><span class="p">(</span><span class="n">params</span><span class="p">[(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">params</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">params</span> <span class="o">&lt;</span> <span class="n">C</span><span class="p">)])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">bias</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_train</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">K</span><span class="p">[</span><span class="n">idx</span><span class="p">,:]</span> <span class="o">@</span> <span class="p">(</span><span class="n">params</span> <span class="o">*</span> <span class="n">y_train</span><span class="p">))</span>
+    <span class="c1"># make predictions</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">kernel</span> <span class="o">@</span> <span class="p">(</span><span class="n">params</span> <span class="o">*</span> <span class="n">y_train</span><span class="p">)</span> <span class="o">+</span> <span class="n">bias</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">preds</span>
+    
+<span class="c1"># define test error evaluation function</span>
+<span class="k">def</span> <span class="nf">eval_test_error</span><span class="p">(</span><span class="n">preds</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_test</span> <span class="o">-</span> <span class="n">preds</span><span class="p">))</span> <span class="o">/</span> <span class="n">n_test</span>
+
+<span class="c1"># output result</span>
+<span class="n">test_accuracy</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">eval_test_error</span><span class="p">(</span><span class="n">predict</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">K_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test accuracy: </span><span class="si">{:.2f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">test_accuracy</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test accuracy: 99.28%
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="remarks">
+<h2>Remarks<a class="headerlink" href="#remarks" title="Link to this heading">#</a></h2>
+<p>In this example, we see NysADMM is able to converge fast. Here we compare the training time to the <a class="reference external" href="https://scikit-learn.org/dev/modules/generated/sklearn.svm.SVC.html">scikit-learn SVM</a> implementation which is based on LIBSVM <span id="id3">[<a class="reference internal" href="#id10" title="Chih-Chung Chang and Chih-Jen Lin. LIBSVM: A library for support vector machines. ACM Transactions on Intelligent Systems and Technology, 2(3):1–27, may 2011. URL: https://doi.org/10.1145/1961189.1961199, doi:10.1145/1961189.1961199.">Chang and Lin, 2011</a>]</span>. As illustrated in the paper <span id="id4">[<a class="reference internal" href="#id13" title="Shipu Zhao, Zachary Frangella, and Madeleine Udell. NysADMM: faster composite convex optimization via low-rank approximation. In Kamalika Chaudhuri, Stefanie Jegelka, Le Song, Csaba Szepesvari, Gang Niu, and Sivan Sabato, editors, Proceedings of the 39th International Conference on Machine Learning, volume 162 of Proceedings of Machine Learning Research, 26824–26840. PMLR, 17–23 Jul 2022. URL: https://proceedings.mlr.press/v162/zhao22a.html.">Zhao <em>et al.</em>, 2022</a>]</span>, NysADMM is expected to have great performance when the Hessian of the ADMM subproblem is dense and approximately low rank.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+
+<span class="c1"># include precompute time for fair comparison</span>
+<span class="k">def</span> <span class="nf">solve_with_NysADMM</span><span class="p">():</span> 
+    <span class="n">G</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span> <span class="o">@</span> <span class="n">rbf_kernel</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span> <span class="o">@</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+    <span class="n">opt</span> <span class="o">=</span> <span class="n">NysADMM</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">fun</span><span class="p">,</span> 
+              <span class="n">grad_fun</span><span class="o">=</span><span class="n">grad_fun</span><span class="p">,</span> 
+              <span class="n">hvp_fun</span><span class="o">=</span><span class="n">hvp_fun</span><span class="p">,</span> 
+              <span class="n">reg_g</span><span class="o">=</span><span class="n">reg_g</span><span class="p">,</span> 
+              <span class="n">prox_reg_h</span><span class="o">=</span><span class="n">prox_reg_h</span><span class="p">,</span> 
+              <span class="n">step_size</span><span class="o">=</span><span class="n">step_size</span><span class="p">,</span> 
+              <span class="n">sketch_size</span><span class="o">=</span><span class="n">sketch_size</span><span class="p">,</span> 
+              <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">)</span>
+    <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init_params</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">prox_reg_h_params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="n">C</span><span class="p">})</span>
+
+<span class="c1"># use same hyerparameters as NysADMM</span>
+<span class="k">def</span> <span class="nf">solve_with_SVC</span><span class="p">():</span> 
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;NysADMM:&quot;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">timeit</span> solve_with_NysADMM()
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SVC:&quot;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">timeit</span> solve_with_SVC()
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NysADMM:
+13.3 s ± 103 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+SVC:
+1min 6s ± 422 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div class="docutils container" id="id5">
+<div role="list" class="citation-list">
+<div class="citation" id="id10" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">SVM1</a><span class="fn-bracket">]</span></span>
+<p>Chih-Chung Chang and Chih-Jen Lin. LIBSVM: A library for support vector machines. <em>ACM Transactions on Intelligent Systems and Technology</em>, 2(3):1–27, may 2011. URL: <a class="reference external" href="https://doi.org/10.1145/1961189.1961199">https://doi.org/10.1145/1961189.1961199</a>, <a class="reference external" href="https://doi.org/10.1145/1961189.1961199">doi:10.1145/1961189.1961199</a>.</p>
+</div>
+<div class="citation" id="id12" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">SVM2</a><span class="fn-bracket">]</span></span>
+<p>Richard Lathrop. p53 Mutants. UCI Machine Learning Repository, 2009. DOI: https://doi.org/10.24432/C5T89H.</p>
+</div>
+<div class="citation" id="id13" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>SVM3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id4">2</a>)</span>
+<p>Shipu Zhao, Zachary Frangella, and Madeleine Udell. NysADMM: faster composite convex optimization via low-rank approximation. In Kamalika Chaudhuri, Stefanie Jegelka, Le Song, Csaba Szepesvari, Gang Niu, and Sivan Sabato, editors, <em>Proceedings of the 39th International Conference on Machine Learning</em>, volume 162 of Proceedings of Machine Learning Research, 26824–26840. PMLR, 17–23 Jul 2022. URL: <a class="reference external" href="https://proceedings.mlr.press/v162/zhao22a.html">https://proceedings.mlr.press/v162/zhao22a.html</a>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">SketchyOpts</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ridge_regression.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Ridge Regression</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-the-model">Fitting the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remarks">Remarks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
