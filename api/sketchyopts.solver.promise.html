@@ -1,0 +1,1283 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>PROMISE &#8212; SketchyOpts  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/katex-math.css?v=91adb8b6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=9a799264" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/katex.min.js?v=be8ff15f"></script>
+    <script src="../_static/auto-render.min.js?v=ad136472"></script>
+    <script src="../_static/katex_autorenderer.js?v=8953b41a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/sketchyopts.solver.promise';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Base Iterative Solver" href="sketchyopts.solver.base_solver.html" />
+    <link rel="prev" title="sGMRES" href="sketchyopts.solver.sgmres.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SketchyOpts  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/support_vector_machine.html">Support Vector Machine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ridge_regression.html">Ridge Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/l2_logistic_regression.html"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="sketchyopts.solver.html">Solvers</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="sketchyopts.solver.nystrom_pcg.html">Nyström PCG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sketchyopts.solver.nysadmm.html">NysADMM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sketchyopts.solver.sgmres.html">sGMRES</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">PROMISE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sketchyopts.solver.base_solver.html">Base Iterative Solver</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.linear_solve.html">Linear Solve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.nystrom.html">Nyström Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.sketching.html">Sketching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.operator.html">Operator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.prox.html">Proximal Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.util.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.error.html">Error Messages</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/udellgroup/sketchyopts" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/sketchyopts.solver.promise.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>PROMISE</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#promise-solvers">PROMISE Solvers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#promise-base-class">PROMISE Base Class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.PromiseSolver"><code class="docutils literal notranslate"><span class="pre">PromiseSolver</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchysgd">SketchySGD</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySGD"><code class="docutils literal notranslate"><span class="pre">SketchySGD</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySGD.run"><code class="docutils literal notranslate"><span class="pre">SketchySGD.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySGDState"><code class="docutils literal notranslate"><span class="pre">SketchySGDState</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchysvrg">SketchySVRG</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySVRG"><code class="docutils literal notranslate"><span class="pre">SketchySVRG</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySVRG.run"><code class="docutils literal notranslate"><span class="pre">SketchySVRG.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySVRGState"><code class="docutils literal notranslate"><span class="pre">SketchySVRGState</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchysaga">SketchySAGA</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySAGA"><code class="docutils literal notranslate"><span class="pre">SketchySAGA</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySAGA.run"><code class="docutils literal notranslate"><span class="pre">SketchySAGA.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySAGAState"><code class="docutils literal notranslate"><span class="pre">SketchySAGAState</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchykatyusha">SketchyKatyusha</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchyKatyusha"><code class="docutils literal notranslate"><span class="pre">SketchyKatyusha</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchyKatyusha.run"><code class="docutils literal notranslate"><span class="pre">SketchyKatyusha.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchyKatyushaState"><code class="docutils literal notranslate"><span class="pre">SketchyKatyushaState</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="promise">
+<h1>PROMISE<a class="headerlink" href="#promise" title="Link to this heading">#</a></h1>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.solver.PromiseSolver" title="sketchyopts.solver.PromiseSolver"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PromiseSolver</span></code></a>(*, fun[, grad_fun, hvp_fun, ...])</p></td>
+<td><p>Base class for PROMISE solvers.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.solver.SketchySGD" title="sketchyopts.solver.SketchySGD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SketchySGD</span></code></a>(*, fun[, grad_fun, hvp_fun, ...])</p></td>
+<td><p>The SketchySGD optimizer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.solver.SketchySGDState" title="sketchyopts.solver.SketchySGDState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SketchySGDState</span></code></a>(iter_num, value, error, key, ...)</p></td>
+<td><p>The SketchySGD optimizer state.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.solver.SketchySVRG" title="sketchyopts.solver.SketchySVRG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SketchySVRG</span></code></a>(*, fun[, grad_fun, hvp_fun, ...])</p></td>
+<td><p>The SketchySVRG optimizer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.solver.SketchySVRGState" title="sketchyopts.solver.SketchySVRGState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SketchySVRGState</span></code></a>(iter_num, value, error, ...)</p></td>
+<td><p>The SketchySVRG optimizer state.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.solver.SketchySAGA" title="sketchyopts.solver.SketchySAGA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SketchySAGA</span></code></a>(*, fun[, grad_fun, hvp_fun, ...])</p></td>
+<td><p>The SketchySAGA optimizer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.solver.SketchySAGAState" title="sketchyopts.solver.SketchySAGAState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SketchySAGAState</span></code></a>(iter_num, value, error, ...)</p></td>
+<td><p>The SketchySAGA optimizer state.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.solver.SketchyKatyusha" title="sketchyopts.solver.SketchyKatyusha"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SketchyKatyusha</span></code></a>(*, fun[, grad_fun, hvp_fun, ...])</p></td>
+<td><p>The SketchyKatyusha optimizer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.solver.SketchyKatyushaState" title="sketchyopts.solver.SketchyKatyushaState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SketchyKatyushaState</span></code></a>(iter_num, value, error, ...)</p></td>
+<td><p>The SketchyKatyusha optimizer state.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="promise-solvers">
+<h2>PROMISE Solvers<a class="headerlink" href="#promise-solvers" title="Link to this heading">#</a></h2>
+<p>SketchyOpts includes four sketching-based preconditioned stochastic gradient algorithms
+(PROMISE solvers): <a class="reference internal" href="#sketchysgd"><span class="std std-ref">SketchySGD</span></a>,
+<a class="reference internal" href="#sketchysvrg"><span class="std std-ref">SketchySVRG</span></a>, <a class="reference internal" href="#sketchysaga"><span class="std std-ref">SketchySAGA</span></a>,
+and <a class="reference internal" href="#sketchykatyusha"><span class="std std-ref">SketchyKatyusha</span></a>. These solvers share some
+common arguments and we provide detailed guidance on a few of them here. Please go to
+each individual section below for solver-specific description and a complete list of its
+arguments.</p>
+<dl class="glossary">
+<dt id="term-fun"><code class="docutils literal notranslate"><span class="pre">fun</span></code><a class="headerlink" href="#term-fun" title="Link to this term">#</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">fun</span></code> specifies the objective function of the optimization problem.
+The argument is <strong>required</strong>. It must have:</p>
+<ul class="simple">
+<li><p>scalar output</p></li>
+<li><p>optimization variable as <strong>first</strong> argument</p></li>
+<li><p>argument <code class="docutils literal notranslate"><span class="pre">data</span></code> for data input, and argument <code class="docutils literal notranslate"><span class="pre">reg</span></code> for <span class="math">\(\ell^2\)</span>
+regularization strength</p></li>
+</ul>
+<p>For instance, <code class="docutils literal notranslate"><span class="pre">fun</span></code> could take the form <code class="code highlight python docutils literal highlight-python"><span class="n">value</span> <span class="o">=</span> <span class="n">fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">some_arg</span><span class="p">,</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">other_arg</span><span class="p">)</span></code>.</p>
+<p>Please note that <a class="reference internal" href="#sketchyopts.solver.SketchySAGA" title="sketchyopts.solver.SketchySAGA"><code class="xref py py-class docutils literal notranslate"><span class="pre">SketchySAGA</span></code></a> has additional requirement for the
+objective function <code class="docutils literal notranslate"><span class="pre">fun</span></code>. Please go to the section to find out more.</p>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="simple glossary">
+<dt id="term-grad_fun"><code class="docutils literal notranslate"><span class="pre">grad_fun</span></code><a class="headerlink" href="#term-grad_fun" title="Link to this term">#</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">grad_fun</span></code> specifies the gradient oracle that computes the gradient of the
+objective function <code class="docutils literal notranslate"><span class="pre">fun</span></code> with respect to its first argument (<em>i.e.</em> the
+optimization variable). The argument is <strong>optional</strong>.</p>
+<ul class="simple">
+<li><p>It is expected to have the same function signature as the objective function
+<code class="docutils literal notranslate"><span class="pre">fun</span></code>. For instance, <code class="docutils literal notranslate"><span class="pre">grad_fun</span></code> could take the form
+<code class="code highlight python docutils literal highlight-python"><span class="n">grad</span> <span class="o">=</span> <span class="n">grad_fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">some_arg</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">other_arg</span><span class="p">)</span></code>.</p></li>
+<li><p>The gradient output should have the same shape and type as the the
+optimization variable.</p></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="simple glossary">
+<dt id="term-precond"><code class="docutils literal notranslate"><span class="pre">precond</span></code><a class="headerlink" href="#term-precond" title="Link to this term">#</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">precond</span></code> specifies the type of preconditioner for the solver. Two types of
+preconditioner are available: Nyström subsampled Newton
+(<code class="code highlight python docutils literal highlight-python"><span class="n">precond</span> <span class="o">=</span> <span class="n">nyssn</span></code>) by default, and subsampled Newton
+(<code class="code highlight python docutils literal highlight-python"><span class="n">precond</span> <span class="o">=</span> <span class="n">ssn</span></code>). Each type relies on a different oracle.</p>
+<ul class="simple">
+<li><p>If Nyström subsampled Newton is selected, the Hessian-vector product oracle
+<code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code> can be <strong>optionally</strong> provided.</p></li>
+<li><p>If subsampled Newton is selected, the square-root Hessian oracle
+<code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code> is <strong>required</strong>.</p></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="glossary">
+<dt id="term-hvp_fun"><code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code><a class="headerlink" href="#term-hvp_fun" title="Link to this term">#</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code> specifies the Hessian-vector product oracle that computes the
+product of the Hessian and an arbitrary compatible vector. It is <strong>optional</strong>
+for using the Nyström subsampled Newton preconditioner. If provided, it must
+have:</p>
+<ul class="simple">
+<li><p>optimization variable as <strong>first</strong> argument</p></li>
+<li><p>arbitrary vector (of the same shape and type as the optimization variable) as
+<strong>second</strong> argument</p></li>
+<li><p>same additional arguments as the objective function <code class="docutils literal notranslate"><span class="pre">fun</span></code> (<code class="docutils literal notranslate"><span class="pre">data</span></code>,
+<code class="docutils literal notranslate"><span class="pre">reg</span></code>, etc.)</p></li>
+<li><p>function output of the same shape and type as the optimization variable</p></li>
+</ul>
+<p>For instance, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code> could take the form <code class="code highlight python docutils literal highlight-python"><span class="n">vec_output</span> <span class="o">=</span>
+<span class="n">hvp_fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">some_arg</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">other_arg</span><span class="p">)</span></code>.</p>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="simple glossary">
+<dt id="term-sqrt_hess_fun"><code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code><a class="headerlink" href="#term-sqrt_hess_fun" title="Link to this term">#</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code> specifies the square-root Hessian oracle. It is <strong>mandatory</strong>
+for using the subsampled Newton preconditioner.</p>
+<ul class="simple">
+<li><p>It is expected to return a <strong>2-dimensional</strong> array <span class="math">\(X\)</span> with
+<span class="math">\(X^{T}X = H\)</span> where <span class="math">\(H\)</span> is the Hessian of the <strong>unregularized</strong>
+objective function (<em>i.e.</em> <span class="math">\(\ell^2\)</span> regularization strength set to
+<code class="code highlight python docutils literal highlight-python"><span class="n">reg</span> <span class="o">=</span> <span class="mi">0</span></code>) with respect to the <strong>flattened</strong> first argument.</p></li>
+<li><p>It should take the same arguments as the objective function <code class="docutils literal notranslate"><span class="pre">fun</span></code> other than
+the regularization strength <code class="docutils literal notranslate"><span class="pre">reg</span></code>. For instance, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code> could
+take the form <code class="code highlight python docutils literal highlight-python"><span class="n">matrix_output</span> <span class="o">=</span> <span class="n">sqrt_hess_fun</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">some_arg</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
+<span class="n">other_arg</span><span class="p">)</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is unnecessary to JIT-compile the objective function <code class="docutils literal notranslate"><span class="pre">fun</span></code> or any of the above
+oracles (<code class="docutils literal notranslate"><span class="pre">grad_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code>) beforehand because the
+PROMISE solver will apply JIT transformation and perform JIT-compilation internally
+when initialized with <code class="code highlight python docutils literal highlight-python"><span class="n">jit</span> <span class="o">=</span> <span class="kc">True</span></code>.</p>
+</div>
+<hr class="docutils" />
+<dl class="glossary">
+<dt id="term-pre_update"><code class="docutils literal notranslate"><span class="pre">pre_update</span></code><a class="headerlink" href="#term-pre_update" title="Link to this term">#</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">pre_update</span></code> specifies the <strong>optional</strong> callback function that gets called
+first in each iteration before the solver updates the iterate.</p>
+<ul class="simple">
+<li><p>The function expects signature <code class="code highlight python docutils literal highlight-python"><span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">pre_update</span><span class="p">(</span><span class="n">params</span><span class="p">,</span>
+<span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">)</span></code> where <code class="docutils literal notranslate"><span class="pre">state</span></code> is the corresponding
+solver state object (<em>i.e.</em> <a class="reference internal" href="#sketchyopts.solver.SketchySGDState" title="sketchyopts.solver.SketchySGDState"><code class="xref py py-class docutils literal notranslate"><span class="pre">SketchySGDState</span></code></a>,
+<a class="reference internal" href="#sketchyopts.solver.SketchySVRGState" title="sketchyopts.solver.SketchySVRGState"><code class="xref py py-class docutils literal notranslate"><span class="pre">SketchySVRGState</span></code></a>, <a class="reference internal" href="#sketchyopts.solver.SketchySAGAState" title="sketchyopts.solver.SketchySAGAState"><code class="xref py py-class docutils literal notranslate"><span class="pre">SketchySAGAState</span></code></a>, or
+<a class="reference internal" href="#sketchyopts.solver.SketchyKatyushaState" title="sketchyopts.solver.SketchyKatyushaState"><code class="xref py py-class docutils literal notranslate"><span class="pre">SketchyKatyushaState</span></code></a>).</p></li>
+<li><p>The additional arguments <code class="code highlight python docutils literal highlight-python"><span class="o">*</span><span class="n">args</span></code> and <code class="code highlight python docutils literal highlight-python"><span class="o">**</span><span class="n">kwargs</span></code> have to be
+consistent with the objective function <code class="docutils literal notranslate"><span class="pre">fun</span></code> (meaning they all are arguments
+accepted by <code class="docutils literal notranslate"><span class="pre">fun</span></code> as well).</p></li>
+</ul>
+<p>With our running example, <code class="docutils literal notranslate"><span class="pre">pre_update</span></code> could take the form
+<code class="code highlight python docutils literal highlight-python"><span class="n">pre_update</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">some_arg</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">other_arg</span><span class="p">)</span></code>.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To accommodate various use cases, SketchyOpts does not require <code class="docutils literal notranslate"><span class="pre">pre_update</span></code> to be
+JIT-compilable. This flexibility means <code class="code highlight python docutils literal highlight-python"><span class="n">jit</span> <span class="o">=</span> <span class="kc">True</span></code> has no effect on
+<code class="docutils literal notranslate"><span class="pre">pre_update</span></code>. The function needs be JIT transformed before getting passed to the
+PROMISE solver if user wishes to JIT-compile the function for faster execution.</p>
+</div>
+<hr class="docutils" />
+<dl class="glossary">
+<dt id="term-learning_rate"><code class="docutils literal notranslate"><span class="pre">learning_rate</span></code><a class="headerlink" href="#term-learning_rate" title="Link to this term">#</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> specifies the scaling of each update to the optimization
+variable. PROMISE solvers accept either a fixed scalar or a callable.</p>
+<ul class="simple">
+<li><p>If a fixed scalar value is provided, the solver uses the value as the
+multiplier to the adaptive learning rate obtained from preconditioner update.</p></li>
+<li><p>If a callable function is provided, the solver views it as a schedule and no
+longer computes adaptive learning rate when updating the preconditioner.</p></li>
+</ul>
+<p>Please note that <a class="reference internal" href="#sketchyopts.solver.SketchyKatyusha" title="sketchyopts.solver.SketchyKatyusha"><code class="xref py py-class docutils literal notranslate"><span class="pre">SketchyKatyusha</span></code></a> does not use <code class="docutils literal notranslate"><span class="pre">learning_rate</span></code> as it
+is momentum accelerated.</p>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="simple glossary">
+<dt id="term-jit"><code class="docutils literal notranslate"><span class="pre">jit</span></code><a class="headerlink" href="#term-jit" title="Link to this term">#</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">jit</span></code> specifies whether to enable JIT-compilation in the PRIMISE solver. If
+<code class="code highlight python docutils literal highlight-python"><span class="n">jit</span> <span class="o">=</span> <span class="kc">True</span></code> (by default), the objective function <code class="docutils literal notranslate"><span class="pre">fun</span></code> and all of the
+provided oracles (<code class="docutils literal notranslate"><span class="pre">grad_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code>) must be
+compatible with JIT-compilation.</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>For further details on how JIT-compilation works in JAX as well as useful tips on
+making function JIT-compilable, please see the <a class="reference external" href="https://jax.readthedocs.io/en/latest/jit-compilation.html">JAX Just-in-time compilation
+tutorial</a>.</p>
+</div>
+<hr class="docutils" />
+<dl class="simple glossary">
+<dt id="term-sparse"><code class="docutils literal notranslate"><span class="pre">sparse</span></code><a class="headerlink" href="#term-sparse" title="Link to this term">#</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">sparse</span></code> specifies whether to enable sparse inputs support in the PRIMISE
+solver. If <code class="code highlight python docutils literal highlight-python"><span class="n">sparse</span> <span class="o">=</span> <span class="kc">True</span></code> (default <code class="docutils literal notranslate"><span class="pre">False</span></code>), the PROMISE solver will
+sparsify its internal components; thus the objective function <code class="docutils literal notranslate"><span class="pre">fun</span></code>, all of
+the provided oracles (<code class="docutils literal notranslate"><span class="pre">grad_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code>), and the
+callback <code class="docutils literal notranslate"><span class="pre">pre_update</span></code> must all support sparse inputs in this case.</p>
+</dd>
+</dl>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>The support for sparse matrix operations in JAX is currently under development, and
+is considered experimental. As a result, this sparsification feature of PROMISE
+solvers is preliminary and might not be performant at the moment. We plan to improve
+this feature in future versions of SketchyOpts.</p>
+</div>
+<section id="promise-base-class">
+<h3>PROMISE Base Class<a class="headerlink" href="#promise-base-class" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.solver.PromiseSolver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.solver.</span></span><span class="sig-name descname"><span class="pre">PromiseSolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hvp_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sqrt_hess_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nyssn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hess_batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver/promise.html#PromiseSolver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.PromiseSolver" title="Link to this definition">#</a></dt>
+<dd><p>Base class for PROMISE solvers.</p>
+<p>The class provides basic functionalities of the sketching-based preconditioned
+stochastic gradient algorithms.</p>
+<p>It constructs function <code class="docutils literal notranslate"><span class="pre">_value_and_grad</span></code> that evaluates both the objective and
+gradient. It also implements
+method <code class="docutils literal notranslate"><span class="pre">_init_precond</span></code> that initializes empty preconditioner decomposition, and
+<code class="docutils literal notranslate"><span class="pre">_update_precond</span></code> that updates the Nyström subsampled Newton (NySSN) or subsampled
+Newton (SSN) preconditioner as well as the corresponding preconditioned smoothness
+constant. Helper method <code class="docutils literal notranslate"><span class="pre">_grad_transform</span></code> applies preconditioner to the provided
+gradient vector.</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Z. Frangella, P. Rathore, S. Zhao, and M. Udell, <a class="reference external" href="https://arxiv.org/abs/2309.02014">PROMISE: Preconditioned
+Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates</a>.</p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="sketchysgd">
+<h3>SketchySGD<a class="headerlink" href="#sketchysgd" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.solver.SketchySGD">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.solver.</span></span><span class="sig-name descname"><span class="pre">SketchySGD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hvp_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sqrt_hess_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nyssn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hess_batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver/sketchysgd.html#SketchySGD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.SketchySGD" title="Link to this definition">#</a></dt>
+<dd><p>The SketchySGD optimizer.</p>
+<p>SketchySGD is a stochastic quasi-Newton method that uses sketching to approximate
+the curvature of the loss function. It maintains a preconditioner for SGD
+(stochastic gradient descent) using subsampled Hessian and automatically selects an
+appropriate learning whenever it updates the preconditioner.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.solver</span> <span class="kn">import</span> <span class="n">SketchySGD</span>
+
+<span class="k">def</span> <span class="nf">ridge_reg_objective</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="c1"># data has dimension num_samples * (feature_dim + 1)</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,:</span><span class="n">feature_dim</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span><span class="n">feature_dim</span><span class="p">:]</span>
+    <span class="n">residuals</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">residuals</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">SketchySGD</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">ridge_reg_objective</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init_params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Z. Frangella, P. Rathore, S. Zhao, and M. Udell, <a class="reference external" href="https://arxiv.org/abs/2211.08597">SketchySGD: Reliable
+Stochastic Optimization via Randomized Curvature Estimates</a>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – Scalar-valued objective function. <a class="reference internal" href="#term-fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>grad_fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Optional gradient oracle corresponding to the provided objective
+function <code class="docutils literal notranslate"><span class="pre">fun</span></code>. <a class="reference internal" href="#term-grad_fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>hvp_fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Optional Hessian-vector product oracle for the Nyström subsampled Newton
+preconditioner. <a class="reference internal" href="#term-hvp_fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>sqrt_hess_fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Required oracle that computes the square root of the Hessian matrix
+for the subsampled Newton preconditioner (<em>i.e.</em> cannot be empty if <code class="docutils literal notranslate"><span class="pre">precond</span></code>
+is set to <code class="docutils literal notranslate"><span class="pre">ssn</span></code>). <a class="reference internal" href="#term-sqrt_hess_fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>pre_update</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Optional function to execute before optimizer’s each update on the
+iterate. <a class="reference internal" href="#term-pre_update"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>precond</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Type of preconditioner to use. Either <code class="docutils literal notranslate"><span class="pre">nyssn</span></code> for Nyström subsampled
+Newton or <code class="docutils literal notranslate"><span class="pre">ssn</span></code> for subsampled Newton (default <code class="docutils literal notranslate"><span class="pre">nyssn</span></code>).</p></li>
+<li><p><strong>rho</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Regularization parameter for the preconditioner. Expect a non-negative value
+(default <code class="docutils literal notranslate"><span class="pre">1e-3</span></code>).</p></li>
+<li><p><strong>rank</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Rank of the Nyström subsampled Newton preconditioner. Expect a positive
+value (default <code class="docutils literal notranslate"><span class="pre">10</span></code>).</p></li>
+<li><p><strong>grad_batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Size of the batch of data to compute stochastic gradient at each
+iteration. Expect a positive value.</p></li>
+<li><p><strong>hess_batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Size of the batch of data to estimate the stochastic Hessian when
+updating the preconditioner. Expect a positive value.</p></li>
+<li><p><strong>update_freq</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Update frequency of the preconditioner. When set to <code class="docutils literal notranslate"><span class="pre">0</span></code> or
+<span class="math">\(\infty\)</span> (<em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">jax.numpy.inf</span></code> or <code class="docutils literal notranslate"><span class="pre">numpy.inf</span></code>), the optimizer uses
+constant preconditioner that is constructed at the beginning of the optimization
+process.</p></li>
+<li><p><strong>seed</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Initial seed for the random number generator (default <code class="docutils literal notranslate"><span class="pre">0</span></code>).</p></li>
+<li><p><strong>learning_rate</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Step size for applying updates (default <code class="docutils literal notranslate"><span class="pre">0.5</span></code>). It can either be
+a fixed scalar value or a schedule (callable) based on step count.
+<a class="reference internal" href="#term-learning_rate"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>maxiter</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum number of iterations to run the optimizer (default <code class="docutils literal notranslate"><span class="pre">20</span></code>).
+Expect a positive value.</p></li>
+<li><p><strong>tol</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Threshold of the gradient norm used for terminating the optimizer (default
+<code class="docutils literal notranslate"><span class="pre">1e-3</span></code>).</p></li>
+<li><p><strong>verbose</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to print diagnostic message (default <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>jit</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to JIT-compile the optimization process (default <code class="docutils literal notranslate"><span class="pre">True</span></code>).
+<a class="reference internal" href="#term-jit"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>sparse</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to sparsify the optimization process (default <code class="docutils literal notranslate"><span class="pre">False</span></code>).
+<a class="reference internal" href="#term-sparse"><span class="xref std std-term">↪ More Details</span></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sketchyopts.solver.SketchySGD.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver/sketchysgd.html#SketchySGD.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.SketchySGD.run" title="Link to this definition">#</a></dt>
+<dd><p>The function runs the optimization loop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>init_params</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Initial value of the optimization variable.</p></li>
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool_</span></code>, <a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.numpy.number.html#jax.numpy.number" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">number</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">complex</span></code></a>]</span>) – Full dataset. Expect an array of shape <code class="docutils literal notranslate"><span class="pre">(num_samples,</span> <span class="pre">...)</span></code>.</p></li>
+<li><p><strong>reg</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Regularization strength. Expect a non-negative value (default <code class="docutils literal notranslate"><span class="pre">0</span></code>).</p></li>
+<li><p><strong>*args</strong> – Additional positional arguments to be passed to <code class="docutils literal notranslate"><span class="pre">fun</span></code> (and
+<code class="docutils literal notranslate"><span class="pre">grad_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code> if provided).</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments to be passed to <code class="docutils literal notranslate"><span class="pre">fun</span></code> (and
+<code class="docutils literal notranslate"><span class="pre">grad_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code> if provided).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="sketchyopts.base.html#sketchyopts.base.SolverState" title="sketchyopts.base.SolverState"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverState</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Final optimization variable and solver state. The variable has the same shape
+as the provided initial value <code class="docutils literal notranslate"><span class="pre">init_params</span></code>, and the state is an
+<a class="reference internal" href="#sketchyopts.solver.SketchySGDState" title="sketchyopts.solver.SketchySGDState"><code class="xref py py-class docutils literal notranslate"><span class="pre">SketchySGDState</span></code></a> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.solver.SketchySGDState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.solver.</span></span><span class="sig-name descname"><span class="pre">SketchySGDState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iter_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">precond</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver/sketchysgd.html#SketchySGDState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.SketchySGDState" title="Link to this definition">#</a></dt>
+<dd><p>The SketchySGD optimizer state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iter_num</strong> – Number of iterations the optimizer has performed.</p></li>
+<li><p><strong>value</strong> – Objective value at the current iterate.</p></li>
+<li><p><strong>error</strong> – Gradient norm of the current iterate.</p></li>
+<li><p><strong>key</strong> – PRNG key for the next update.</p></li>
+<li><p><strong>precond</strong> – Decomposition of the preconditioner for the next update.</p></li>
+<li><p><strong>step_size</strong> – Step size for the next update.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="sketchysvrg">
+<h3>SketchySVRG<a class="headerlink" href="#sketchysvrg" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.solver.SketchySVRG">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.solver.</span></span><span class="sig-name descname"><span class="pre">SketchySVRG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hvp_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sqrt_hess_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nyssn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hess_batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapshop_update_freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver/sketchysvrg.html#SketchySVRG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.SketchySVRG" title="Link to this definition">#</a></dt>
+<dd><p>The SketchySVRG optimizer.</p>
+<p>SketchySVRG is a preconditioned version of SVRG <a class="footnote-reference brackets" href="#f1" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> (stochastic variance reduced
+gradient). The optimizer stores and periodically updates a snapshot of the iterate,
+and uses the snapshot and its full gradient to perform variance reduction. The
+preconditioning is then applied to the variance-reduced stochastic gradient at each
+step. The preconditioner and learning rate get updated periodically.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.solver</span> <span class="kn">import</span> <span class="n">SketchySVRG</span>
+
+<span class="k">def</span> <span class="nf">ridge_reg_objective</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="c1"># data has dimension num_samples * (feature_dim + 1)</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,:</span><span class="n">feature_dim</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span><span class="n">feature_dim</span><span class="p">:]</span>
+    <span class="n">residuals</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">residuals</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">SketchySVRG</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">ridge_reg_objective</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init_params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="f1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>R. Johnson and T. Zhang, <a class="reference external" href="https://papers.nips.cc/paper/4937-accelerating-stochastic-gradient-descent-using-predictive-variance-reduction">Accelerating Stochastic Gradient Descent using
+Predictive Variance Reduction</a>, Advances in
+Neural Information Processing Systems, 26, 2013.</p>
+</aside>
+</aside>
+<ul class="simple">
+<li><p>Z. Frangella, P. Rathore, S. Zhao, and M. Udell, <a class="reference external" href="https://arxiv.org/abs/2309.02014">PROMISE: Preconditioned
+Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates</a>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – Scalar-valued objective function. <a class="reference internal" href="#term-fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>grad_fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Optional gradient oracle corresponding to the provided objective
+function <code class="docutils literal notranslate"><span class="pre">fun</span></code>. <a class="reference internal" href="#term-grad_fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>hvp_fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Optional Hessian-vector product oracle for the Nyström subsampled Newton
+preconditioner. <a class="reference internal" href="#term-hvp_fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>sqrt_hess_fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Required oracle that computes the square root of the Hessian matrix
+for the subsampled Newton preconditioner (<em>i.e.</em> cannot be empty if <code class="docutils literal notranslate"><span class="pre">precond</span></code>
+is set to <code class="docutils literal notranslate"><span class="pre">ssn</span></code>). <a class="reference internal" href="#term-sqrt_hess_fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>pre_update</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Optional function to execute before optimizer’s each update on the
+iterate. <a class="reference internal" href="#term-pre_update"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>precond</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Type of preconditioner to use (default <code class="docutils literal notranslate"><span class="pre">nyssn</span></code>). Either <code class="docutils literal notranslate"><span class="pre">nyssn</span></code> for
+Nyström subsampled Newton or <code class="docutils literal notranslate"><span class="pre">ssn</span></code> for subsampled Newton.
+<a class="reference internal" href="#term-precond"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>rho</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Regularization parameter for the preconditioner. Expect a non-negative value
+(default <code class="docutils literal notranslate"><span class="pre">1e-3</span></code>).</p></li>
+<li><p><strong>rank</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Rank of the Nyström subsampled Newton preconditioner. Expect a positive
+value (default <code class="docutils literal notranslate"><span class="pre">10</span></code>).</p></li>
+<li><p><strong>grad_batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Size of the batch of data to compute stochastic gradient at each
+iteration. Expect a positive value.</p></li>
+<li><p><strong>hess_batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Size of the batch of data to estimate the stochastic Hessian when
+updating the preconditioner. Expect a positive value.</p></li>
+<li><p><strong>update_freq</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Update frequency of the preconditioner. When set to <code class="docutils literal notranslate"><span class="pre">0</span></code> or
+<span class="math">\(\infty\)</span> (<em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">jax.numpy.inf</span></code> or <code class="docutils literal notranslate"><span class="pre">numpy.inf</span></code>), the optimizer uses
+constant preconditioner that is constructed at the beginning of the optimization
+process.</p></li>
+<li><p><strong>snapshop_update_freq</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Update frequency of the snapshot. Expect a positive value.</p></li>
+<li><p><strong>seed</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Initial seed for the random number generator (default <code class="docutils literal notranslate"><span class="pre">0</span></code>).</p></li>
+<li><p><strong>learning_rate</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Step size for applying updates (default <code class="docutils literal notranslate"><span class="pre">0.5</span></code>). It can either be
+a fixed scalar value or a schedule (callable) based on step count.
+<a class="reference internal" href="#term-learning_rate"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>maxiter</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum number of iterations to run the optimizer (default <code class="docutils literal notranslate"><span class="pre">20</span></code>).
+Expect a positive value.</p></li>
+<li><p><strong>tol</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Threshold of the gradient norm used for terminating the optimizer (default
+<code class="docutils literal notranslate"><span class="pre">1e-3</span></code>).</p></li>
+<li><p><strong>verbose</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to print diagnostic message (default <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>jit</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to JIT-compile the optimization process (default <code class="docutils literal notranslate"><span class="pre">True</span></code>).
+<a class="reference internal" href="#term-jit"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>sparse</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to sparsify the optimization process (default <code class="docutils literal notranslate"><span class="pre">False</span></code>).
+<a class="reference internal" href="#term-sparse"><span class="xref std std-term">↪ More Details</span></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sketchyopts.solver.SketchySVRG.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver/sketchysvrg.html#SketchySVRG.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.SketchySVRG.run" title="Link to this definition">#</a></dt>
+<dd><p>The function runs the optimization loop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>init_params</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Initial value of the optimization variable.</p></li>
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool_</span></code>, <a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.numpy.number.html#jax.numpy.number" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">number</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">complex</span></code></a>]</span>) – Full dataset. Expect an array of shape <code class="docutils literal notranslate"><span class="pre">(num_samples,</span> <span class="pre">...)</span></code>.</p></li>
+<li><p><strong>reg</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Regularization strength. Expect a non-negative value (default <code class="docutils literal notranslate"><span class="pre">0</span></code>).</p></li>
+<li><p><strong>*args</strong> – Additional positional arguments to be passed to <code class="docutils literal notranslate"><span class="pre">fun</span></code> (and
+<code class="docutils literal notranslate"><span class="pre">grad_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code> if provided).</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments to be passed to <code class="docutils literal notranslate"><span class="pre">fun</span></code> (and
+<code class="docutils literal notranslate"><span class="pre">grad_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code> if provided).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="sketchyopts.base.html#sketchyopts.base.SolverState" title="sketchyopts.base.SolverState"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverState</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Final optimization variable and solver state. The variable has the same shape
+as the provided initial value <code class="docutils literal notranslate"><span class="pre">init_params</span></code>, and the state is an
+<a class="reference internal" href="#sketchyopts.solver.SketchySVRGState" title="sketchyopts.solver.SketchySVRGState"><code class="xref py py-class docutils literal notranslate"><span class="pre">SketchySVRGState</span></code></a> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.solver.SketchySVRGState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.solver.</span></span><span class="sig-name descname"><span class="pre">SketchySVRGState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iter_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">precond</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_grad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapshot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver/sketchysvrg.html#SketchySVRGState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.SketchySVRGState" title="Link to this definition">#</a></dt>
+<dd><p>The SketchySVRG optimizer state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iter_num</strong> – Number of iterations the optimizer has performed.</p></li>
+<li><p><strong>value</strong> – Objective value at the current iterate.</p></li>
+<li><p><strong>error</strong> – Gradient norm of the current iterate.</p></li>
+<li><p><strong>key</strong> – PRNG key for the next update.</p></li>
+<li><p><strong>precond</strong> – Decomposition of the preconditioner for the next update.</p></li>
+<li><p><strong>full_grad</strong> – Full gradient at the snapshot.</p></li>
+<li><p><strong>snapshot</strong> – Snapshot of the iterate.</p></li>
+<li><p><strong>step_size</strong> – Step size for the next update.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="sketchysaga">
+<h3>SketchySAGA<a class="headerlink" href="#sketchysaga" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.solver.SketchySAGA">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.solver.</span></span><span class="sig-name descname"><span class="pre">SketchySAGA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hvp_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sqrt_hess_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nyssn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hess_batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learning_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver/sketchysaga.html#SketchySAGA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.SketchySAGA" title="Link to this definition">#</a></dt>
+<dd><p>The SketchySAGA optimizer.</p>
+<p>SketchySAGA is a preconditioned version of a minibatch variant <a class="footnote-reference brackets" href="#f3" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> (b-nice SAGA)
+of SAGA <a class="footnote-reference brackets" href="#f2" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. The optimizer maintains and updates a gradient table and table
+average. At each iteration, the optimizer computes auxiliary vector and uses it to
+update the variance-reduced stochastic gradient. The update is then based on the
+preconditioned variance-reduced stochastic gradient.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Because SketchySAGA computes gradient of each individual component
+function, the provided objective function <code class="docutils literal notranslate"><span class="pre">fun</span></code> or gradient function
+<code class="docutils literal notranslate"><span class="pre">grad_fun</span></code> needs to be compatible with 1-dimensional data input (<em>i.e.</em> when the
+data input is a vector representing a single sample). The following example
+expands the vector to a 2-dimensional array to handle the single sample case.</p>
+</div>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.solver</span> <span class="kn">import</span> <span class="n">SketchySAGA</span>
+
+<span class="k">def</span> <span class="nf">ridge_reg_objective</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">):</span>
+    <span class="c1"># make data 2-dimensional if it is a vector of a single sample</span>
+    <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># data has dimension num_samples * (feature_dim + 1)</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,:</span><span class="n">feature_dim</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span><span class="n">feature_dim</span><span class="p">:]</span>
+    <span class="n">residuals</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">residuals</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">SketchySAGA</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">ridge_reg_objective</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init_params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="f2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">2</a><span class="fn-bracket">]</span></span>
+<p>A. Defazio, F. Bach, and S. Lacoste-Julien, <a class="reference external" href="https://papers.nips.cc/paper_files/paper/2014/hash/ede7e2b6d13a41ddf9f4bdef84fdc737-Abstract.html">SAGA: A Fast Incremental
+Gradient Method With Support for Non-Strongly Convex Composite Objectives</a>, Advances in Neural Information
+Processing Systems, 27, 2014.</p>
+</aside>
+<aside class="footnote brackets" id="f3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<p>N. Gazagnadou, R. M. Gower, and J. Salmon, <a class="reference external" href="https://proceedings.mlr.press/v97/gazagnadou19a.html">Optimal Mini-Batch and Step
+Sizes for SAGA</a>, in
+<em>Proceedings of the 36</em><sup>th</sup> <em>International Conference on Machine Learning</em>,
+Proceedings of Machine Learning Research (PMLR), 97: 2142-2150, 2019.</p>
+</aside>
+</aside>
+<ul class="simple">
+<li><p>Z. Frangella, P. Rathore, S. Zhao, and M. Udell, <a class="reference external" href="https://arxiv.org/abs/2309.02014">PROMISE: Preconditioned
+Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates</a>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – Scalar-valued objective function compatible with 1-dimensional <code class="docutils literal notranslate"><span class="pre">data</span></code>
+input. <a class="reference internal" href="#term-fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>grad_fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Optional gradient oracle corresponding to the provided objective
+function <code class="docutils literal notranslate"><span class="pre">fun</span></code>. It also needs to be compatible with 1-dimensional <code class="docutils literal notranslate"><span class="pre">data</span></code>
+input. <a class="reference internal" href="#term-grad_fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>hvp_fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Optional Hessian-vector product oracle for the Nyström subsampled Newton
+preconditioner. <a class="reference internal" href="#term-hvp_fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>sqrt_hess_fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Required oracle that computes the square root of the Hessian matrix
+for the subsampled Newton preconditioner (<em>i.e.</em> cannot be empty if <code class="docutils literal notranslate"><span class="pre">precond</span></code>
+is set to <code class="docutils literal notranslate"><span class="pre">ssn</span></code>). <a class="reference internal" href="#term-sqrt_hess_fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>pre_update</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Optional function to execute before optimizer’s each update on the
+iterate. <a class="reference internal" href="#term-pre_update"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>precond</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Type of preconditioner to use (default <code class="docutils literal notranslate"><span class="pre">nyssn</span></code>). Either <code class="docutils literal notranslate"><span class="pre">nyssn</span></code> for
+Nyström subsampled Newton or <code class="docutils literal notranslate"><span class="pre">ssn</span></code> for subsampled Newton.
+<a class="reference internal" href="#term-precond"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>rho</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Regularization parameter for the preconditioner. Expect a non-negative value
+(default <code class="docutils literal notranslate"><span class="pre">1e-3</span></code>).</p></li>
+<li><p><strong>rank</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Rank of the Nyström subsampled Newton preconditioner. Expect a positive
+value (default <code class="docutils literal notranslate"><span class="pre">10</span></code>).</p></li>
+<li><p><strong>grad_batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Size of the batch of data to compute stochastic gradient at each
+iteration. Expect a positive value.</p></li>
+<li><p><strong>hess_batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Size of the batch of data to estimate the stochastic Hessian when
+updating the preconditioner. Expect a positive value.</p></li>
+<li><p><strong>update_freq</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Update frequency of the preconditioner. When set to <code class="docutils literal notranslate"><span class="pre">0</span></code> or
+<span class="math">\(\infty\)</span> (<em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">jax.numpy.inf</span></code> or <code class="docutils literal notranslate"><span class="pre">numpy.inf</span></code>), the optimizer uses
+constant preconditioner that is constructed at the beginning of the optimization
+process.</p></li>
+<li><p><strong>seed</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Initial seed for the random number generator (default <code class="docutils literal notranslate"><span class="pre">0</span></code>).</p></li>
+<li><p><strong>learning_rate</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Step size for applying updates (default <code class="docutils literal notranslate"><span class="pre">0.5</span></code>). It can either be
+a fixed scalar value or a schedule (callable) based on step count.
+<a class="reference internal" href="#term-learning_rate"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>maxiter</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum number of iterations to run the optimizer (default <code class="docutils literal notranslate"><span class="pre">20</span></code>).
+Expect a positive value.</p></li>
+<li><p><strong>tol</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Threshold of the gradient norm used for terminating the optimizer (default
+<code class="docutils literal notranslate"><span class="pre">1e-3</span></code>).</p></li>
+<li><p><strong>verbose</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to print diagnostic message (default <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>jit</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to JIT-compile the optimization process (default <code class="docutils literal notranslate"><span class="pre">True</span></code>).
+<a class="reference internal" href="#term-jit"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>sparse</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to sparsify the optimization process (default <code class="docutils literal notranslate"><span class="pre">False</span></code>).
+<a class="reference internal" href="#term-sparse"><span class="xref std std-term">↪ More Details</span></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sketchyopts.solver.SketchySAGA.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver/sketchysaga.html#SketchySAGA.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.SketchySAGA.run" title="Link to this definition">#</a></dt>
+<dd><p>The function runs the optimization loop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>init_params</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Initial value of the optimization variable.</p></li>
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool_</span></code>, <a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.numpy.number.html#jax.numpy.number" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">number</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">complex</span></code></a>]</span>) – Full dataset. Expect an array of shape <code class="docutils literal notranslate"><span class="pre">(num_samples,</span> <span class="pre">...)</span></code>.</p></li>
+<li><p><strong>reg</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Regularization strength. Expect a non-negative value (default <code class="docutils literal notranslate"><span class="pre">0</span></code>).</p></li>
+<li><p><strong>*args</strong> – Additional positional arguments to be passed to <code class="docutils literal notranslate"><span class="pre">fun</span></code> (and `
+<cite>grad_fun`</cite>, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code> if provided).</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments to be passed to <code class="docutils literal notranslate"><span class="pre">fun</span></code> (and
+<code class="docutils literal notranslate"><span class="pre">grad_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code> if provided).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="sketchyopts.base.html#sketchyopts.base.SolverState" title="sketchyopts.base.SolverState"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverState</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Final optimization variable and solver state. The variable has the same shape
+as the provided initial value <code class="docutils literal notranslate"><span class="pre">init_params</span></code>, and the state is an
+<a class="reference internal" href="#sketchyopts.solver.SketchySAGAState" title="sketchyopts.solver.SketchySAGAState"><code class="xref py py-class docutils literal notranslate"><span class="pre">SketchySAGAState</span></code></a> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.solver.SketchySAGAState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.solver.</span></span><span class="sig-name descname"><span class="pre">SketchySAGAState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iter_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">precond</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_avg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver/sketchysaga.html#SketchySAGAState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.SketchySAGAState" title="Link to this definition">#</a></dt>
+<dd><p>The SketchySAGA optimizer state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iter_num</strong> – Number of iterations the optimizer has performed.</p></li>
+<li><p><strong>value</strong> – Objective value at the current iterate.</p></li>
+<li><p><strong>error</strong> – Gradient norm of the current iterate.</p></li>
+<li><p><strong>key</strong> – PRNG key for the next update.</p></li>
+<li><p><strong>precond</strong> – Decomposition of the preconditioner for the next update.</p></li>
+<li><p><strong>grad_table</strong> – Table of gradients of each individual component.</p></li>
+<li><p><strong>table_avg</strong> – Average of the gradients in the table.</p></li>
+<li><p><strong>step_size</strong> – Step size for the next update.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="sketchykatyusha">
+<h3>SketchyKatyusha<a class="headerlink" href="#sketchykatyusha" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.solver.SketchyKatyusha">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.solver.</span></span><span class="sig-name descname"><span class="pre">SketchyKatyusha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fun</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hvp_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sqrt_hess_fun</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nyssn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rank</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grad_batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hess_batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">momentum_param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">momentum_multiplier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6666666666666666</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapshop_update_prob</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver/sketchykatyusha.html#SketchyKatyusha"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.SketchyKatyusha" title="Link to this definition">#</a></dt>
+<dd><p>The SketchyKatyusha optimizer.</p>
+<p>SketchyKatyusha is a preconditioned version of Loopless Katyusha <a class="footnote-reference brackets" href="#f5" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> that extends
+the original Katyusha <a class="footnote-reference brackets" href="#f4" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>. The optimizer calculates the preconditioned
+variance-reduced stochastic gradient and performs momentum update. The optimizer
+periodically updates the preconditioner, and probabilistically updates snapshot and
+full gradient.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.solver</span> <span class="kn">import</span> <span class="n">SketchyKatyusha</span>
+
+<span class="k">def</span> <span class="nf">ridge_reg_objective</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">):</span>
+    <span class="c1"># data has dimension num_samples * (feature_dim + 1)</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,:</span><span class="n">feature_dim</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span><span class="n">feature_dim</span><span class="p">:]</span>
+    <span class="n">residuals</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">residuals</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">SketchyKatyusha</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">ridge_reg_objective</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init_params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="f4" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">4</a><span class="fn-bracket">]</span></span>
+<p>Z. Allen-Zhu, <a class="reference external" href="https://jmlr.org/papers/v18/16-410.html">Katyusha: The First Direct Acceleration of Stochastic
+Gradient Methods</a>, Journal of Machine
+Learning Research, 18(221): 1-51, 2018.</p>
+</aside>
+<aside class="footnote brackets" id="f5" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">5</a><span class="fn-bracket">]</span></span>
+<p>D. Kovalev, S. Horváth, and P. Richtárik, <a class="reference external" href="https://proceedings.mlr.press/v117/kovalev20a.html">Don’t Jump Through Hoops and
+Remove Those Loops: SVRG and Katyusha are Better Without the Outer Loop</a>, in <em>Proceedings of the
+31</em><sup>th</sup> <em>International Conference on Algorithmic Learning Theory</em>,
+Proceedings of Machine Learning Research (PMLR), 117: 451-467, 2020.</p>
+</aside>
+</aside>
+<ul class="simple">
+<li><p>Z. Frangella, P. Rathore, S. Zhao, and M. Udell, <a class="reference external" href="https://arxiv.org/abs/2309.02014">PROMISE: Preconditioned
+Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates</a>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a></span>) – Scalar-valued objective function. <a class="reference internal" href="#term-fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>grad_fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Optional gradient oracle corresponding to the provided objective
+function <code class="docutils literal notranslate"><span class="pre">fun</span></code>. <a class="reference internal" href="#term-grad_fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>hvp_fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Optional Hessian-vector product oracle for the Nyström subsampled Newton
+preconditioner. <a class="reference internal" href="#term-hvp_fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>sqrt_hess_fun</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Required oracle that computes the square root of the Hessian matrix
+for the subsampled Newton preconditioner (<em>i.e.</em> cannot be empty if <code class="docutils literal notranslate"><span class="pre">precond</span></code>
+is set to <code class="docutils literal notranslate"><span class="pre">ssn</span></code>). <a class="reference internal" href="#term-sqrt_hess_fun"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>pre_update</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code></a>]</span>) – Optional function to execute before optimizer’s each update on the
+iterate. <a class="reference internal" href="#term-pre_update"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>precond</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Type of preconditioner to use (default <code class="docutils literal notranslate"><span class="pre">nyssn</span></code>). Either <code class="docutils literal notranslate"><span class="pre">nyssn</span></code> for
+Nyström subsampled Newton or <code class="docutils literal notranslate"><span class="pre">ssn</span></code> for subsampled Newton.
+<a class="reference internal" href="#term-precond"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>rho</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Regularization parameter for the preconditioner. Expect a non-negative value
+(default <code class="docutils literal notranslate"><span class="pre">1e-3</span></code>).</p></li>
+<li><p><strong>rank</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Rank of the Nyström subsampled Newton preconditioner. Expect a positive
+value (default <code class="docutils literal notranslate"><span class="pre">10</span></code>).</p></li>
+<li><p><strong>mu</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Strong convexity parameter. Expect a positive value.</p></li>
+<li><p><strong>grad_batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Size of the batch of data to compute stochastic gradient at each
+iteration. Expect a positive value.</p></li>
+<li><p><strong>hess_batch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Size of the batch of data to estimate the stochastic Hessian when
+updating the preconditioner. Expect a positive value.</p></li>
+<li><p><strong>update_freq</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Update frequency of the preconditioner. When set to <code class="docutils literal notranslate"><span class="pre">0</span></code> or
+<span class="math">\(\infty\)</span> (<em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">jax.numpy.inf</span></code> or <code class="docutils literal notranslate"><span class="pre">numpy.inf</span></code>), the optimizer uses
+constant preconditioner that is constructed at the beginning of the optimization
+process.</p></li>
+<li><p><strong>snapshop_update_prob</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Probability of updating the snapshot. Expect a value in
+<span class="math">\((0,1)\)</span>.</p></li>
+<li><p><strong>seed</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Initial seed for the random number generator (default <code class="docutils literal notranslate"><span class="pre">0</span></code>).</p></li>
+<li><p><strong>momentum_param</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Momentum parameter (default <code class="docutils literal notranslate"><span class="pre">1/2</span></code>).</p></li>
+<li><p><strong>momentum_multiplier</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Momentum multiplier (default <code class="docutils literal notranslate"><span class="pre">2/3</span></code>).</p></li>
+<li><p><strong>maxiter</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Maximum number of iterations to run the optimizer (default <code class="docutils literal notranslate"><span class="pre">20</span></code>).
+Expect a positive value.</p></li>
+<li><p><strong>tol</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Threshold of the gradient norm used for terminating the optimizer (default
+<code class="docutils literal notranslate"><span class="pre">1e-3</span></code>).</p></li>
+<li><p><strong>verbose</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to print diagnostic message (default <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p></li>
+<li><p><strong>jit</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to JIT-compile the optimization process (default <code class="docutils literal notranslate"><span class="pre">True</span></code>).
+<a class="reference internal" href="#term-jit"><span class="xref std std-term">↪ More Details</span></a></p></li>
+<li><p><strong>sparse</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to sparsify the optimization process (default <code class="docutils literal notranslate"><span class="pre">False</span></code>).
+<a class="reference internal" href="#term-sparse"><span class="xref std std-term">↪ More Details</span></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sketchyopts.solver.SketchyKatyusha.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver/sketchykatyusha.html#SketchyKatyusha.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.SketchyKatyusha.run" title="Link to this definition">#</a></dt>
+<dd><p>The function runs the optimization loop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>init_params</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a></span>) – Initial value of the optimization variable.</p></li>
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.13)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code></a>[<a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bool_</span></code>, <a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.numpy.number.html#jax.numpy.number" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">number</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">complex</span></code></a>]</span>) – Full dataset. Expect an array of shape <code class="docutils literal notranslate"><span class="pre">(num_samples,</span> <span class="pre">...)</span></code>.</p></li>
+<li><p><strong>reg</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span>) – Regularization strength. Expect a non-negative value (default <code class="docutils literal notranslate"><span class="pre">0</span></code>).</p></li>
+<li><p><strong>*args</strong> – Additional positional arguments to be passed to <code class="docutils literal notranslate"><span class="pre">fun</span></code> (and
+<code class="docutils literal notranslate"><span class="pre">grad_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code> if provided).</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments to be passed to <code class="docutils literal notranslate"><span class="pre">fun</span></code> (and
+<code class="docutils literal notranslate"><span class="pre">grad_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">hvp_fun</span></code>, <code class="docutils literal notranslate"><span class="pre">sqrt_hess_fun</span></code> if provided).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="sketchyopts.base.html#sketchyopts.base.SolverState" title="sketchyopts.base.SolverState"><code class="xref py py-class docutils literal notranslate"><span class="pre">SolverState</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Final optimization variable and solver state. The variable has the same shape
+as the provided initial value <code class="docutils literal notranslate"><span class="pre">init_params</span></code>, and the state is an
+<a class="reference internal" href="#sketchyopts.solver.SketchyKatyushaState" title="sketchyopts.solver.SketchyKatyushaState"><code class="xref py py-class docutils literal notranslate"><span class="pre">SketchyKatyushaState</span></code></a> object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.solver.SketchyKatyushaState">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.solver.</span></span><span class="sig-name descname"><span class="pre">SketchyKatyushaState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iter_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">precond</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_grad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">snapshot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">L</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/solver/sketchykatyusha.html#SketchyKatyushaState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.solver.SketchyKatyushaState" title="Link to this definition">#</a></dt>
+<dd><p>The SketchyKatyusha optimizer state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iter_num</strong> – Number of iterations the optimizer has performed.</p></li>
+<li><p><strong>value</strong> – Objective value at the current iterate.</p></li>
+<li><p><strong>error</strong> – Gradient norm of the current iterate.</p></li>
+<li><p><strong>key</strong> – PRNG key for the next update.</p></li>
+<li><p><strong>precond</strong> – Decomposition of the preconditioner for the next update.</p></li>
+<li><p><strong>full_grad</strong> – Full gradient at the snapshot.</p></li>
+<li><p><strong>snapshot</strong> – Snapshot of the iterate.</p></li>
+<li><p><strong>z</strong> – Momentum of the iterate.</p></li>
+<li><p><strong>step_size</strong> – Step size for the next update.</p></li>
+<li><p><strong>L</strong> – Smoothness constant estimate.</p></li>
+<li><p><strong>sigma</strong> – Inverse condition number estimate.</p></li>
+<li><p><strong>theta</strong> – Momentum parameter.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="sketchyopts.solver.sgmres.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">sGMRES</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="sketchyopts.solver.base_solver.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Base Iterative Solver</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#promise-solvers">PROMISE Solvers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#promise-base-class">PROMISE Base Class</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.PromiseSolver"><code class="docutils literal notranslate"><span class="pre">PromiseSolver</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchysgd">SketchySGD</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySGD"><code class="docutils literal notranslate"><span class="pre">SketchySGD</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySGD.run"><code class="docutils literal notranslate"><span class="pre">SketchySGD.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySGDState"><code class="docutils literal notranslate"><span class="pre">SketchySGDState</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchysvrg">SketchySVRG</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySVRG"><code class="docutils literal notranslate"><span class="pre">SketchySVRG</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySVRG.run"><code class="docutils literal notranslate"><span class="pre">SketchySVRG.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySVRGState"><code class="docutils literal notranslate"><span class="pre">SketchySVRGState</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchysaga">SketchySAGA</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySAGA"><code class="docutils literal notranslate"><span class="pre">SketchySAGA</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySAGA.run"><code class="docutils literal notranslate"><span class="pre">SketchySAGA.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchySAGAState"><code class="docutils literal notranslate"><span class="pre">SketchySAGAState</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchykatyusha">SketchyKatyusha</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchyKatyusha"><code class="docutils literal notranslate"><span class="pre">SketchyKatyusha</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchyKatyusha.run"><code class="docutils literal notranslate"><span class="pre">SketchyKatyusha.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.solver.SketchyKatyushaState"><code class="docutils literal notranslate"><span class="pre">SketchyKatyushaState</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

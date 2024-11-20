@@ -1,0 +1,679 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sketchyopts.solver.sketchykatyusha &#8212; SketchyOpts  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/katex-math.css?v=91adb8b6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=9a799264" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/katex.min.js?v=be8ff15f"></script>
+    <script src="../../../_static/auto-render.min.js?v=ad136472"></script>
+    <script src="../../../_static/katex_autorenderer.js?v=8953b41a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/sketchyopts/solver/sketchykatyusha';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SketchyOpts  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/support_vector_machine.html">Support Vector Machine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/ridge_regression.html">Ridge Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/l2_logistic_regression.html"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/sketchyopts.solver.html">Solvers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sketchyopts.solver.nystrom_pcg.html">Nyström PCG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sketchyopts.solver.nysadmm.html">NysADMM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sketchyopts.solver.sgmres.html">sGMRES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sketchyopts.solver.promise.html">PROMISE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sketchyopts.solver.base_solver.html">Base Iterative Solver</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.linear_solve.html">Linear Solve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.nystrom.html">Nyström Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.sketching.html">Sketching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.operator.html">Operator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.prox.html">Proximal Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.util.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.error.html">Error Messages</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/udellgroup/sketchyopts" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for sketchyopts.solver.sketchykatyusha</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">NamedTuple</span>
+
+<span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">Array</span>
+<span class="kn">from</span> <span class="nn">jax.experimental</span> <span class="kn">import</span> <span class="n">sparse</span>
+<span class="kn">from</span> <span class="nn">jax.typing</span> <span class="kn">import</span> <span class="n">ArrayLike</span>
+
+<span class="kn">from</span> <span class="nn">sketchyopts.base</span> <span class="kn">import</span> <span class="n">SolverState</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.util</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">inexact_asarray</span><span class="p">,</span>
+    <span class="n">integer_asarray</span><span class="p">,</span>
+    <span class="n">ravel_tree</span><span class="p">,</span>
+    <span class="n">tree_add</span><span class="p">,</span>
+    <span class="n">tree_add_scalar_mul</span><span class="p">,</span>
+    <span class="n">tree_l2_norm</span><span class="p">,</span>
+    <span class="n">tree_scalar_mul</span><span class="p">,</span>
+    <span class="n">tree_size</span><span class="p">,</span>
+    <span class="n">tree_sub</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.promise</span> <span class="kn">import</span> <span class="n">PromiseSolver</span>
+
+<span class="n">KeyArray</span> <span class="o">=</span> <span class="n">Array</span>
+
+
+<div class="viewcode-block" id="SketchyKatyushaState">
+<a class="viewcode-back" href="../../../api/sketchyopts.solver.promise.html#sketchyopts.solver.SketchyKatyushaState">[docs]</a>
+<span class="k">class</span> <span class="nc">SketchyKatyushaState</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchyKatyusha optimizer state.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      iter_num: Number of iterations the optimizer has performed.</span>
+<span class="sd">      value: Objective value at the current iterate.</span>
+<span class="sd">      error: Gradient norm of the current iterate.</span>
+<span class="sd">      key: PRNG key for the next update.</span>
+<span class="sd">      precond: Decomposition of the preconditioner for the next update.</span>
+<span class="sd">      full_grad: Full gradient at the snapshot.</span>
+<span class="sd">      snapshot: Snapshot of the iterate.</span>
+<span class="sd">      z: Momentum of the iterate.</span>
+<span class="sd">      step_size: Step size for the next update.</span>
+<span class="sd">      L: Smoothness constant estimate.</span>
+<span class="sd">      sigma: Inverse condition number estimate.</span>
+<span class="sd">      theta: Momentum parameter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">iter_num</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">error</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">key</span><span class="p">:</span> <span class="n">KeyArray</span>
+    <span class="n">precond</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Array</span><span class="p">,</span> <span class="n">Array</span><span class="p">]</span>
+    <span class="n">full_grad</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">snapshot</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">z</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">step_size</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">L</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">sigma</span><span class="p">:</span> <span class="n">Array</span>
+    <span class="n">theta</span><span class="p">:</span> <span class="n">Array</span></div>
+
+
+
+<div class="viewcode-block" id="SketchyKatyusha">
+<a class="viewcode-back" href="../../../api/sketchyopts.solver.promise.html#sketchyopts.solver.SketchyKatyusha">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">eq</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SketchyKatyusha</span><span class="p">(</span><span class="n">PromiseSolver</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The SketchyKatyusha optimizer.</span>
+
+<span class="sd">    SketchyKatyusha is a preconditioned version of Loopless Katyusha [#f5]_ that extends</span>
+<span class="sd">    the original Katyusha [#f4]_. The optimizer calculates the preconditioned</span>
+<span class="sd">    variance-reduced stochastic gradient and performs momentum update. The optimizer</span>
+<span class="sd">    periodically updates the preconditioner, and probabilistically updates snapshot and</span>
+<span class="sd">    full gradient.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">      .. highlight:: python</span>
+<span class="sd">      .. code-block:: python</span>
+
+<span class="sd">        import jax.numpy as jnp</span>
+<span class="sd">        from sketchyopts.solver import SketchyKatyusha</span>
+
+<span class="sd">        def ridge_reg_objective(params, data, reg):</span>
+<span class="sd">            # data has dimension num_samples * (feature_dim + 1)</span>
+<span class="sd">            X, y = data[:,:feature_dim], data[:,feature_dim:]</span>
+<span class="sd">            residuals = jnp.dot(X, params) - y</span>
+<span class="sd">            return jnp.mean(residuals ** 2) + 0.5 * reg * jnp.dot(w ** 2)</span>
+
+<span class="sd">        opt = SketchyKatyusha(fun=ridge_reg_objective, ...)</span>
+<span class="sd">        params, state = opt.run(init_params, data, reg)</span>
+
+<span class="sd">    .. rubric:: References</span>
+
+<span class="sd">    .. [#f4] Z\. Allen-Zhu, `Katyusha: The First Direct Acceleration of Stochastic</span>
+<span class="sd">      Gradient Methods &lt;https://jmlr.org/papers/v18/16-410.html&gt;`_, Journal of Machine</span>
+<span class="sd">      Learning Research, 18(221): 1-51, 2018.</span>
+<span class="sd">    .. [#f5] D\. Kovalev, S. Horváth, and P. Richtárik, `Don&#39;t Jump Through Hoops and</span>
+<span class="sd">      Remove Those Loops: SVRG and Katyusha are Better Without the Outer Loop</span>
+<span class="sd">      &lt;https://proceedings.mlr.press/v117/kovalev20a.html&gt;`_, in *Proceedings of the</span>
+<span class="sd">      31*\ :sup:`th` *International Conference on Algorithmic Learning Theory*,</span>
+<span class="sd">      Proceedings of Machine Learning Research (PMLR), 117: 451-467, 2020.</span>
+
+<span class="sd">    - Z\. Frangella, P. Rathore, S. Zhao, and M. Udell, `PROMISE: Preconditioned</span>
+<span class="sd">      Stochastic Optimization Methods by Incorporating Scalable Curvature Estimates</span>
+<span class="sd">      &lt;https://arxiv.org/abs/2309.02014&gt;`_.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      fun: Scalar-valued objective function. :term:`↪ More Details&lt;fun&gt;`</span>
+<span class="sd">      grad_fun: Optional gradient oracle corresponding to the provided objective</span>
+<span class="sd">        function ``fun``. :term:`↪ More Details&lt;grad_fun&gt;`</span>
+<span class="sd">      hvp_fun: Optional Hessian-vector product oracle for the Nyström subsampled Newton</span>
+<span class="sd">        preconditioner. :term:`↪ More Details&lt;hvp_fun&gt;`</span>
+<span class="sd">      sqrt_hess_fun: Required oracle that computes the square root of the Hessian matrix</span>
+<span class="sd">        for the subsampled Newton preconditioner (*i.e.* cannot be empty if ``precond``</span>
+<span class="sd">        is set to ``ssn``). :term:`↪ More Details&lt;sqrt_hess_fun&gt;`</span>
+<span class="sd">      pre_update: Optional function to execute before optimizer&#39;s each update on the</span>
+<span class="sd">        iterate. :term:`↪ More Details&lt;pre_update&gt;`</span>
+<span class="sd">      precond: Type of preconditioner to use (default ``nyssn``). Either ``nyssn`` for</span>
+<span class="sd">        Nyström subsampled Newton or ``ssn`` for subsampled Newton.</span>
+<span class="sd">        :term:`↪ More Details&lt;precond&gt;`</span>
+<span class="sd">      rho: Regularization parameter for the preconditioner. Expect a non-negative value</span>
+<span class="sd">        (default ``1e-3``).</span>
+<span class="sd">      rank: Rank of the Nyström subsampled Newton preconditioner. Expect a positive</span>
+<span class="sd">        value (default ``10``).</span>
+<span class="sd">      mu: Strong convexity parameter. Expect a positive value.</span>
+<span class="sd">      grad_batch_size: Size of the batch of data to compute stochastic gradient at each</span>
+<span class="sd">        iteration. Expect a positive value.</span>
+<span class="sd">      hess_batch_size: Size of the batch of data to estimate the stochastic Hessian when</span>
+<span class="sd">        updating the preconditioner. Expect a positive value.</span>
+<span class="sd">      update_freq: Update frequency of the preconditioner. When set to ``0`` or</span>
+<span class="sd">        :math:`\infty` (*e.g.* ``jax.numpy.inf`` or ``numpy.inf``), the optimizer uses</span>
+<span class="sd">        constant preconditioner that is constructed at the beginning of the optimization</span>
+<span class="sd">        process.</span>
+<span class="sd">      snapshop_update_prob: Probability of updating the snapshot. Expect a value in</span>
+<span class="sd">        :math:`(0,1)`.</span>
+<span class="sd">      seed: Initial seed for the random number generator (default ``0``).</span>
+<span class="sd">      momentum_param: Momentum parameter (default ``1/2``).</span>
+<span class="sd">      momentum_multiplier: Momentum multiplier (default ``2/3``).</span>
+<span class="sd">      maxiter: Maximum number of iterations to run the optimizer (default ``20``).</span>
+<span class="sd">        Expect a positive value.</span>
+<span class="sd">      tol: Threshold of the gradient norm used for terminating the optimizer (default</span>
+<span class="sd">        ``1e-3``).</span>
+<span class="sd">      verbose: Whether to print diagnostic message (default ``False``).</span>
+<span class="sd">      jit: Whether to JIT-compile the optimization process (default ``True``).</span>
+<span class="sd">        :term:`↪ More Details&lt;jit&gt;`</span>
+<span class="sd">      sparse: Whether to sparsify the optimization process (default ``False``).</span>
+<span class="sd">        :term:`↪ More Details&lt;sparse&gt;`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mu</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">momentum_param</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">momentum_multiplier</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="mi">3</span>
+    <span class="n">snapshop_update_prob</span><span class="p">:</span> <span class="nb">float</span>
+
+    <span class="k">def</span> <span class="nf">_init_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SketchyKatyushaState</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function initializes the optimizer state.&quot;&quot;&quot;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">full_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="o">=</span><span class="n">reg</span><span class="p">)</span>
+        <span class="n">full_grad</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">full_grad</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SketchyKatyushaState</span><span class="p">(</span>
+            <span class="n">iter_num</span><span class="o">=</span><span class="n">integer_asarray</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">inexact_asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+            <span class="n">error</span><span class="o">=</span><span class="n">inexact_asarray</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">inf</span><span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">),</span>
+            <span class="n">precond</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_init_precond</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+            <span class="n">full_grad</span><span class="o">=</span><span class="n">full_grad</span><span class="p">,</span>
+            <span class="n">snapshot</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">z</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">step_size</span><span class="o">=</span><span class="n">inexact_asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">L</span><span class="o">=</span><span class="n">inexact_asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">sigma</span><span class="o">=</span><span class="n">inexact_asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+            <span class="n">theta</span><span class="o">=</span><span class="n">inexact_asarray</span><span class="p">(</span><span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_step_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">labda</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function overrides the superclass&#39;s method and updates relevant values</span>
+<span class="sd">        using the provided preconditioned smoothness constant labda.&quot;&quot;&quot;</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">/</span> <span class="n">labda</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span>
+            <span class="mf">0.5</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">momentum_multiplier</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">step_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum_param</span> <span class="o">/</span> <span class="p">(</span><span class="n">theta</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum_param</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span>
+            <span class="n">step_size</span><span class="o">=</span><span class="n">step_size</span><span class="p">,</span>
+            <span class="n">L</span><span class="o">=</span><span class="n">labda</span><span class="p">,</span>
+            <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span>
+            <span class="n">theta</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function updates snapshot and full gradient with specified update</span>
+<span class="sd">        probability.&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">update</span><span class="p">():</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">full_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
+                <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="o">=</span><span class="n">reg</span>
+            <span class="p">)</span>
+            <span class="n">full_grad</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">full_grad</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span><span class="n">full_grad</span><span class="o">=</span><span class="n">full_grad</span><span class="p">,</span> <span class="n">snapshot</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">u</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">snapshop_update_prob</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">state</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function performs an update on the iterate.&quot;&quot;&quot;</span>
+        <span class="c1"># generate a random batch</span>
+        <span class="n">key</span><span class="p">,</span> <span class="n">subkey1</span><span class="p">,</span> <span class="n">subkey2</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">batch_idx</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+            <span class="n">subkey1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grad_batch_size</span><span class="p">,),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">subkey2</span><span class="p">)</span>
+
+        <span class="c1"># compute negative momentum</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum_param</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">snapshot</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">state</span><span class="o">.</span><span class="n">theta</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum_param</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+        <span class="c1"># compute preconditioned variance-reduced accelerated stochastic gradient</span>
+        <span class="n">value</span><span class="p">,</span> <span class="n">grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span> <span class="n">reg</span><span class="o">=</span><span class="n">reg</span>
+        <span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">grad_snapshot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value_and_grad</span><span class="p">(</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">snapshot</span><span class="p">,</span>
+            <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">batch_idx</span><span class="p">],</span>
+            <span class="n">reg</span><span class="o">=</span><span class="n">reg</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">error</span> <span class="o">=</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="n">squared</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">unraveled_grad</span><span class="p">,</span> <span class="n">unravel_fun</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span>
+        <span class="n">unraveled_grad_snapshot</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">grad_snapshot</span><span class="p">)</span>
+
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">unravel_fun</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_grad_transform</span><span class="p">(</span>
+                <span class="n">unraveled_grad</span> <span class="o">-</span> <span class="n">unraveled_grad_snapshot</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="n">full_grad</span><span class="p">,</span>
+                <span class="n">state</span><span class="o">.</span><span class="n">precond</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="c1"># update snapshot</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_snapshot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># perform an update</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">step_size</span> <span class="o">*</span> <span class="n">state</span><span class="o">.</span><span class="n">sigma</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">tree_add</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="o">-</span><span class="n">state</span><span class="o">.</span><span class="n">step_size</span> <span class="o">/</span> <span class="n">state</span><span class="o">.</span><span class="n">L</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">state</span><span class="o">.</span><span class="n">step_size</span> <span class="o">*</span> <span class="n">state</span><span class="o">.</span><span class="n">sigma</span><span class="p">),</span> <span class="n">z</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">theta</span><span class="p">,</span> <span class="n">tree_sub</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">state</span><span class="o">.</span><span class="n">z</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span>
+                <span class="n">iter_num</span><span class="o">=</span><span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+                <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+                <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="SketchyKatyusha.run">
+<a class="viewcode-back" href="../../../api/sketchyopts.solver.promise.html#sketchyopts.solver.SketchyKatyusha.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">init_params</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">ArrayLike</span><span class="p">,</span> <span class="n">reg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SolverState</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The function runs the optimization loop.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">          init_params: Initial value of the optimization variable.</span>
+<span class="sd">          data: Full dataset. Expect an array of shape ``(num_samples, ...)``.</span>
+<span class="sd">          reg: Regularization strength. Expect a non-negative value (default ``0``).</span>
+<span class="sd">          *args: Additional positional arguments to be passed to ``fun`` (and</span>
+<span class="sd">            ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
+<span class="sd">          **kwargs: Additional keyword arguments to be passed to ``fun`` (and</span>
+<span class="sd">            ``grad_fun``, ``hvp_fun``, ``sqrt_hess_fun`` if provided).</span>
+<span class="sd">        Returns:</span>
+<span class="sd">          Final optimization variable and solver state. The variable has the same shape</span>
+<span class="sd">          as the provided initial value ``init_params``, and the state is an</span>
+<span class="sd">          :class:`SketchyKatyushaState` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialize iterate and state</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">init_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params_len</span> <span class="o">=</span> <span class="n">tree_size</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_state</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># define partial functions</span>
+        <span class="n">update_params</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_params</span><span class="p">(</span>
+            <span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="n">update_precond</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_precond</span><span class="p">(</span>
+            <span class="n">p</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+
+        <span class="c1"># sparsify functions if needed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sparse</span><span class="p">:</span>
+            <span class="n">update_params</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">sparsify</span><span class="p">(</span><span class="n">update_params</span><span class="p">)</span>
+            <span class="n">update_precond</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">sparsify</span><span class="p">(</span><span class="n">update_precond</span><span class="p">)</span>
+
+        <span class="c1"># JIT-compile functions if needed</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">jit</span><span class="p">:</span>
+            <span class="n">update_params</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">update_params</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">update_params</span>
+            <span class="p">)</span>
+            <span class="n">update_precond</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">update_precond</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">else</span> <span class="n">update_precond</span>
+            <span class="p">)</span>
+
+        <span class="c1"># run the optimization loop</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
+            <span class="c1"># call custom pre-update function</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">:</span>
+                <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_update</span><span class="p">(</span>
+                    <span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">reg</span><span class="o">=</span><span class="n">reg</span>
+                <span class="p">)</span>
+
+            <span class="c1"># update preconditioner</span>
+            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">state</span><span class="o">.</span><span class="n">iter_num</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_freq</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="p">):</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="n">update_precond</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+
+            <span class="c1"># update iterate</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">update_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+
+            <span class="c1"># break out of loop if tolerance has been reached</span>
+            <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">error</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;Info: early termination because error tolerance has been reached.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">SolverState</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

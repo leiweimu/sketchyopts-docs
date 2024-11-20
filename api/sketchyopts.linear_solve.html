@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Base &#8212; SketchyOpts  documentation</title>
+    <title>Linear Solve &#8212; SketchyOpts  documentation</title>
   
   
   
@@ -52,11 +52,11 @@
     <script src="../_static/auto-render.min.js?v=ad136472"></script>
     <script src="../_static/katex_autorenderer.js?v=8953b41a"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'api/sketchyopts.base';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/sketchyopts.linear_solve';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Operator" href="sketchyopts.operator.html" />
-    <link rel="prev" title="Sketching" href="sketchyopts.sketching.html" />
+    <link rel="next" title="Nyström Approximation" href="sketchyopts.nystrom.html" />
+    <link rel="prev" title="Base Iterative Solver" href="sketchyopts.solver.base_solver.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -162,10 +162,10 @@
 <li class="toctree-l2"><a class="reference internal" href="sketchyopts.solver.base_solver.html">Base Iterative Solver</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="sketchyopts.linear_solve.html">Linear Solve</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Linear Solve</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.nystrom.html">Nyström Approximation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.sketching.html">Sketching</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.base.html">Base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.operator.html">Operator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.prox.html">Proximal Operators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.util.html">Utilities</a></li>
@@ -239,7 +239,7 @@
       
       
       
-      <li><a href="../_sources/api/sketchyopts.base.rst" target="_blank"
+      <li><a href="../_sources/api/sketchyopts.linear_solve.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -315,7 +315,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Base</h1>
+    <h1>Linear Solve</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -325,12 +325,12 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-solve-state">Linear Solve State</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.base.LinearSolveState"><code class="docutils literal notranslate"><span class="pre">LinearSolveState</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sketch-and-solve">Sketch-and-Solve</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.linear_solve.sketch_and_solve"><code class="docutils literal notranslate"><span class="pre">sketch_and_solve()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solver-state">Solver State</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.base.SolverState"><code class="docutils literal notranslate"><span class="pre">SolverState</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sketch-and-precondition">Sketch-and-Precondition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.linear_solve.sketch_and_precondition"><code class="docutils literal notranslate"><span class="pre">sketch_and_precondition()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -344,49 +344,104 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="base">
-<h1>Base<a class="headerlink" href="#base" title="Link to this heading">#</a></h1>
+  <section id="linear-solve">
+<h1>Linear Solve<a class="headerlink" href="#linear-solve" title="Link to this heading">#</a></h1>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.base.LinearSolveState" title="sketchyopts.base.LinearSolveState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinearSolveState</span></code></a>(iter_num, maxiter, residual)</p></td>
-<td><p>The linear solve state.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.linear_solve.sketch_and_solve" title="sketchyopts.linear_solve.sketch_and_solve"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sketch_and_solve</span></code></a>(operator, right_hand_side, ...)</p></td>
+<td><p>Solve a linear system using the sketch-and-solve approach.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.base.SolverState" title="sketchyopts.base.SolverState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SolverState</span></code></a>(params, state)</p></td>
-<td><p>Class for encapsulating parameters and solver state.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.linear_solve.sketch_and_precondition" title="sketchyopts.linear_solve.sketch_and_precondition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sketch_and_precondition</span></code></a>(operator, ...[, ...])</p></td>
+<td><p>Solve a linear system using the sketch-and-precondition approach.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<section id="linear-solve-state">
-<h2>Linear Solve State<a class="headerlink" href="#linear-solve-state" title="Link to this heading">#</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="sketchyopts.base.LinearSolveState">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.base.</span></span><span class="sig-name descname"><span class="pre">LinearSolveState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iter_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">residual</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">Array</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/base.html#LinearSolveState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.base.LinearSolveState" title="Link to this definition">#</a></dt>
-<dd><p>The linear solve state.</p>
+<section id="sketch-and-solve">
+<h2>Sketch-and-Solve<a class="headerlink" href="#sketch-and-solve" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.linear_solve.sketch_and_solve">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.linear_solve.</span></span><span class="sig-name descname"><span class="pre">sketch_and_solve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_hand_side</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gaussian'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/linear_solve.html#sketch_and_solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.linear_solve.sketch_and_solve" title="Link to this definition">#</a></dt>
+<dd><p>Solve a linear system using the sketch-and-solve approach.</p>
+<p>The function approximates the solution to the linear system <span class="math">\(Ax = b\)</span> by
+sketching the operator and right-hand side, and then solving the sketched linear
+system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>iter_num</strong> – Number of iterations the solver has performed.</p></li>
-<li><p><strong>maxiter</strong> – Maximum number of iterations.</p></li>
-<li><p><strong>residual</strong> – residual of the solution.</p></li>
+<li><p><strong>operator</strong> – Linear operator of the system. This is the <span class="math">\(A\)</span> matrix in the
+system <span class="math">\(Ax = b\)</span>.</p></li>
+<li><p><strong>right_hand_side</strong> – Right-hand side of the system. This is the <span class="math">\(b\)</span> vector in
+the system <span class="math">\(Ax = b\)</span>.</p></li>
+<li><p><strong>solver</strong> – Solver to use for solving the linear system.</p></li>
+<li><p><strong>sketch_size</strong> – Size of the sketch.</p></li>
+<li><p><strong>seed</strong> – Random seed for the sketching matrix (default <code class="docutils literal notranslate"><span class="pre">0</span></code>).</p></li>
+<li><p><strong>solver_args</strong> – Optional arguments for the solver. Keyword-only argument.</p></li>
+<li><p><strong>solver_state</strong> – Optional state for the solver. This intends to re-use intermediate
+computation between multiple linear solves with the same operator. Keyword-only
+argument.</p></li>
+<li><p><strong>sketch_type</strong> – Type of sketching matrix to use (default <code class="docutils literal notranslate"><span class="pre">gaussian</span></code>). Options are
+<code class="docutils literal notranslate"><span class="pre">&quot;gaussian&quot;</span></code> (Gaussian embedding), <code class="docutils literal notranslate"><span class="pre">&quot;srtt&quot;</span></code> (subsampled randomized
+trigonometric transforms), and <code class="docutils literal notranslate"><span class="pre">&quot;sparse-sign&quot;</span></code> (sparse sign embedding).</p></li>
+<li><p><strong>sketch_args</strong> – Optional arguments for the sketch method. Keyword-only argument.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">value</span></code>: Solution to the linear system.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">result</span></code>: An integer representing whether the solve was successful or not.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stats</span></code>: Statistics of the solver after solving the linear system.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">state</span></code>: State of the solver after solving the linear system.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Solution of the linear system that contains the following attributes</p>
 </dd>
 </dl>
 </dd></dl>
 
 </section>
-<section id="solver-state">
-<h2>Solver State<a class="headerlink" href="#solver-state" title="Link to this heading">#</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="sketchyopts.base.SolverState">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.base.</span></span><span class="sig-name descname"><span class="pre">SolverState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/base.html#SolverState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.base.SolverState" title="Link to this definition">#</a></dt>
-<dd><p>Class for encapsulating parameters and solver state.</p>
+<section id="sketch-and-precondition">
+<h2>Sketch-and-Precondition<a class="headerlink" href="#sketch-and-precondition" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.linear_solve.sketch_and_precondition">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.linear_solve.</span></span><span class="sig-name descname"><span class="pre">sketch_and_precondition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right_hand_side</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gaussian'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/linear_solve.html#sketch_and_precondition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.linear_solve.sketch_and_precondition" title="Link to this definition">#</a></dt>
+<dd><p>Solve a linear system using the sketch-and-precondition approach.</p>
+<p>The function approximates the solution to the linear system <span class="math">\(Ax = b\)</span> by
+sketching the operator and use the preconditioned iterative solver to solve the
+system.</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>V. Rokhlin and M. Tygert, <a class="reference external" href="https://doi.org/10.1073/pnas.0804869105">A fast randomized algorithm for overdetermined linear
+least-squares regression</a>. The
+Proceedings of the National Academy of Sciences, 105(36), 2008.</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>params</strong> – Parameters the solver seeks to optimize.</p></li>
-<li><p><strong>state</strong> – State of the solver.</p></li>
+<li><p><strong>operator</strong> – Linear operator of the system. This is the <span class="math">\(A\)</span> matrix in the
+system <span class="math">\(Ax = b\)</span>.</p></li>
+<li><p><strong>right_hand_side</strong> – Right-hand side of the system. This is the <span class="math">\(b\)</span> vector in
+the system <span class="math">\(Ax = b\)</span>.</p></li>
+<li><p><strong>sketch_size</strong> – Size of the sketch.</p></li>
+<li><p><strong>seed</strong> – Random seed for the sketching matrix (default <code class="docutils literal notranslate"><span class="pre">0</span></code>).</p></li>
+<li><p><strong>sketch_type</strong> – Type of sketching matrix to use (default <code class="docutils literal notranslate"><span class="pre">gaussian</span></code>). Options are
+<code class="docutils literal notranslate"><span class="pre">&quot;gaussian&quot;</span></code> (Gaussian embedding), <code class="docutils literal notranslate"><span class="pre">&quot;srtt&quot;</span></code> (subsampled randomized
+trigonometric transforms), and <code class="docutils literal notranslate"><span class="pre">&quot;sparse-sign&quot;</span></code> (sparse sign embedding).</p></li>
+<li><p><strong>sketch_args</strong> – Optional arguments for the sketch method. Keyword-only argument.</p></li>
+<li><p><strong>tol</strong> – Solution tolerance (default <cite>1e-6</cite>).</p></li>
+<li><p><strong>maxiter</strong> – Maximum number of iterations for the solver (default <cite>None</cite>). If <cite>None</cite>,
+the solver will use <span class="math">\(2\)</span> times the sketch size as its value (same behavior
+as SciPy LSQR implementation).</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Approximate solution to the linear least-squares problem and the number of</dt><dd><p>iterations.</p>
+</dd>
+</dl>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -406,20 +461,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="sketchyopts.sketching.html"
+       href="sketchyopts.solver.base_solver.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Sketching</p>
+        <p class="prev-next-title">Base Iterative Solver</p>
       </div>
     </a>
     <a class="right-next"
-       href="sketchyopts.operator.html"
+       href="sketchyopts.nystrom.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Operator</p>
+        <p class="prev-next-title">Nyström Approximation</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -440,12 +495,12 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-solve-state">Linear Solve State</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.base.LinearSolveState"><code class="docutils literal notranslate"><span class="pre">LinearSolveState</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sketch-and-solve">Sketch-and-Solve</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.linear_solve.sketch_and_solve"><code class="docutils literal notranslate"><span class="pre">sketch_and_solve()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#solver-state">Solver State</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.base.SolverState"><code class="docutils literal notranslate"><span class="pre">SolverState</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sketch-and-precondition">Sketch-and-Precondition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.linear_solve.sketch_and_precondition"><code class="docutils literal notranslate"><span class="pre">sketch_and_precondition()</span></code></a></li>
 </ul>
 </li>
 </ul>

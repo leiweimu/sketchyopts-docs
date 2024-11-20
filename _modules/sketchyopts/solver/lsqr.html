@@ -1,0 +1,575 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sketchyopts.solver.lsqr &#8212; SketchyOpts  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/katex-math.css?v=91adb8b6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=9a799264" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/katex.min.js?v=be8ff15f"></script>
+    <script src="../../../_static/auto-render.min.js?v=ad136472"></script>
+    <script src="../../../_static/katex_autorenderer.js?v=8953b41a"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/sketchyopts/solver/lsqr';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SketchyOpts  documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/support_vector_machine.html">Support Vector Machine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/ridge_regression.html">Ridge Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/l2_logistic_regression.html"><span class="math">\(\ell^2\)</span>-regularized Logistic Regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/sketchyopts.solver.html">Solvers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sketchyopts.solver.nystrom_pcg.html">Nyström PCG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sketchyopts.solver.nysadmm.html">NysADMM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sketchyopts.solver.sgmres.html">sGMRES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sketchyopts.solver.promise.html">PROMISE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sketchyopts.solver.base_solver.html">Base Iterative Solver</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.linear_solve.html">Linear Solve</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.nystrom.html">Nyström Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.sketching.html">Sketching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.operator.html">Operator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.prox.html">Proximal Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.util.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sketchyopts.error.html">Error Messages</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/udellgroup/sketchyopts" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for sketchyopts.solver.lsqr</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+
+<span class="kn">from</span> <span class="nn">sketchyopts.util</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">default_floating_dtype</span><span class="p">,</span>
+    <span class="n">tree_add_scalar_mul</span><span class="p">,</span>
+    <span class="n">tree_l2_norm</span><span class="p">,</span>
+    <span class="n">tree_scalar_mul</span><span class="p">,</span>
+    <span class="n">tree_sub</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="abstract_lsqr">
+<a class="viewcode-back" href="../../../api/sketchyopts.solver.base_solver.html#sketchyopts.solver.abstract_lsqr">[docs]</a>
+<span class="k">def</span> <span class="nf">abstract_lsqr</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">M_transpose</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Solve the linear least-squares problem using the LSQR algorithm.</span>
+
+<span class="sd">    The function solves the linear least-squares problem using the preconditioned LSQR</span>
+<span class="sd">    algorithm. The algorithm terminates if one of the following conditions is met:</span>
+
+<span class="sd">    - The number of iterations reaches the maximum number of iterations.</span>
+<span class="sd">    - The norm of the residual :math:`\lVert (AM)x - b \rVert` is within the specified</span>
+<span class="sd">      tolerance :math:`\text{tol}\big(\lVert AM \rVert \cdot \lVert x \rVert +</span>
+<span class="sd">      \lVert b \rVert \big)`.</span>
+<span class="sd">    - The norm of the quantity :math:`\lVert (AM)^{\mathsf{T}} (b - AMx) \rVert` is</span>
+<span class="sd">      within the specified tolerance :math:`\text{tol} \cdot \lVert AM \rVert \cdot</span>
+<span class="sd">      \lVert b - AMx \rVert`.</span>
+<span class="sd">    - an estimate of the condition number of :math:`AM` exceeds :math:`10^8`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      A: An operator representing a matrix.</span>
+<span class="sd">      b: A vector or pytree representing the righthand side of the linear least-squares</span>
+<span class="sd">        problem.</span>
+<span class="sd">      x0: Initial guess for the solution (same size as righthand side ``b``).</span>
+<span class="sd">      tol: Solution tolerance.</span>
+<span class="sd">      maxiter: Maximum number of iterations.</span>
+<span class="sd">      M: Preconditioner for the linear least-squares.</span>
+<span class="sd">      M_transpose: Transpose of the preconditioner for the linear least-squares.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      Approximate solution to the original linear least-squares problem (without right</span>
+<span class="sd">        preconditioner), norm of the residual, estimate of the norm of the</span>
+<span class="sd">        preconditioned operator :math:`AM`, and the number of iterations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bnorm</span> <span class="o">=</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">ctol</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mf">1e8</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">default_floating_dtype</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+    <span class="n">atol</span><span class="p">,</span> <span class="n">btol</span> <span class="o">=</span> <span class="n">tol</span><span class="p">,</span> <span class="n">tol</span>
+
+    <span class="k">def</span> <span class="nf">cond_fun</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="p">(</span>
+            <span class="n">_</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">,</span>
+            <span class="n">anorm</span><span class="p">,</span>
+            <span class="n">ddnorm</span><span class="p">,</span>
+            <span class="n">xnorm</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">,</span>
+            <span class="n">phibar</span><span class="p">,</span>
+            <span class="n">tau</span><span class="p">,</span>
+            <span class="n">num_iter</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="n">acond</span> <span class="o">=</span> <span class="n">anorm</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ddnorm</span><span class="p">)</span>
+        <span class="n">rnorm</span> <span class="o">=</span> <span class="n">phibar</span>
+        <span class="n">arnorm</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+
+        <span class="n">test1</span> <span class="o">=</span> <span class="n">rnorm</span> <span class="o">/</span> <span class="n">bnorm</span>
+        <span class="n">test2</span> <span class="o">=</span> <span class="n">arnorm</span> <span class="o">/</span> <span class="p">(</span><span class="n">anorm</span> <span class="o">*</span> <span class="n">rnorm</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+        <span class="n">test3</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">acond</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>
+        <span class="n">rtol</span> <span class="o">=</span> <span class="n">btol</span> <span class="o">+</span> <span class="n">atol</span> <span class="o">*</span> <span class="n">anorm</span> <span class="o">*</span> <span class="n">xnorm</span> <span class="o">/</span> <span class="n">bnorm</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">num_iter</span> <span class="o">&lt;</span> <span class="n">maxiter</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">test1</span> <span class="o">&gt;</span> <span class="n">rtol</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">test2</span> <span class="o">&gt;</span> <span class="n">atol</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">test3</span> <span class="o">&gt;</span> <span class="n">ctol</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">body_fun</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="n">u</span><span class="p">,</span>
+            <span class="n">v</span><span class="p">,</span>
+            <span class="n">w</span><span class="p">,</span>
+            <span class="n">z</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="p">,</span>
+            <span class="n">beta</span><span class="p">,</span>
+            <span class="n">anorm</span><span class="p">,</span>
+            <span class="n">ddnorm</span><span class="p">,</span>
+            <span class="n">xnorm</span><span class="p">,</span>
+            <span class="n">xxnorm</span><span class="p">,</span>
+            <span class="n">cs2</span><span class="p">,</span>
+            <span class="n">sn2</span><span class="p">,</span>
+            <span class="n">rhobar</span><span class="p">,</span>
+            <span class="n">phibar</span><span class="p">,</span>
+            <span class="n">tau</span><span class="p">,</span>
+            <span class="n">num_iter</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># bidiagonalization</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">v</span><span class="p">)),</span> <span class="o">-</span><span class="n">alpha</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">beta</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+        <span class="n">anorm</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">anorm</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">beta</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">M_transpose</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">u</span><span class="p">)),</span> <span class="o">-</span><span class="n">beta</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="c1"># apply orthogonal transformation</span>
+        <span class="n">rho</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">rhobar</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">beta</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="n">rhobar</span> <span class="o">/</span> <span class="n">rho</span>
+        <span class="n">sn</span> <span class="o">=</span> <span class="n">beta</span> <span class="o">/</span> <span class="n">rho</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">sn</span> <span class="o">*</span> <span class="n">alpha</span>
+        <span class="n">rhobar</span> <span class="o">=</span> <span class="o">-</span><span class="n">cs</span> <span class="o">*</span> <span class="n">alpha</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">cs</span> <span class="o">*</span> <span class="n">phibar</span>
+        <span class="n">phibar</span> <span class="o">=</span> <span class="n">sn</span> <span class="o">*</span> <span class="n">phibar</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="n">sn</span> <span class="o">*</span> <span class="n">phi</span>
+
+        <span class="c1"># update x and w</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">phi</span> <span class="o">/</span> <span class="n">rho</span>
+        <span class="n">t2</span> <span class="o">=</span> <span class="o">-</span><span class="n">theta</span> <span class="o">/</span> <span class="n">rho</span>
+        <span class="n">dk</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">rho</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">tree_add_scalar_mul</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+        <span class="n">ddnorm</span> <span class="o">=</span> <span class="n">ddnorm</span> <span class="o">+</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">dk</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># estimate norms for convergence tests</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">sn2</span> <span class="o">*</span> <span class="n">rho</span>
+        <span class="n">gambar</span> <span class="o">=</span> <span class="o">-</span><span class="n">cs2</span> <span class="o">*</span> <span class="n">rho</span>
+        <span class="n">rhs</span> <span class="o">=</span> <span class="n">phi</span> <span class="o">-</span> <span class="n">delta</span> <span class="o">*</span> <span class="n">z</span>
+        <span class="n">zbar</span> <span class="o">=</span> <span class="n">rhs</span> <span class="o">/</span> <span class="n">gambar</span>
+        <span class="n">xnorm</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xxnorm</span> <span class="o">+</span> <span class="n">zbar</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">gamma</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">gambar</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">theta</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">cs2</span> <span class="o">=</span> <span class="n">gambar</span> <span class="o">/</span> <span class="n">gamma</span>
+        <span class="n">sn2</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">/</span> <span class="n">gamma</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">rhs</span> <span class="o">/</span> <span class="n">gamma</span>
+        <span class="n">xxnorm</span> <span class="o">=</span> <span class="n">xxnorm</span> <span class="o">+</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span>
+
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="n">u</span><span class="p">,</span>
+            <span class="n">v</span><span class="p">,</span>
+            <span class="n">w</span><span class="p">,</span>
+            <span class="n">z</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="p">,</span>
+            <span class="n">beta</span><span class="p">,</span>
+            <span class="n">anorm</span><span class="p">,</span>
+            <span class="n">ddnorm</span><span class="p">,</span>
+            <span class="n">xnorm</span><span class="p">,</span>
+            <span class="n">xxnorm</span><span class="p">,</span>
+            <span class="n">cs2</span><span class="p">,</span>
+            <span class="n">sn2</span><span class="p">,</span>
+            <span class="n">rhobar</span><span class="p">,</span>
+            <span class="n">phibar</span><span class="p">,</span>
+            <span class="n">tau</span><span class="p">,</span>
+            <span class="n">num_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="c1"># initialization</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">tree_sub</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">M</span><span class="p">(</span><span class="n">x0</span><span class="p">)))</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">beta</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">beta</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">M_transpose</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">tree_l2_norm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">x0</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">if</span> <span class="n">alpha</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">tree_scalar_mul</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+    <span class="n">w</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">anorm</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">ddnorm</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">xnorm</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">xxnorm</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cs2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+    <span class="n">sn2</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">rhobar</span> <span class="o">=</span> <span class="n">alpha</span>
+    <span class="n">phibar</span> <span class="o">=</span> <span class="n">beta</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">num_iter</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">init_value</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">x0</span><span class="p">,</span>
+        <span class="n">u</span><span class="p">,</span>
+        <span class="n">v</span><span class="p">,</span>
+        <span class="n">w</span><span class="p">,</span>
+        <span class="n">z</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="p">,</span>
+        <span class="n">beta</span><span class="p">,</span>
+        <span class="n">anorm</span><span class="p">,</span>
+        <span class="n">ddnorm</span><span class="p">,</span>
+        <span class="n">xnorm</span><span class="p">,</span>
+        <span class="n">xxnorm</span><span class="p">,</span>
+        <span class="n">cs2</span><span class="p">,</span>
+        <span class="n">sn2</span><span class="p">,</span>
+        <span class="n">rhobar</span><span class="p">,</span>
+        <span class="n">phibar</span><span class="p">,</span>
+        <span class="n">tau</span><span class="p">,</span>
+        <span class="n">num_iter</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># perform iterative solve</span>
+    <span class="p">(</span>
+        <span class="n">x_final</span><span class="p">,</span>
+        <span class="n">_</span><span class="p">,</span>
+        <span class="n">_</span><span class="p">,</span>
+        <span class="n">_</span><span class="p">,</span>
+        <span class="n">_</span><span class="p">,</span>
+        <span class="n">_</span><span class="p">,</span>
+        <span class="n">_</span><span class="p">,</span>
+        <span class="n">anorm_final</span><span class="p">,</span>
+        <span class="n">ddnorm_final</span><span class="p">,</span>
+        <span class="n">_</span><span class="p">,</span>
+        <span class="n">_</span><span class="p">,</span>
+        <span class="n">_</span><span class="p">,</span>
+        <span class="n">_</span><span class="p">,</span>
+        <span class="n">_</span><span class="p">,</span>
+        <span class="n">phibar_final</span><span class="p">,</span>
+        <span class="n">_</span><span class="p">,</span>
+        <span class="n">iter_final</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">while_loop</span><span class="p">(</span><span class="n">cond_fun</span><span class="p">,</span> <span class="n">body_fun</span><span class="p">,</span> <span class="n">init_value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">M</span><span class="p">(</span><span class="n">x_final</span><span class="p">),</span> <span class="n">phibar_final</span><span class="p">,</span> <span class="n">anorm_final</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ddnorm_final</span><span class="p">),</span> <span class="n">iter_final</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
