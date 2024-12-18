@@ -15,8 +15,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -26,8 +26,8 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
@@ -38,10 +38,10 @@
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=9a799264" />
   
   <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
@@ -162,7 +162,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.linear_solve.html">Linear Solve</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.nystrom.html">Nyström Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.low_rank_approx.html">Low-rank Approximation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.sketching.html">Sketching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.base.html">Base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/sketchyopts.operator.html">Operator</a></li>
@@ -177,9 +177,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -298,6 +303,8 @@
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
  
 </div>
 <h2 id="_">_</h2>
@@ -329,9 +336,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/sketchyopts.operator.html#sketchyopts.operator.AddLinearOperator">AddLinearOperator (class in sketchyopts.operator)</a>
 </li>
-      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.apply_sketch">apply_sketch() (sketchyopts.sketching.RandomizedSketching method)</a>
-</li>
-      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.as_matrix">as_matrix() (sketchyopts.sketching.RandomizedSketching method)</a>
+      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.Sketching.as_matrix">as_matrix() (sketchyopts.sketching.Sketching method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -369,8 +374,6 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.generate_sketching">generate_sketching() (sketchyopts.sketching.RandomizedSketching method)</a>
-</li>
       <li><a href="api/sketchyopts.solver.promise.html#term-grad_fun"><strong>grad_fun</strong></a>
 </li>
   </ul></td>
@@ -379,10 +382,12 @@
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.operator.html#sketchyopts.operator.HessianLinearOperator">HessianLinearOperator (class in sketchyopts.operator)</a>
+      <li><a href="api/sketchyopts.util.html#sketchyopts.sketching.hadamard_transform">hadamard_transform() (in module sketchyopts.sketching)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.operator.html#sketchyopts.operator.HessianLinearOperator">HessianLinearOperator (class in sketchyopts.operator)</a>
+</li>
       <li><a href="api/sketchyopts.solver.promise.html#term-hvp_fun"><strong>hvp_fun</strong></a>
 </li>
   </ul></td>
@@ -391,16 +396,12 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.in_size">in_size() (sketchyopts.sketching.RandomizedSketching method)</a>
-</li>
-      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.in_structure">in_structure() (sketchyopts.sketching.RandomizedSketching method)</a>
-</li>
       <li><a href="api/sketchyopts.util.html#sketchyopts.util.inexact_asarray">inexact_asarray() (in module sketchyopts.util)</a>
+</li>
+      <li><a href="api/sketchyopts.error.html#sketchyopts.errors.InputDimError">InputDimError (class in sketchyopts.errors)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.error.html#sketchyopts.errors.InputDimError">InputDimError (class in sketchyopts.errors)</a>
-</li>
       <li><a href="api/sketchyopts.util.html#sketchyopts.util.integer_asarray">integer_asarray() (in module sketchyopts.util)</a>
 </li>
       <li><a href="api/sketchyopts.util.html#sketchyopts.util.is_array">is_array() (in module sketchyopts.util)</a>
@@ -420,6 +421,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/sketchyopts.solver.promise.html#term-learning_rate"><strong>learning_rate</strong></a>
+</li>
+      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.LESS">LESS (class in sketchyopts.sketching)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -443,9 +446,9 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.error.html#sketchyopts.errors.MatrixNotSquareError">MatrixNotSquareError (class in sketchyopts.errors)</a>
+      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.Sketching.matrix_sketch">matrix_sketch() (sketchyopts.sketching.Sketching method)</a>
 </li>
-      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.mv">mv() (sketchyopts.sketching.RandomizedSketching method)</a>
+      <li><a href="api/sketchyopts.error.html#sketchyopts.errors.MatrixNotSquareError">MatrixNotSquareError (class in sketchyopts.errors)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -467,11 +470,7 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.out_size">out_size() (sketchyopts.sketching.RandomizedSketching method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.out_structure">out_structure() (sketchyopts.sketching.RandomizedSketching method)</a>
+      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.OrthonormalEmbedding">OrthonormalEmbedding (class in sketchyopts.sketching)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -515,11 +514,11 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.nystrom.html#sketchyopts.nystrom.rand_nystrom_approx">rand_nystrom_approx() (in module sketchyopts.nystrom)</a>
-</li>
-      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching">RandomizedSketching (class in sketchyopts.sketching)</a>
+      <li><a href="api/sketchyopts.low_rank_approx.html#sketchyopts.low_rank_approx.rand_nystrom_approx">rand_nystrom_approx() (in module sketchyopts.low_rank_approx)</a>
 </li>
       <li><a href="api/sketchyopts.util.html#sketchyopts.util.ravel_tree">ravel_tree() (in module sketchyopts.util)</a>
+</li>
+      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.RowNormSampling">RowNormSampling (class in sketchyopts.sketching)</a>
 </li>
       <li><a href="api/sketchyopts.solver.nysadmm.html#sketchyopts.solver.NysADMM.run">run() (sketchyopts.solver.NysADMM method)</a>
 
@@ -543,9 +542,13 @@
 </li>
       <li><a href="api/sketchyopts.solver.sgmres.html#sketchyopts.solver.sgmres">sgmres() (in module sketchyopts.solver)</a>
 </li>
+      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.SJLT">SJLT (class in sketchyopts.sketching)</a>
+</li>
       <li><a href="api/sketchyopts.linear_solve.html#sketchyopts.linear_solve.sketch_and_precondition">sketch_and_precondition() (in module sketchyopts.linear_solve)</a>
 </li>
       <li><a href="api/sketchyopts.linear_solve.html#sketchyopts.linear_solve.sketch_and_solve">sketch_and_solve() (in module sketchyopts.linear_solve)</a>
+</li>
+      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.Sketching">Sketching (class in sketchyopts.sketching)</a>
 </li>
       <li><a href="api/sketchyopts.solver.promise.html#sketchyopts.solver.SketchyKatyusha">SketchyKatyusha (class in sketchyopts.solver)</a>
 </li>
@@ -553,10 +556,10 @@
 </li>
       <li><a href="api/sketchyopts.solver.promise.html#sketchyopts.solver.SketchySAGA">SketchySAGA (class in sketchyopts.solver)</a>
 </li>
-      <li><a href="api/sketchyopts.solver.promise.html#sketchyopts.solver.SketchySAGAState">SketchySAGAState (class in sketchyopts.solver)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.solver.promise.html#sketchyopts.solver.SketchySAGAState">SketchySAGAState (class in sketchyopts.solver)</a>
+</li>
       <li><a href="api/sketchyopts.solver.promise.html#sketchyopts.solver.SketchySGD">SketchySGD (class in sketchyopts.solver)</a>
 </li>
       <li><a href="api/sketchyopts.solver.promise.html#sketchyopts.solver.SketchySGDState">SketchySGDState (class in sketchyopts.solver)</a>
@@ -569,9 +572,9 @@
 </li>
       <li><a href="api/sketchyopts.solver.promise.html#term-sparse"><strong>sparse</strong></a>
 </li>
-      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.SparseSignEmbedding">SparseSignEmbedding (class in sketchyopts.sketching)</a>
-</li>
       <li><a href="api/sketchyopts.solver.promise.html#term-sqrt_hess_fun"><strong>sqrt_hess_fun</strong></a>
+</li>
+      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.SRHT">SRHT (class in sketchyopts.sketching)</a>
 </li>
       <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.SRTT">SRTT (class in sketchyopts.sketching)</a>
 </li>
@@ -581,8 +584,6 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.transpose">transpose() (sketchyopts.sketching.RandomizedSketching method)</a>
-</li>
       <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_add">tree_add() (in module sketchyopts.util)</a>
 </li>
       <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_add_scalar_mul">tree_add_scalar_mul() (in module sketchyopts.util)</a>
@@ -606,6 +607,22 @@
       <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_vdot">tree_vdot() (in module sketchyopts.util)</a>
 </li>
       <li><a href="api/sketchyopts.util.html#sketchyopts.util.tree_zeros_like">tree_zeros_like() (in module sketchyopts.util)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.UniformRowSampling">UniformRowSampling (class in sketchyopts.sketching)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/sketchyopts.sketching.html#sketchyopts.sketching.Sketching.vector_sketch">vector_sketch() (sketchyopts.sketching.Sketching method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -665,8 +682,8 @@ By Author name not set
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

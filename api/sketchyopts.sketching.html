@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,8 +27,8 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
@@ -39,10 +39,10 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=9a799264" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
@@ -56,7 +56,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Base" href="sketchyopts.base.html" />
-    <link rel="prev" title="Nyström Approximation" href="sketchyopts.nystrom.html" />
+    <link rel="prev" title="Low-rank Approximation" href="sketchyopts.low_rank_approx.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -163,7 +163,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.linear_solve.html">Linear Solve</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sketchyopts.nystrom.html">Nyström Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.low_rank_approx.html">Low-rank Approximation</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Sketching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.base.html">Base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.operator.html">Operator</a></li>
@@ -178,9 +178,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -326,24 +331,23 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#randomized-sketching-class">Randomized Sketching Class</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.apply_sketch"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.apply_sketch()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.as_matrix"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.as_matrix()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.generate_sketching"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.generate_sketching()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.in_size"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.in_size()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.in_structure"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.in_structure()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.mv"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.mv()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.out_size"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.out_size()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.out_structure"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.out_structure()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.transpose"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.transpose()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.Sketching"><code class="docutils literal notranslate"><span class="pre">Sketching</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.Sketching.as_matrix"><code class="docutils literal notranslate"><span class="pre">Sketching.as_matrix()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.Sketching.matrix_sketch"><code class="docutils literal notranslate"><span class="pre">Sketching.matrix_sketch()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.Sketching.vector_sketch"><code class="docutils literal notranslate"><span class="pre">Sketching.vector_sketch()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sketching-types">Sketching Types</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.GaussianEmbedding"><code class="docutils literal notranslate"><span class="pre">GaussianEmbedding</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.OrthonormalEmbedding"><code class="docutils literal notranslate"><span class="pre">OrthonormalEmbedding</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.SJLT"><code class="docutils literal notranslate"><span class="pre">SJLT</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.SRTT"><code class="docutils literal notranslate"><span class="pre">SRTT</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.SparseSignEmbedding"><code class="docutils literal notranslate"><span class="pre">SparseSignEmbedding</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.SRHT"><code class="docutils literal notranslate"><span class="pre">SRHT</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.LESS"><code class="docutils literal notranslate"><span class="pre">LESS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.UniformRowSampling"><code class="docutils literal notranslate"><span class="pre">UniformRowSampling</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RowNormSampling"><code class="docutils literal notranslate"><span class="pre">RowNormSampling</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -361,17 +365,32 @@
 <h1>Sketching<a class="headerlink" href="#sketching" title="Link to this heading">#</a></h1>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.sketching.RandomizedSketching" title="sketchyopts.sketching.RandomizedSketching"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomizedSketching</span></code></a>(operator, sketch_size, key)</p></td>
-<td><p>Abstract class for randomized sketching.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.sketching.Sketching" title="sketchyopts.sketching.Sketching"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sketching</span></code></a>(sketch_size, dim, seed[, mode])</p></td>
+<td><p>Abstract class for sketching matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.sketching.GaussianEmbedding" title="sketchyopts.sketching.GaussianEmbedding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianEmbedding</span></code></a>(operator, sketch_size, key, *)</p></td>
-<td><p>Gaussian embedding sketching operator.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.sketching.GaussianEmbedding" title="sketchyopts.sketching.GaussianEmbedding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianEmbedding</span></code></a>(sketch_size, dim, seed[, mode])</p></td>
+<td><p>Gaussian random matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.sketching.SRTT" title="sketchyopts.sketching.SRTT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SRTT</span></code></a>(operator, sketch_size, key, *[, tags, ...])</p></td>
-<td><p>Subsampled randomized trigonometric transforms (SRTT) sketching operator.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.sketching.OrthonormalEmbedding" title="sketchyopts.sketching.OrthonormalEmbedding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OrthonormalEmbedding</span></code></a>(sketch_size, dim, seed)</p></td>
+<td><p>Orthonormal random matrix.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.sketching.SparseSignEmbedding" title="sketchyopts.sketching.SparseSignEmbedding"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SparseSignEmbedding</span></code></a>(operator, sketch_size, ...)</p></td>
-<td><p>Sparse sign embedding sketching operator.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.sketching.SJLT" title="sketchyopts.sketching.SJLT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SJLT</span></code></a>(sketch_size, dim, seed[, mode, sparsity])</p></td>
+<td><p>Sparse Johnson–Lindenstrauss transform (SJLT) matrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.sketching.SRTT" title="sketchyopts.sketching.SRTT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SRTT</span></code></a>(sketch_size, dim, seed[, mode])</p></td>
+<td><p>Subsampled randomized trigonometric transform (SRTT) sketching matrix.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.sketching.SRHT" title="sketchyopts.sketching.SRHT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SRHT</span></code></a>(sketch_size, dim, seed[, mode])</p></td>
+<td><p>Subsampled randomized Hadamard transform (SRHT) sketching matrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.sketching.LESS" title="sketchyopts.sketching.LESS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LESS</span></code></a>(sketch_size, dim, seed[, mode, ...])</p></td>
+<td><p>Leverage score sparsified embedding sketching matrix.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.sketching.UniformRowSampling" title="sketchyopts.sketching.UniformRowSampling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UniformRowSampling</span></code></a>(sketch_size, dim, seed[, ...])</p></td>
+<td><p>Uniform row sampling sketching matrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.sketching.RowNormSampling" title="sketchyopts.sketching.RowNormSampling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RowNormSampling</span></code></a>(sketch_size, dim, seed[, mode])</p></td>
+<td><p>Row-norm sampling sketching matrix.</p></td>
 </tr>
 </tbody>
 </table>
@@ -379,144 +398,56 @@
 <section id="randomized-sketching-class">
 <h2>Randomized Sketching Class<a class="headerlink" href="#randomized-sketching-class" title="Link to this heading">#</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="sketchyopts.sketching.RandomizedSketching">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">RandomizedSketching</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#RandomizedSketching"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.RandomizedSketching" title="Link to this definition">#</a></dt>
-<dd><p>Abstract class for randomized sketching.</p>
-<p>The class defines the interface for a randomized sketching operator. The class
-represents a sketched version of a linear operator.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="sketchyopts.sketching.RandomizedSketching.apply_sketch">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">apply_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#RandomizedSketching.apply_sketch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.RandomizedSketching.apply_sketch" title="Link to this definition">#</a></dt>
-<dd><p>Apply the sketching to a vector.</p>
-<p>The method applies the sketching direcrly to a vector of the compatible size
-(<em>i.e.</em> the size of the operator’s output). This differs from the matrix-vector
-product, which applies the sketched operator to a vector of the size of the
-operator’s input.</p>
-<p>Mathematically if we denote the operator as <span class="math">\(A\)</span> and the sketching matrix
-as <span class="math">\(S\)</span>, the method computes <span class="math">\(S x\)</span> whereas the matrix-vector product
-computes <span class="math">\(S A x\)</span>.</p>
+<dt class="sig sig-object py" id="sketchyopts.sketching.Sketching">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">Sketching</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'left'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#Sketching"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.Sketching" title="Link to this definition">#</a></dt>
+<dd><p>Abstract class for sketching matrix.</p>
+<p>The class defines the interface for a sketching matrix. The class represents a
+sketching matrix that can be applied to a linear operator or a vector. For a
+left-sketching matrix, the size is <span class="math">\((\text{sketch\_size}, \text{dim})\)</span>;
+for a right-sketching matrix, the size is <span class="math">\((\text{dim}, \text{sketch\_size})\)</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>vector</strong> – Vector that the sketching applies to. The vector should be a pytree
-of floating-point arrays whose structure matches the output structure of
-the operator.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a></span></p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sketched vector. The output is a floating-point array of length equal to the
-sketch size.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sketch_size</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Size of the sketch.</p></li>
+<li><p><strong>dim</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Dimension of the input or output space for a left- or right-sketching matrix
+respectively.</p></li>
+<li><p><strong>key</strong> – Seed for randomization.</p></li>
+<li><p><strong>mode</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Sketching mode (default <code class="docutils literal notranslate"><span class="pre">left</span></code>). The mode can be either <code class="docutils literal notranslate"><span class="pre">left</span></code> for
+left-sketching or <code class="docutils literal notranslate"><span class="pre">right</span></code> for right-sketching.</p></li>
+</ul>
 </dd>
 </dl>
-</dd></dl>
-
 <dl class="py method">
-<dt class="sig sig-object py" id="sketchyopts.sketching.RandomizedSketching.as_matrix">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">as_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#RandomizedSketching.as_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.RandomizedSketching.as_matrix" title="Link to this definition">#</a></dt>
-<dd><p>Materialize the sketched operator.</p>
-<p>The method materializes the sketched operator as a matrix. Since many linear
-operators are defined implicitly and sketching is not necessarily stored as a
-full matrix, materializing can be a computationally expensive operation.</p>
+<dt class="sig sig-object py" id="sketchyopts.sketching.Sketching.as_matrix">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">as_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#Sketching.as_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.Sketching.as_matrix" title="Link to this definition">#</a></dt>
+<dd><p>Materialize the sketching matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a></span></p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Sketched operator as a 2D JAX array. The output is a floating-point array of
-shape <span class="math">\((\text{{sketch\_size}}, \text{{operator\_input\_size}})\)</span>.</p>
-</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sketchyopts.sketching.RandomizedSketching.generate_sketching">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_sketching</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#RandomizedSketching.generate_sketching"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.RandomizedSketching.generate_sketching" title="Link to this definition">#</a></dt>
-<dd><p>Generate the sketching.</p>
-<p>The method generates the sketching internally. The method is called when the
-sketching is not provided during the initialization. Users can also call the
-method to re-generate the sketching.</p>
+<dt class="sig sig-object py" id="sketchyopts.sketching.Sketching.matrix_sketch">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">matrix_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_sketch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#Sketching.matrix_sketch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.Sketching.matrix_sketch" title="Link to this definition">#</a></dt>
+<dd><p>Apply the sketching matrix to a linear operator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractLinearOperator</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sketchyopts.sketching.RandomizedSketching.in_size">
-<span class="sig-name descname"><span class="pre">in_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#RandomizedSketching.in_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.RandomizedSketching.in_size" title="Link to this definition">#</a></dt>
-<dd><p>Return the total number of scalars in the input of the sketched operator.</p>
+<dt class="sig sig-object py" id="sketchyopts.sketching.Sketching.vector_sketch">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vector_sketch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_sketch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#Sketching.vector_sketch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.Sketching.vector_sketch" title="Link to this definition">#</a></dt>
+<dd><p>Apply the sketching matrix to a vector.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>An integer representing the dimensionality of the input space.</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a></span></p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sketchyopts.sketching.RandomizedSketching.in_structure">
-<span class="sig-name descname"><span class="pre">in_structure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#RandomizedSketching.in_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.RandomizedSketching.in_structure" title="Link to this definition">#</a></dt>
-<dd><p>Return the input structure of the sketched operator.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Input structure of the sketched operator which is the input structure of the
-operator.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sketchyopts.sketching.RandomizedSketching.mv">
-<span class="sig-name descname"><span class="pre">mv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#RandomizedSketching.mv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.RandomizedSketching.mv" title="Link to this definition">#</a></dt>
-<dd><p>Apply the sketched operator to a vector.</p>
-<p>The method computes the matrix-vector product between the sketched operator and
-a vector.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>vector</strong> – Vector that the sketched operator applies to. The vector should be a
-pytree of floating-point arrays whose structure matches the input
-structure of the operator.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Sketched vector. The output is a floating-point array of length equal to the
-sketch size.</p>
-</dd>
-</dl>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#sketchyopts.sketching.RandomizedSketching.apply_sketch" title="sketchyopts.sketching.RandomizedSketching.apply_sketch"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_sketch()</span></code></a></p>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sketchyopts.sketching.RandomizedSketching.out_size">
-<span class="sig-name descname"><span class="pre">out_size</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#RandomizedSketching.out_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.RandomizedSketching.out_size" title="Link to this definition">#</a></dt>
-<dd><p>Return the total number of scalars in the output of the sketched operator.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>An integer representing the dimensionality of the output space.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sketchyopts.sketching.RandomizedSketching.out_structure">
-<span class="sig-name descname"><span class="pre">out_structure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#RandomizedSketching.out_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.RandomizedSketching.out_structure" title="Link to this definition">#</a></dt>
-<dd><p>Return the output structure of the sketched operator.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Output structure of the sketched operator which is an array of length equal to
-the sketch size.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sketchyopts.sketching.RandomizedSketching.transpose">
-<span class="sig-name descname"><span class="pre">transpose</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#RandomizedSketching.transpose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.RandomizedSketching.transpose" title="Link to this definition">#</a></dt>
-<dd><p>Transpose the sketched operator.</p>
-<p>The randomized sketching class currently does not support transposition.</p>
 </dd></dl>
 
 </dd></dl>
@@ -526,82 +457,34 @@ the sketch size.</p>
 <h2>Sketching Types<a class="headerlink" href="#sketching-types" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="sketchyopts.sketching.GaussianEmbedding">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">GaussianEmbedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#GaussianEmbedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.GaussianEmbedding" title="Link to this definition">#</a></dt>
-<dd><p>Gaussian embedding sketching operator.</p>
-<p>The class defines a Gaussian embedding sketching operator. The sketching is
-defined by a Gaussian random matrix (each entry is independently drawn from a
-normal distribution with zero mean and variance <span class="math">\(1 / \text{sketch\_size}\)</span>).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>operator</strong> – Linear operator to sketch.</p></li>
-<li><p><strong>sketch_size</strong> – Size of the sketch.</p></li>
-<li><p><strong>key</strong> – Random key.</p></li>
-<li><p><strong>tags</strong> – Tags for the sketched operator (default <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
-<li><p><strong>sketch_matrix</strong> – Sketching matrix (default <code class="docutils literal notranslate"><span class="pre">None</span></code>). If provided, the operator uses
-the provided matrix for sketching. Otherwise, the operator generates the
-sketching matrix at initialization.</p></li>
-</ul>
-</dd>
-</dl>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">GaussianEmbedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'left'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#GaussianEmbedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.GaussianEmbedding" title="Link to this definition">#</a></dt>
+<dd><p>Gaussian random matrix.</p>
+<p>This sketching is defined by a Gaussian random matrix where each entry is
+independently drawn from a normal distribution with zero mean and variance
+<span class="math">\(1 / \text{sketch\_size}\)</span>.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="sketchyopts.sketching.SRTT">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">SRTT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permutation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sign_flip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restriction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#SRTT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.SRTT" title="Link to this definition">#</a></dt>
-<dd><p>Subsampled randomized trigonometric transforms (SRTT) sketching operator.</p>
-<p>The class defines a subsampled randomized trigonometric transforms (SRTT) sketching
-operator. The sketching <span class="math">\(S\)</span> is defined by a random restriction <span class="math">\(R\)</span>, a
-discrete cosine transform <span class="math">\(F\)</span>, a random sign flip <span class="math">\(E\)</span>, and a random
-permutation <span class="math">\(\Gamma\)</span>:</p>
-<div class="math">
-\[S = \sqrt{\frac{n}{d}} E F R \Gamma
-
-\]</div>
-<p>where <span class="math">\(n\)</span> is the size of the operator’s output, <span class="math">\(d\)</span> is the size of the
-sketch.</p>
-<p>If the permutation, sign flip, and restriction arrays are provided, the operator
-uses the provided arrays for sketching. Otherwise, the operator generates the
-matrices at initialization.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>operator</strong> – Linear operator to sketch.</p></li>
-<li><p><strong>sketch_size</strong> – Size of the sketch.</p></li>
-<li><p><strong>key</strong> – Random key.</p></li>
-<li><p><strong>tags</strong> – Tags for the sketched operator (default <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
-<li><p><strong>permutation</strong> – Permutation array (default <code class="docutils literal notranslate"><span class="pre">None</span></code>). It is stored as a vector of
-permutation of the operator’s output indices.</p></li>
-<li><p><strong>sign_flip</strong> – Sign flip array (default <code class="docutils literal notranslate"><span class="pre">None</span></code>). It is stored as a vector of random
-signs independently drawn uniform <span class="math">\(\{\pm 1\}\)</span>) of size of the operator’s
-output.</p></li>
-<li><p><strong>restriction</strong> – Restriction array (default <code class="docutils literal notranslate"><span class="pre">None</span></code>). It is stored as a vector of
-randomly drawn indices of size of the sketch from the operator’s output indices.</p></li>
-</ul>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="sketchyopts.sketching.OrthonormalEmbedding">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">OrthonormalEmbedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'left'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#OrthonormalEmbedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.OrthonormalEmbedding" title="Link to this definition">#</a></dt>
+<dd><p>Orthonormal random matrix.</p>
+<p>This sketching is defined by an orthonormal random matrix where each column is an
+orthonormal basis.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="sketchyopts.sketching.SparseSignEmbedding">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">SparseSignEmbedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparsity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sign_matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#SparseSignEmbedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.SparseSignEmbedding" title="Link to this definition">#</a></dt>
-<dd><p>Sparse sign embedding sketching operator.</p>
-<p>The class defines a sparse sign embedding sketching operator. The sketching
-<span class="math">\(S\)</span> is defined by a sparse matrix where each column has exactly <span class="math">\(\zeta\)</span>
-non-zero entries. Each non-zero entry is independently drawn uniformly from
-<span class="math">\(\{\pm 1\}\)</span>, and its location is randomly chosen from <span class="math">\(\{1, \cdots, d\}\)</span>
-where <span class="math">\(d\)</span> is the size of the sketch. Mathematically, the sketching takes the
-form:</p>
-<div class="math">
-\[S = \sqrt{\frac{1}{\xi}} \big[s_1, \cdots, s_n\big]
-
-\]</div>
-<p>Here <span class="math">\(n\)</span> is the size of the operator’s output.</p>
-<p>If the non-zero indices and corresponding random signs are both provided, the
-operator uses the provided arrays for sketching. Otherwise, the operator generates
-the matrices at initialization.</p>
-<p>The sparsity parameter <span class="math">\(\zeta\)</span> takes the recommended practical value of
-<span class="math">\(\operatorname{min}\{8, d\}\)</span> <a class="footnote-reference brackets" href="#f6" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<dt class="sig sig-object py" id="sketchyopts.sketching.SJLT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">SJLT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'left'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparsity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#SJLT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.SJLT" title="Link to this definition">#</a></dt>
+<dd><p>Sparse Johnson–Lindenstrauss transform (SJLT) matrix.</p>
+<p>This sketching is defined by a sparse Johnson–Lindenstrauss transform (SJLT) matrix
+where each row has exactly <span class="math">\(\zeta\)</span> non-zero entries. Each non-zero entry is
+independently drawn from a Rademacher distribution (uniform over <span class="math">\(\{\pm 1\}\)</span>),
+and its location in the row is randomly chosen from
+<span class="math">\(\{1, \cdots, \text{dim}\}\)</span>.</p>
+<p>The sketching has an additional optional argument <code class="docutils literal notranslate"><span class="pre">sparsity</span></code> that specifies the
+value of <span class="math">\(\zeta\)</span>. By default (<code class="docutils literal notranslate"><span class="pre">None</span></code>), the sparsity parameter <span class="math">\(\zeta\)</span>
+takes the recommended practical value of
+<span class="math">\(\operatorname{min}\{8, \text{sketch\_size}\}\)</span> <a class="footnote-reference brackets" href="#f6" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
 <p class="rubric">References</p>
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="f6" role="doc-footnote">
@@ -611,21 +494,111 @@ Matrix Approximation with an Application to Scientific Simulation</a>, SIAM Jour
 2019.</p>
 </aside>
 </aside>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>operator</strong> – Linear operator to sketch.</p></li>
-<li><p><strong>sketch_size</strong> – Size of the sketch.</p></li>
-<li><p><strong>key</strong> – Random key.</p></li>
-<li><p><strong>tags</strong> – Tags for the sketched operator (default <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
-<li><p><strong>sparsity</strong> – Sparsity parameter <span class="math">\(\zeta\)</span> (default <code class="docutils literal notranslate"><span class="pre">None</span></code>). If provided, the
-operator uses the provided value for the sparsity. Otherwise, the operator uses
-the recommended value of <span class="math">\(\operatorname{min}\{8, d\}\)</span>.</p></li>
-<li><p><strong>coord_matrix</strong> – Coordinate matrix (default <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
-<li><p><strong>sign_matrix</strong> – Sign matrix (default <code class="docutils literal notranslate"><span class="pre">None</span></code>).</p></li>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.sketching.SRTT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">SRTT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'left'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#SRTT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.SRTT" title="Link to this definition">#</a></dt>
+<dd><p>Subsampled randomized trigonometric transform (SRTT) sketching matrix.</p>
+<p>This sketching is defined by a random restriction <span class="math">\(R\)</span>, a discrete cosine
+transform <span class="math">\(F\)</span>, a random sign flip <span class="math">\(E\)</span>, and a random permutation
+<span class="math">\(\Gamma\)</span>:</p>
+<div class="math">
+\[S = \sqrt{\frac{1}{\text{sketch\_size}}} R F E \Gamma
+
+\]</div>
+<p>Here random random restriction selects uniformly <span class="math">\(\text{sketch\_size}\)</span> random
+entries from its input; sign flip is a diagonal matrix such that its diagonal
+entries are i.i.d Rademacher random variables (<em>i.e.</em> random variable with equal
+probability mass assigned to <span class="math">\(\{\pm 1\}\)</span>); random permutation is a square
+matrix drawn uniformly at random from the set of <span class="math">\(\text{dim}\)</span>-permutation
+matrices.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.sketching.SRHT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">SRHT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'left'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#SRHT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.SRHT" title="Link to this definition">#</a></dt>
+<dd><p>Subsampled randomized Hadamard transform (SRHT) sketching matrix.</p>
+<p>This sketching is defined by a random restriction <span class="math">\(R\)</span>, a Hadamard transform
+<span class="math">\(H\)</span>, a random sign flip <span class="math">\(E\)</span>:</p>
+<div class="math">
+\[S = \sqrt{\frac{1}{\text{sketch\_size}}} R H E
+
+\]</div>
+<p>Here random random restriction selects uniformly <span class="math">\(\text{sketch\_size}\)</span> random
+entries from its input; sign flip is a diagonal matrix such that its diagonal
+entries are i.i.d Rademacher random variables (<em>i.e.</em> random variable with equal
+probability mass assigned to <span class="math">\(\{\pm 1\}\)</span>).</p>
+<p>For a matrix with dimension <span class="math">\(\text{dim}\)</span> that is not a power of two (required
+for defining a Hadamard matrix), sketching is instead applied to a padded version of
+the matrix, where additional zero rows are appended.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.sketching.LESS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">LESS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'left'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_leverage_scores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matrix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#LESS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.LESS" title="Link to this definition">#</a></dt>
+<dd><p>Leverage score sparsified embedding sketching matrix.</p>
+<p>Suppose the matrix to be sketched is of size <span class="math">\(\text{dim} \times m\)</span> with
+leverage scores <span class="math">\((l_1, \cdots, l_{\text{dim}})\)</span>. Let <span class="math">\(s_i
+\sim \mathrm{Multinomial}(m, p_1, \cdots, p_{\text{dim}})\)</span> for
+<span class="math">\(i = 1, \cdots, \text{sketch\_size}\)</span> be i.i.d. multinomial random variables
+with probability <span class="math">\(p_j\)</span> approximately proportional to <span class="math">\(l_j\)</span> for <span class="math">\(j
+= 1, \cdots, \text{dim}\)</span>.</p>
+<p>Each row of the sketching matrix is independently determined by:</p>
+<div class="math">
+\[s_i^{\mathsf{T}} = \sqrt{\frac{1}{\text{sketch\_size}}}
+\bigg(
+\sqrt{\frac{s_{i,1}}{p_1}} x_{i,1},
+\cdots,
+\sqrt{\frac{s_{i,\text{dim}}}{p_{\text{dim}}}} x_{i,\text{dim}}
+\bigg)
+
+\]</div>
+<p>where <span class="math">\(x_{i,j}\)</span>’s are i.i.d. mean zero and unit variance sub-Gaussian random
+variables (the implementation uses Rademacher random variables).</p>
+<p>The sketching has two additional optional arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">compute_leverage_scores</span></code> specifies the approach to construct LESS embedding
+(default <code class="docutils literal notranslate"><span class="pre">False</span></code>). If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, then leverage scores are approximated
+<a class="footnote-reference brackets" href="#f7" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>. Otherwise the matrix gets transformed first so that leverage scores are
+approximately uniform.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">matrix</span></code> specifies the matrix to be sketched (default <code class="docutils literal notranslate"><span class="pre">None</span></code>). If not provided,
+the sketching matrix construction is deferred when <code class="docutils literal notranslate"><span class="pre">matrix_sketch</span></code> gets called.</p></li>
 </ul>
-</dd>
-</dl>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="f7" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>P. Drineas, M. Magdon-Ismail, M. W. Mahoney, D. P. Woodruff, <a class="reference external" href="https://jmlr.org/papers/v13/drineas12a.html">Fast
+Approximation of Matrix Coherence and Statistical Leverage</a>, Journal of Machine Learning
+Research, 13(111):3475–3506, 2012.</p>
+</aside>
+</aside>
+<ul class="simple">
+<li><p>M. Dereziński, Z. Liao, E. Dobriban, and M. W. Mahoney, <a class="reference external" href="https://proceedings.mlr.press/v134/derezinski21a">Sparse sketches with
+small inversion bias</a>,
+Proceedings of 34<sup>th</sup> Conference on Learning Theory, PMLR 134:1467–1510
+, 2021.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.sketching.UniformRowSampling">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">UniformRowSampling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'left'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#UniformRowSampling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.UniformRowSampling" title="Link to this definition">#</a></dt>
+<dd><p>Uniform row sampling sketching matrix.</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>M. B. Cohen, Y. T. Lee, C. [Cameron] Musco, C. [Christopher] Musco, R. Peng,
+A. Sidford, <a class="reference external" href="https://doi.org/10.1145/2688073.2688113">Uniform Sampling for Matrix Approximation</a>, Proceedings of the 2015
+Conference on Innovations in Theoretical Computer Science, Association for
+Computing Machinery 181–190, 2015.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sketchyopts.sketching.RowNormSampling">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">RowNormSampling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sketch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'left'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#RowNormSampling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.RowNormSampling" title="Link to this definition">#</a></dt>
+<dd><p>Row-norm sampling sketching matrix.</p>
 </dd></dl>
 
 </section>
@@ -643,12 +616,12 @@ the recommended value of <span class="math">\(\operatorname{min}\{8, d\}\)</span
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="sketchyopts.nystrom.html"
+       href="sketchyopts.low_rank_approx.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Nyström Approximation</p>
+        <p class="prev-next-title">Low-rank Approximation</p>
       </div>
     </a>
     <a class="right-next"
@@ -678,24 +651,23 @@ the recommended value of <span class="math">\(\operatorname{min}\{8, d\}\)</span
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#randomized-sketching-class">Randomized Sketching Class</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.apply_sketch"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.apply_sketch()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.as_matrix"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.as_matrix()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.generate_sketching"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.generate_sketching()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.in_size"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.in_size()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.in_structure"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.in_structure()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.mv"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.mv()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.out_size"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.out_size()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.out_structure"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.out_structure()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RandomizedSketching.transpose"><code class="docutils literal notranslate"><span class="pre">RandomizedSketching.transpose()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.Sketching"><code class="docutils literal notranslate"><span class="pre">Sketching</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.Sketching.as_matrix"><code class="docutils literal notranslate"><span class="pre">Sketching.as_matrix()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.Sketching.matrix_sketch"><code class="docutils literal notranslate"><span class="pre">Sketching.matrix_sketch()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.Sketching.vector_sketch"><code class="docutils literal notranslate"><span class="pre">Sketching.vector_sketch()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sketching-types">Sketching Types</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.GaussianEmbedding"><code class="docutils literal notranslate"><span class="pre">GaussianEmbedding</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.OrthonormalEmbedding"><code class="docutils literal notranslate"><span class="pre">OrthonormalEmbedding</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.SJLT"><code class="docutils literal notranslate"><span class="pre">SJLT</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.SRTT"><code class="docutils literal notranslate"><span class="pre">SRTT</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.SparseSignEmbedding"><code class="docutils literal notranslate"><span class="pre">SparseSignEmbedding</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.SRHT"><code class="docutils literal notranslate"><span class="pre">SRHT</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.LESS"><code class="docutils literal notranslate"><span class="pre">LESS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.UniformRowSampling"><code class="docutils literal notranslate"><span class="pre">UniformRowSampling</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.RowNormSampling"><code class="docutils literal notranslate"><span class="pre">RowNormSampling</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -739,8 +711,8 @@ By Author name not set
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

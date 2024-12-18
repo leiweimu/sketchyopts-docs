@@ -15,8 +15,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -26,8 +26,8 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
@@ -38,10 +38,10 @@
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=9a799264" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
@@ -162,7 +162,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.linear_solve.html">Linear Solve</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.nystrom.html">Nyström Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.low_rank_approx.html">Low-rank Approximation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.sketching.html">Sketching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.base.html">Base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sketchyopts.operator.html">Operator</a></li>
@@ -177,9 +177,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -279,354 +284,265 @@
                 <article class="bd-article">
                   
   <h1>Source code for sketchyopts.sketching</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">abc</span>
+<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">jax</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
 <span class="kn">import</span> <span class="nn">jax.scipy</span> <span class="k">as</span> <span class="nn">jsp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">Array</span>
-<span class="kn">from</span> <span class="nn">lineax</span> <span class="kn">import</span> <span class="n">AbstractLinearOperator</span>
+<span class="kn">from</span> <span class="nn">lineax</span> <span class="kn">import</span> <span class="n">AbstractLinearOperator</span><span class="p">,</span> <span class="n">IdentityLinearOperator</span><span class="p">,</span> <span class="n">MatrixLinearOperator</span>
 
-<span class="kn">from</span> <span class="nn">sketchyopts.util</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">default_floating_dtype</span><span class="p">,</span>
-    <span class="n">form_dense_vector</span><span class="p">,</span>
-    <span class="nb">frozenset</span><span class="p">,</span>
-    <span class="n">ravel_tree</span><span class="p">,</span>
-    <span class="n">sample_indices</span><span class="p">,</span>
-    <span class="n">tree_size</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sketchyopts.util</span> <span class="kn">import</span> <span class="n">default_floating_dtype</span><span class="p">,</span> <span class="n">ravel_tree</span><span class="p">,</span> <span class="n">sample_indices</span>
 
 
-<div class="viewcode-block" id="RandomizedSketching">
-<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching">[docs]</a>
-<span class="k">class</span> <span class="nc">RandomizedSketching</span><span class="p">(</span><span class="n">AbstractLinearOperator</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Abstract class for randomized sketching.</span>
+<div class="viewcode-block" id="Sketching">
+<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.Sketching">[docs]</a>
+<span class="k">class</span> <span class="nc">Sketching</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Abstract class for sketching matrix.</span>
 
-<span class="sd">    The class defines the interface for a randomized sketching operator. The class</span>
-<span class="sd">    represents a sketched version of a linear operator.</span>
+<span class="sd">    The class defines the interface for a sketching matrix. The class represents a</span>
+<span class="sd">    sketching matrix that can be applied to a linear operator or a vector. For a</span>
+<span class="sd">    left-sketching matrix, the size is :math:`(\text{sketch\_size}, \text{dim})`;</span>
+<span class="sd">    for a right-sketching matrix, the size is :math:`(\text{dim}, \text{sketch\_size})`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      sketch_size: Size of the sketch.</span>
+<span class="sd">      dim: Dimension of the input or output space for a left- or right-sketching matrix</span>
+<span class="sd">        respectively.</span>
+<span class="sd">      key: Seed for randomization.</span>
+<span class="sd">      mode: Sketching mode (default ``left``). The mode can be either ``left`` for</span>
+<span class="sd">        left-sketching or ``right`` for right-sketching.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">sketch_size</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">()):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Initialize the sketched operator.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">          operator: Linear operator to sketch.</span>
-<span class="sd">          sketch_size: Size of the sketch.</span>
-<span class="sd">          key: Random key.</span>
-<span class="sd">          tags: Tags for the sketched operator. See `Lineax Tags</span>
-<span class="sd">            &lt;https://docs.kidger.site/lineax/api/tags/&gt;`_ for more details.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">operator</span> <span class="o">=</span> <span class="n">operator</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sketch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Initialize the sketching matrix.&quot;&quot;&quot;</span>
+        <span class="c1"># validate arguments</span>
+        <span class="k">if</span> <span class="n">sketch_size</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Sketch size cannot be less than 1.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dim</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Dimension cannot be less than 1.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid sketching mode.&quot;</span><span class="p">)</span>
+        <span class="c1"># set attributes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span> <span class="o">=</span> <span class="n">sketch_size</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PRNGKey</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
 
-<div class="viewcode-block" id="RandomizedSketching.generate_sketching">
-<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.generate_sketching">[docs]</a>
-    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">generate_sketching</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate the sketching.</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_generate_sketching</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Internal function for generate the sketching matrix.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
 
-<span class="sd">        The method generates the sketching internally. The method is called when the</span>
-<span class="sd">        sketching is not provided during the initialization. Users can also call the</span>
-<span class="sd">        method to re-generate the sketching.</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
-
-
-<div class="viewcode-block" id="RandomizedSketching.apply_sketch">
-<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.apply_sketch">[docs]</a>
-    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">apply_sketch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Apply the sketching to a vector.</span>
-
-<span class="sd">        The method applies the sketching direcrly to a vector of the compatible size</span>
-<span class="sd">        (*i.e.* the size of the operator&#39;s output). This differs from the matrix-vector</span>
-<span class="sd">        product, which applies the sketched operator to a vector of the size of the</span>
-<span class="sd">        operator&#39;s input.</span>
-
-<span class="sd">        Mathematically if we denote the operator as :math:`A` and the sketching matrix</span>
-<span class="sd">        as :math:`S`, the method computes :math:`S x` whereas the matrix-vector product</span>
-<span class="sd">        computes :math:`S A x`.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">          vector: Vector that the sketching applies to. The vector should be a pytree</span>
-<span class="sd">            of floating-point arrays whose structure matches the output structure of</span>
-<span class="sd">            the operator.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">          \Sketched vector. The output is a floating-point array of length equal to the</span>
-<span class="sd">          sketch size.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Sketching.as_matrix">
+<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.Sketching.as_matrix">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Materialize the sketching matrix.&quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="RandomizedSketching.mv">
-<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.mv">[docs]</a>
-    <span class="k">def</span> <span class="nf">mv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Apply the sketched operator to a vector.</span>
-
-<span class="sd">        The method computes the matrix-vector product between the sketched operator and</span>
-<span class="sd">        a vector.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">          vector: Vector that the sketched operator applies to. The vector should be a</span>
-<span class="sd">            pytree of floating-point arrays whose structure matches the input</span>
-<span class="sd">            structure of the operator.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">          \Sketched vector. The output is a floating-point array of length equal to the</span>
-<span class="sd">          sketch size.</span>
-
-<span class="sd">        See Also:</span>
-<span class="sd">          :func:`~sketchyopts.sketching.RandomizedSketching.apply_sketch`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_sketch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">mv</span><span class="p">(</span><span class="n">vector</span><span class="p">))</span></div>
+<div class="viewcode-block" id="Sketching.matrix_sketch">
+<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.Sketching.matrix_sketch">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">matrix_sketch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">:</span> <span class="n">AbstractLinearOperator</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractLinearOperator</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Apply the sketching matrix to a linear operator.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="RandomizedSketching.as_matrix">
-<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.as_matrix">[docs]</a>
-    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Materialize the sketched operator.</span>
-
-<span class="sd">        The method materializes the sketched operator as a matrix. Since many linear</span>
-<span class="sd">        operators are defined implicitly and sketching is not necessarily stored as a</span>
-<span class="sd">        full matrix, materializing can be a computationally expensive operation.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">          \Sketched operator as a 2D JAX array. The output is a floating-point array of</span>
-<span class="sd">          shape :math:`(\text{{sketch\_size}}, \text{{operator\_input\_size}})`.</span>
-<span class="sd">        &quot;&quot;&quot;</span></div>
-
-
-<div class="viewcode-block" id="RandomizedSketching.transpose">
-<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.transpose">[docs]</a>
-    <span class="k">def</span> <span class="nf">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Transpose the sketched operator.</span>
-
-<span class="sd">        The randomized sketching class currently does not support transposition.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
-
-
-<div class="viewcode-block" id="RandomizedSketching.in_structure">
-<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.in_structure">[docs]</a>
-    <span class="k">def</span> <span class="nf">in_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the input structure of the sketched operator.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">          Input structure of the sketched operator which is the input structure of the</span>
-<span class="sd">          operator.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">in_structure</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="RandomizedSketching.out_structure">
-<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.out_structure">[docs]</a>
-    <span class="k">def</span> <span class="nf">out_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the output structure of the sketched operator.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">          Output structure of the sketched operator which is an array of length equal to</span>
-<span class="sd">          the sketch size.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">jax</span><span class="o">.</span><span class="n">ShapeDtypeStruct</span><span class="p">(</span>
-            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">default_floating_dtype</span><span class="p">()</span>
-        <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="RandomizedSketching.in_size">
-<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.in_size">[docs]</a>
-    <span class="k">def</span> <span class="nf">in_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the total number of scalars in the input of the sketched operator.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">          An integer representing the dimensionality of the input space.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">tree_size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">in_structure</span><span class="p">())</span></div>
-
-
-<div class="viewcode-block" id="RandomizedSketching.out_size">
-<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.RandomizedSketching.out_size">[docs]</a>
-    <span class="k">def</span> <span class="nf">out_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Return the total number of scalars in the output of the sketched operator.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">          An integer representing the dimensionality of the output space.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">tree_size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_structure</span><span class="p">())</span></div>
+<div class="viewcode-block" id="Sketching.vector_sketch">
+<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.Sketching.vector_sketch">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">vector_sketch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Apply the sketching matrix to a vector.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
 </div>
 
 
 
 <div class="viewcode-block" id="GaussianEmbedding">
 <a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.GaussianEmbedding">[docs]</a>
-<span class="k">class</span> <span class="nc">GaussianEmbedding</span><span class="p">(</span><span class="n">RandomizedSketching</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Gaussian embedding sketching operator.</span>
+<span class="k">class</span> <span class="nc">GaussianEmbedding</span><span class="p">(</span><span class="n">Sketching</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Gaussian random matrix.</span>
 
-<span class="sd">    The class defines a Gaussian embedding sketching operator. The sketching is</span>
-<span class="sd">    defined by a Gaussian random matrix (each entry is independently drawn from a</span>
-<span class="sd">    normal distribution with zero mean and variance :math:`1 / \text{sketch\_size}`).</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">      operator: Linear operator to sketch.</span>
-<span class="sd">      sketch_size: Size of the sketch.</span>
-<span class="sd">      key: Random key.</span>
-<span class="sd">      tags: Tags for the sketched operator (default ``None``).</span>
-<span class="sd">      sketch_matrix: Sketching matrix (default ``None``). If provided, the operator uses</span>
-<span class="sd">        the provided matrix for sketching. Otherwise, the operator generates the</span>
-<span class="sd">        sketching matrix at initialization.</span>
+<span class="sd">    This sketching is defined by a Gaussian random matrix where each entry is</span>
+<span class="sd">    independently drawn from a normal distribution with zero mean and variance</span>
+<span class="sd">    :math:`1 / \text{sketch\_size}`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">sketch_size</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">(),</span> <span class="n">sketch_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Initialize the Gaussian embedding sketching operator.&quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">sketch_size</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">tags</span><span class="p">)</span>
-        <span class="c1"># generate sketching if needed</span>
-        <span class="k">if</span> <span class="n">sketch_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span> <span class="o">=</span> <span class="n">sketch_matrix</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">generate_sketching</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sketch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sketch_size</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">generate_sketching</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate the sketching matrix.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_generate_sketching</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># split key</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">sub_key</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sketch_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">))</span> <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span>
-            <span class="n">sub_key</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">out_size</span><span class="p">())</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">))</span> <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span>
+                <span class="n">sub_key</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">))</span> <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span>
+                <span class="n">sub_key</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">)</span>
+            <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">apply_sketch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Apply the sketching to a vector.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span><span class="p">,</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">vector</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">precision</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">Precision</span><span class="o">.</span><span class="n">HIGHEST</span>
-        <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span>
 
-    <span class="k">def</span> <span class="nf">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Materialize the sketched operator.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">matrix_sketch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">:</span> <span class="n">AbstractLinearOperator</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractLinearOperator</span><span class="p">:</span>
+        <span class="c1"># check dimension</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">out_size</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Output dimension of the linear operator does not match the input dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Input dimension of the linear operator does not match the output dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># generate new sketching matrix if needed</span>
+        <span class="k">if</span> <span class="n">new_sketch</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;matrix&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+        <span class="c1"># return sketched matrix</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">MatrixLinearOperator</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span> <span class="o">@</span> <span class="n">matrix</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+            <span class="p">)</span> <span class="o">@</span> <span class="n">IdentityLinearOperator</span><span class="p">(</span>
+                <span class="n">matrix</span><span class="o">.</span><span class="n">in_structure</span><span class="p">(),</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">ShapeDtypeStruct</span><span class="p">(</span>
+                    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">(),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">default_floating_dtype</span><span class="p">()</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">IdentityLinearOperator</span><span class="p">(</span>
+                <span class="n">matrix</span><span class="o">.</span><span class="n">out_structure</span><span class="p">(),</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">ShapeDtypeStruct</span><span class="p">(</span>
+                    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">out_size</span><span class="p">(),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">default_floating_dtype</span><span class="p">()</span>
+                <span class="p">),</span>
+            <span class="p">)</span> <span class="o">@</span> <span class="n">MatrixLinearOperator</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">vector_sketch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+        <span class="c1"># check mode</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Sketch a vector with a right-sketching matrix is not allowed.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># ravel input vector</span>
+        <span class="n">unraveled</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_sketch</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;matrix&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">(),</span> <span class="n">precision</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">Precision</span><span class="o">.</span><span class="n">HIGHEST</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">(),</span> <span class="n">unraveled</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">Precision</span><span class="o">.</span><span class="n">HIGHEST</span>
         <span class="p">)</span></div>
 
 
 
-<div class="viewcode-block" id="SRTT">
-<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.SRTT">[docs]</a>
-<span class="k">class</span> <span class="nc">SRTT</span><span class="p">(</span><span class="n">RandomizedSketching</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Subsampled randomized trigonometric transforms (SRTT) sketching operator.</span>
+<div class="viewcode-block" id="OrthonormalEmbedding">
+<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.OrthonormalEmbedding">[docs]</a>
+<span class="k">class</span> <span class="nc">OrthonormalEmbedding</span><span class="p">(</span><span class="n">Sketching</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Orthonormal random matrix.</span>
 
-<span class="sd">    The class defines a subsampled randomized trigonometric transforms (SRTT) sketching</span>
-<span class="sd">    operator. The sketching :math:`S` is defined by a random restriction :math:`R`, a</span>
-<span class="sd">    discrete cosine transform :math:`F`, a random sign flip :math:`E`, and a random</span>
-<span class="sd">    permutation :math:`\Gamma`:</span>
-
-<span class="sd">    .. math::</span>
-<span class="sd">        S = \sqrt{\frac{n}{d}} E F R \Gamma</span>
-
-<span class="sd">    where :math:`n` is the size of the operator&#39;s output, :math:`d` is the size of the</span>
-<span class="sd">    sketch.</span>
-
-<span class="sd">    If the permutation, sign flip, and restriction arrays are provided, the operator</span>
-<span class="sd">    uses the provided arrays for sketching. Otherwise, the operator generates the</span>
-<span class="sd">    matrices at initialization.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">      operator: Linear operator to sketch.</span>
-<span class="sd">      sketch_size: Size of the sketch.</span>
-<span class="sd">      key: Random key.</span>
-<span class="sd">      tags: Tags for the sketched operator (default ``None``).</span>
-<span class="sd">      permutation: Permutation array (default ``None``). It is stored as a vector of</span>
-<span class="sd">        permutation of the operator&#39;s output indices.</span>
-<span class="sd">      sign_flip: Sign flip array (default ``None``). It is stored as a vector of random</span>
-<span class="sd">        signs independently drawn uniform :math:`\{\pm 1\}`) of size of the operator&#39;s</span>
-<span class="sd">        output.</span>
-<span class="sd">      restriction: Restriction array (default ``None``). It is stored as a vector of</span>
-<span class="sd">        randomly drawn indices of size of the sketch from the operator&#39;s output indices.</span>
+<span class="sd">    This sketching is defined by an orthonormal random matrix where each column is an</span>
+<span class="sd">    orthonormal basis.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">operator</span><span class="p">,</span>
-        <span class="n">sketch_size</span><span class="p">,</span>
-        <span class="n">key</span><span class="p">,</span>
-        <span class="o">*</span><span class="p">,</span>
-        <span class="n">tags</span><span class="o">=</span><span class="p">(),</span>
-        <span class="n">permutation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">sign_flip</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">restriction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Initialize the SRTT sketching operator.&quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">sketch_size</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">tags</span><span class="p">)</span>
-        <span class="c1"># generate sketching if needed</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="p">(</span><span class="n">permutation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="ow">and</span> <span class="p">(</span><span class="n">sign_flip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="ow">and</span> <span class="p">(</span><span class="n">restriction</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">permutation</span> <span class="o">=</span> <span class="n">permutation</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span> <span class="o">=</span> <span class="n">sign_flip</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">restriction</span> <span class="o">=</span> <span class="n">restriction</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sketch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sketch_size</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_generate_sketching</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># split key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">sub_key</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span>
+                <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">))</span>
+                <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">sub_key</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">)),</span>
+                <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;economic&quot;</span><span class="p">,</span>
+            <span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">generate_sketching</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span>
+                <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">))</span>
+                <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">sub_key</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">)),</span>
+                <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;economic&quot;</span><span class="p">,</span>
+            <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">generate_sketching</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate the sketching matrices.&quot;&quot;&quot;</span>
-        <span class="c1"># split keys</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">sub_key_1</span><span class="p">,</span> <span class="n">sub_key_2</span><span class="p">,</span> <span class="n">sub_key_3</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-        <span class="c1"># generate sketching components</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">permutation</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">sub_key_1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">out_size</span><span class="p">())</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">sub_key_2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">out_size</span><span class="p">(),</span> <span class="n">minval</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxval</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-            <span class="o">*</span> <span class="mi">2</span>
-            <span class="o">-</span> <span class="mi">1</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">restriction</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
-            <span class="n">sub_key_3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">out_size</span><span class="p">(),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span>
-        <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span>
 
-    <span class="k">def</span> <span class="nf">apply_sketch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Apply the sketching to a vector.&quot;&quot;&quot;</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">put</span><span class="p">(</span>
-            <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">out_size</span><span class="p">()),</span> <span class="bp">self</span><span class="o">.</span><span class="n">permutation</span><span class="p">,</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">vector</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="p">)</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span> <span class="o">*</span> <span class="n">v</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">dct</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">restriction</span><span class="p">,</span> <span class="n">unique_indices</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">out_size</span><span class="p">()</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">v</span>
+    <span class="k">def</span> <span class="nf">matrix_sketch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">:</span> <span class="n">AbstractLinearOperator</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractLinearOperator</span><span class="p">:</span>
+        <span class="c1"># check dimension</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">out_size</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Output dimension of the linear operator does not match the input dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Input dimension of the linear operator does not match the output dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># generate new sketching matrix if needed</span>
+        <span class="k">if</span> <span class="n">new_sketch</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;matrix&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+        <span class="c1"># return sketched matrix</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">MatrixLinearOperator</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span> <span class="o">@</span> <span class="n">matrix</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+            <span class="p">)</span> <span class="o">@</span> <span class="n">IdentityLinearOperator</span><span class="p">(</span>
+                <span class="n">matrix</span><span class="o">.</span><span class="n">in_structure</span><span class="p">(),</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">ShapeDtypeStruct</span><span class="p">(</span>
+                    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">(),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">default_floating_dtype</span><span class="p">()</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">IdentityLinearOperator</span><span class="p">(</span>
+                <span class="n">matrix</span><span class="o">.</span><span class="n">out_structure</span><span class="p">(),</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">ShapeDtypeStruct</span><span class="p">(</span>
+                    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">out_size</span><span class="p">(),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">default_floating_dtype</span><span class="p">()</span>
+                <span class="p">),</span>
+            <span class="p">)</span> <span class="o">@</span> <span class="n">MatrixLinearOperator</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="nf">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Materialize the sketched operator.&quot;&quot;&quot;</span>
-        <span class="n">M</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">numpy</span><span class="o">.</span><span class="n">take</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">permutation</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">unique_indices</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span>
-        <span class="n">M</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">numpy</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">M</span><span class="p">)</span>
-        <span class="n">M</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">dct</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">M</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">restriction</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">unique_indices</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">out_size</span><span class="p">()</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">M</span></div>
+    <span class="k">def</span> <span class="nf">vector_sketch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+        <span class="c1"># check mode</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Sketch a vector with a right-sketching matrix is not allowed.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># ravel input vector</span>
+        <span class="n">unraveled</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+        <span class="c1"># check dimension</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unraveled</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Vector length does not match the input dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_sketch</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;matrix&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">(),</span> <span class="n">unraveled</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">Precision</span><span class="o">.</span><span class="n">HIGHEST</span>
+        <span class="p">)</span></div>
 
 
 
-<div class="viewcode-block" id="SparseSignEmbedding">
-<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.SparseSignEmbedding">[docs]</a>
-<span class="k">class</span> <span class="nc">SparseSignEmbedding</span><span class="p">(</span><span class="n">RandomizedSketching</span><span class="p">):</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Sparse sign embedding sketching operator.</span>
+<div class="viewcode-block" id="SJLT">
+<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.SJLT">[docs]</a>
+<span class="k">class</span> <span class="nc">SJLT</span><span class="p">(</span><span class="n">Sketching</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Sparse Johnson–Lindenstrauss transform (SJLT) matrix.</span>
 
-<span class="sd">    The class defines a sparse sign embedding sketching operator. The sketching</span>
-<span class="sd">    :math:`S` is defined by a sparse matrix where each column has exactly :math:`\zeta`</span>
-<span class="sd">    non-zero entries. Each non-zero entry is independently drawn uniformly from</span>
-<span class="sd">    :math:`\{\pm 1\}`, and its location is randomly chosen from :math:`\{1, \cdots, d\}`</span>
-<span class="sd">    where :math:`d` is the size of the sketch. Mathematically, the sketching takes the</span>
-<span class="sd">    form:</span>
+<span class="sd">    This sketching is defined by a sparse Johnson–Lindenstrauss transform (SJLT) matrix</span>
+<span class="sd">    where each row has exactly :math:`\zeta` non-zero entries. Each non-zero entry is</span>
+<span class="sd">    independently drawn from a Rademacher distribution (uniform over :math:`\{\pm 1\}`),</span>
+<span class="sd">    and its location in the row is randomly chosen from</span>
+<span class="sd">    :math:`\{1, \cdots, \text{dim}\}`.</span>
 
-<span class="sd">    .. math::</span>
-<span class="sd">        S = \sqrt{\frac{1}{\xi}} \big[s_1, \cdots, s_n\big]</span>
-
-<span class="sd">    Here :math:`n` is the size of the operator&#39;s output.</span>
-
-<span class="sd">    If the non-zero indices and corresponding random signs are both provided, the</span>
-<span class="sd">    operator uses the provided arrays for sketching. Otherwise, the operator generates</span>
-<span class="sd">    the matrices at initialization.</span>
-
-<span class="sd">    The sparsity parameter :math:`\zeta` takes the recommended practical value of</span>
-<span class="sd">    :math:`\operatorname{min}\{8, d\}` [#f6]_.</span>
+<span class="sd">    The sketching has an additional optional argument ``sparsity`` that specifies the</span>
+<span class="sd">    value of :math:`\zeta`. By default (``None``), the sparsity parameter :math:`\zeta`</span>
+<span class="sd">    takes the recommended practical value of</span>
+<span class="sd">    :math:`\operatorname{min}\{8, \text{sketch\_size}\}` [#f6]_.</span>
 
 <span class="sd">    .. rubric:: References</span>
 
@@ -634,85 +550,615 @@
 <span class="sd">      Matrix Approximation with an Application to Scientific Simulation &lt;https://epubs.</span>
 <span class="sd">      siam.org/doi/10.1137/18M1201068&gt;`_, SIAM Journal on Scientific Computing, 41(4),</span>
 <span class="sd">      2019.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">      operator: Linear operator to sketch.</span>
-<span class="sd">      sketch_size: Size of the sketch.</span>
-<span class="sd">      key: Random key.</span>
-<span class="sd">      tags: Tags for the sketched operator (default ``None``).</span>
-<span class="sd">      sparsity: Sparsity parameter :math:`\zeta` (default ``None``). If provided, the</span>
-<span class="sd">        operator uses the provided value for the sparsity. Otherwise, the operator uses</span>
-<span class="sd">        the recommended value of :math:`\operatorname{min}\{8, d\}`.</span>
-<span class="sd">      coord_matrix: Coordinate matrix (default ``None``).</span>
-<span class="sd">      sign_matrix: Sign matrix (default ``None``).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">operator</span><span class="p">,</span>
-        <span class="n">sketch_size</span><span class="p">,</span>
-        <span class="n">key</span><span class="p">,</span>
-        <span class="o">*</span><span class="p">,</span>
-        <span class="n">tags</span><span class="o">=</span><span class="p">(),</span>
-        <span class="n">sparsity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">coord_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">sign_matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">sketch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span>
+        <span class="n">sparsity</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Initialize the sparse sign embedding sketching operator.&quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">operator</span><span class="p">,</span> <span class="n">sketch_size</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">tags</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sketch_size</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
         <span class="c1"># set sparsity</span>
         <span class="k">if</span> <span class="n">sparsity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sparsity</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Sparsity parameter cannot be less than 1.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">sparsity</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Sparsity parameter cannot exceed the sketch size.&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sparsity</span> <span class="o">=</span> <span class="n">sparsity</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sparsity</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">)</span>
-        <span class="c1"># generate sketching if needed</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">coord_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">sign_matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">coord_matrix</span> <span class="o">=</span> <span class="n">coord_matrix</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sign_matrix</span> <span class="o">=</span> <span class="n">sign_matrix</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">generate_sketching</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">generate_sketching</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate the sketching matrices.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_generate_sketching</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># split keys</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">sub_key_1</span><span class="p">,</span> <span class="n">sub_key_2</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
         <span class="c1"># generate random coordinates for non-zero entries</span>
-        <span class="n">key_array</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sub_key_1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">out_size</span><span class="p">())</span>
+        <span class="n">key_array</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sub_key_1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coord_matrix</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">sample_indices</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">))(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">out_size</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">sparsity</span><span class="p">,</span> <span class="n">key_array</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sparsity</span><span class="p">,</span> <span class="n">key_array</span>
         <span class="p">)</span>
         <span class="c1"># generate random signs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sign_matrix</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span>
-                <span class="n">sub_key_2</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sparsity</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">out_size</span><span class="p">()),</span> <span class="n">minval</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxval</span><span class="o">=</span><span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sign_matrix</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rademacher</span><span class="p">(</span>
+            <span class="n">sub_key_2</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sparsity</span><span class="p">)</span>
+        <span class="p">)</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sparsity</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+        <span class="c1"># initialize a zero matrix</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">))</span>
+        <span class="c1"># fill the matrix with non-zero entries</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">coord_matrix</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sign_matrix</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">S</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">S</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="k">def</span> <span class="nf">matrix_sketch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">:</span> <span class="n">AbstractLinearOperator</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractLinearOperator</span><span class="p">:</span>
+        <span class="c1"># check dimension</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">out_size</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Output dimension of the linear operator does not match the input dimension of the sketching matrix.&quot;</span>
             <span class="p">)</span>
-            <span class="o">*</span> <span class="mi">2</span>
-            <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Input dimension of the linear operator does not match the output dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># generate new sketching matrix if needed</span>
+        <span class="k">if</span> <span class="n">new_sketch</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+        <span class="c1"># return sketched matrix</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">MatrixLinearOperator</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span> <span class="o">@</span> <span class="n">matrix</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+            <span class="p">)</span> <span class="o">@</span> <span class="n">IdentityLinearOperator</span><span class="p">(</span>
+                <span class="n">matrix</span><span class="o">.</span><span class="n">in_structure</span><span class="p">(),</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">ShapeDtypeStruct</span><span class="p">(</span>
+                    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">(),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">default_floating_dtype</span><span class="p">()</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">IdentityLinearOperator</span><span class="p">(</span>
+                <span class="n">matrix</span><span class="o">.</span><span class="n">out_structure</span><span class="p">(),</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">ShapeDtypeStruct</span><span class="p">(</span>
+                    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">out_size</span><span class="p">(),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">default_floating_dtype</span><span class="p">()</span>
+                <span class="p">),</span>
+            <span class="p">)</span> <span class="o">@</span> <span class="n">MatrixLinearOperator</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">vector_sketch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+        <span class="c1"># check mode</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Sketch a vector with a right-sketching matrix is not allowed.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># ravel input vector</span>
+        <span class="n">unraveled</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+        <span class="c1"># check dimension</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unraveled</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Vector length does not match the input dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_sketch</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sign_matrix</span> <span class="o">*</span> <span class="n">unraveled</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">coord_matrix</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="SRTT">
+<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.SRTT">[docs]</a>
+<span class="k">class</span> <span class="nc">SRTT</span><span class="p">(</span><span class="n">Sketching</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Subsampled randomized trigonometric transform (SRTT) sketching matrix.</span>
+
+<span class="sd">    This sketching is defined by a random restriction :math:`R`, a discrete cosine</span>
+<span class="sd">    transform :math:`F`, a random sign flip :math:`E`, and a random permutation</span>
+<span class="sd">    :math:`\Gamma`:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        S = \sqrt{\frac{1}{\text{sketch\_size}}} R F E \Gamma</span>
+
+<span class="sd">    Here random random restriction selects uniformly :math:`\text{sketch\_size}` random</span>
+<span class="sd">    entries from its input; sign flip is a diagonal matrix such that its diagonal</span>
+<span class="sd">    entries are i.i.d Rademacher random variables (*i.e.* random variable with equal</span>
+<span class="sd">    probability mass assigned to :math:`\{\pm 1\}`); random permutation is a square</span>
+<span class="sd">    matrix drawn uniformly at random from the set of :math:`\text{dim}`-permutation</span>
+<span class="sd">    matrices.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sketch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Right-sketching with SRTT is not supported.&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sketch_size</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_generate_sketching</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># split keys</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">sub_key_1</span><span class="p">,</span> <span class="n">sub_key_2</span><span class="p">,</span> <span class="n">sub_key_3</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="c1"># generate sketching components</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">permutation</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">sub_key_1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rademacher</span><span class="p">(</span><span class="n">sub_key_2</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">restriction</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+            <span class="n">sub_key_3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">apply_sketch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Apply the sketching to a vector.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sparsity</span><span class="p">)</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span>
-            <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">form_dense_vector</span><span class="p">,</span> <span class="n">in_axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">))(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">coord_matrix</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">sign_matrix</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,</span>
-                <span class="n">ravel_tree</span><span class="p">(</span><span class="n">vector</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="p">),</span>
-            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Materializing the SRTT sketching matrix is not supported.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">matrix_sketch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">:</span> <span class="n">AbstractLinearOperator</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractLinearOperator</span><span class="p">:</span>
+        <span class="c1"># check dimension</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">out_size</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Output dimension of the linear operator does not match the input dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Input dimension of the linear operator does not match the output dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># generate new sketching matrix if needed</span>
+        <span class="k">if</span> <span class="n">new_sketch</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+        <span class="c1"># return sketched matrix</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+            <span class="n">SA</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">take</span><span class="p">(</span>
+                <span class="n">matrix</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">permutation</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">unique_indices</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+            <span class="n">SA</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">SA</span><span class="p">)</span>
+            <span class="n">SA</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">dct</span><span class="p">(</span><span class="n">SA</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">SA</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">SA</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">restriction</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">unique_indices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">MatrixLinearOperator</span><span class="p">(</span>
+                <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">SA</span>
+            <span class="p">)</span> <span class="o">@</span> <span class="n">IdentityLinearOperator</span><span class="p">(</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">ShapeDtypeStruct</span><span class="p">(</span>
+                    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">(),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">default_floating_dtype</span><span class="p">()</span>
+                <span class="p">),</span>
+                <span class="n">matrix</span><span class="o">.</span><span class="n">in_structure</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Right-sketching with SRTT is not supported.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">vector_sketch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+        <span class="c1"># check mode</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Sketch a vector with a right-sketching matrix is not allowed.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># ravel input vector</span>
+        <span class="n">unraveled</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+        <span class="c1"># check dimension</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unraveled</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Vector length does not match the input dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_sketch</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+        <span class="c1"># compute sketched vector</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">unraveled</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">permutation</span><span class="p">]</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span> <span class="o">*</span> <span class="n">v</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">jsp</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">dct</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">restriction</span><span class="p">,</span> <span class="n">unique_indices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">v</span></div>
+
+
+
+<div class="viewcode-block" id="hadamard_transform">
+<a class="viewcode-back" href="../../api/sketchyopts.util.html#sketchyopts.sketching.hadamard_transform">[docs]</a>
+<span class="k">def</span> <span class="nf">hadamard_transform</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">M</span><span class="p">:</span> <span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Hadamard transform of a matrix.</span>
+
+<span class="sd">    The function computes the unscaled (without the :math:`n^{-1/2}` factor) Hadamard</span>
+<span class="sd">    transform :math:`H_n M` using recursive construction (*i.e.* fast Walsh–Hadamard</span>
+<span class="sd">    transform or Sylvester&#39;s construction).</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        The function is intended for internal use, as it lacks validation for the value</span>
+<span class="sd">        of ``n`` and the size of the matrix ``M``. The sketching matrix classes</span>
+<span class="sd">        :class:`SRHT` and :class:`LESS`, which use this function, additionally handle</span>
+<span class="sd">        validation, padding, and scaling.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      n: Order of the Hadamard matrix. The value needs to be a power of 2.</span>
+<span class="sd">      M: 2-dimensional array the transformation applies to.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      Transformed 2-dimensional array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">M</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">hadamard_transform</span><span class="p">(</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">M</span><span class="p">[:</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="p">::]</span> <span class="o">+</span> <span class="n">M</span><span class="p">[</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span> <span class="p">:,</span> <span class="p">::]),</span>
+            <span class="n">hadamard_transform</span><span class="p">(</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">M</span><span class="p">[:</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="p">::]</span> <span class="o">-</span> <span class="n">M</span><span class="p">[</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span> <span class="p">:,</span> <span class="p">::]),</span>
+        <span class="p">]</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="SRHT">
+<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.SRHT">[docs]</a>
+<span class="k">class</span> <span class="nc">SRHT</span><span class="p">(</span><span class="n">Sketching</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Subsampled randomized Hadamard transform (SRHT) sketching matrix.</span>
+
+<span class="sd">    This sketching is defined by a random restriction :math:`R`, a Hadamard transform</span>
+<span class="sd">    :math:`H`, a random sign flip :math:`E`:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        S = \sqrt{\frac{1}{\text{sketch\_size}}} R H E</span>
+
+<span class="sd">    Here random random restriction selects uniformly :math:`\text{sketch\_size}` random</span>
+<span class="sd">    entries from its input; sign flip is a diagonal matrix such that its diagonal</span>
+<span class="sd">    entries are i.i.d Rademacher random variables (*i.e.* random variable with equal</span>
+<span class="sd">    probability mass assigned to :math:`\{\pm 1\}`).</span>
+
+<span class="sd">    For a matrix with dimension :math:`\text{dim}` that is not a power of two (required</span>
+<span class="sd">    for defining a Hadamard matrix), sketching is instead applied to a padded version of</span>
+<span class="sd">    the matrix, where additional zero rows are appended.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sketch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Right-sketching with SRHT is not supported.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">dim</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sketch_size</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_generate_sketching</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># split keys</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">sub_key_1</span><span class="p">,</span> <span class="n">sub_key_2</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="c1"># generate sketching components</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rademacher</span><span class="p">(</span><span class="n">sub_key_1</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,))</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">restriction</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+            <span class="n">sub_key_2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,),</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Materialize the sketched operator.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">apply_over_axes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">apply_sketch</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">operator</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">(),</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+    <span class="k">def</span> <span class="nf">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+        <span class="c1"># pad sign flip diagonal matrix with zero rows if needed</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">jnp</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span><span class="p">),</span>
+                <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">)),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="c1"># compute Hadamard transform</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">)</span> <span class="o">*</span> <span class="n">hadamard_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
+        <span class="c1"># multiply with random restriction</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">restriction</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">unique_indices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">S</span>
+
+    <span class="k">def</span> <span class="nf">matrix_sketch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">:</span> <span class="n">AbstractLinearOperator</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractLinearOperator</span><span class="p">:</span>
+        <span class="c1"># check dimension</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">out_size</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Output dimension of the linear operator does not match the input dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Input dimension of the linear operator does not match the output dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># generate new sketching matrix if needed</span>
+        <span class="k">if</span> <span class="n">new_sketch</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+        <span class="c1"># return composed operator</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+            <span class="n">SA</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">jnp</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">matrix</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()),</span>
+                    <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">())),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">SA</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="mf">1.0</span>
+                <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">)</span>
+                <span class="o">*</span> <span class="n">hadamard_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">,</span> <span class="n">SA</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">SA</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">SA</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">restriction</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">unique_indices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">MatrixLinearOperator</span><span class="p">(</span><span class="n">SA</span><span class="p">)</span> <span class="o">@</span> <span class="n">IdentityLinearOperator</span><span class="p">(</span>
+                <span class="n">jax</span><span class="o">.</span><span class="n">ShapeDtypeStruct</span><span class="p">(</span>
+                    <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">(),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">default_floating_dtype</span><span class="p">()</span>
+                <span class="p">),</span>
+                <span class="n">matrix</span><span class="o">.</span><span class="n">in_structure</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Right-sketching with SRHT is not supported.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">vector_sketch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+        <span class="c1"># check mode</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Sketch a vector with a right-sketching matrix is not allowed.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># ravel input vector</span>
+        <span class="n">unraveled</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+        <span class="c1"># check dimension</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unraveled</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Vector length does not match the input dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_sketch</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+        <span class="c1"># compute sketched vector</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">at</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span> <span class="o">*</span> <span class="n">unraveled</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mf">1.0</span>
+            <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">)</span>
+            <span class="o">*</span> <span class="n">hadamard_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">restriction</span><span class="p">,</span> <span class="n">unique_indices</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span></div>
+
+
+
+<div class="viewcode-block" id="LESS">
+<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.LESS">[docs]</a>
+<span class="k">class</span> <span class="nc">LESS</span><span class="p">(</span><span class="n">Sketching</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Leverage score sparsified embedding sketching matrix.</span>
+
+<span class="sd">    Suppose the matrix to be sketched is of size :math:`\text{dim} \times m` with</span>
+<span class="sd">    leverage scores :math:`(l_1, \cdots, l_{\text{dim}})`. Let :math:`s_i</span>
+<span class="sd">    \sim \mathrm{Multinomial}(m, p_1, \cdots, p_{\text{dim}})` for</span>
+<span class="sd">    :math:`i = 1, \cdots, \text{sketch\_size}` be i.i.d. multinomial random variables</span>
+<span class="sd">    with probability :math:`p_j` approximately proportional to :math:`l_j` for :math:`j</span>
+<span class="sd">    = 1, \cdots, \text{dim}`.</span>
+
+<span class="sd">    Each row of the sketching matrix is independently determined by:</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        s_i^{\mathsf{T}} = \sqrt{\frac{1}{\text{sketch\_size}}}</span>
+<span class="sd">        \bigg(</span>
+<span class="sd">        \sqrt{\frac{s_{i,1}}{p_1}} x_{i,1},</span>
+<span class="sd">        \cdots,</span>
+<span class="sd">        \sqrt{\frac{s_{i,\text{dim}}}{p_{\text{dim}}}} x_{i,\text{dim}}</span>
+<span class="sd">        \bigg)</span>
+
+<span class="sd">    where :math:`x_{i,j}`&#39;s are i.i.d. mean zero and unit variance sub-Gaussian random</span>
+<span class="sd">    variables (the implementation uses Rademacher random variables).</span>
+
+<span class="sd">    The sketching has two additional optional arguments:</span>
+
+<span class="sd">    - ``compute_leverage_scores`` specifies the approach to construct LESS embedding</span>
+<span class="sd">      (default ``False``). If set to ``True``, then leverage scores are approximated</span>
+<span class="sd">      [#f7]_. Otherwise the matrix gets transformed first so that leverage scores are</span>
+<span class="sd">      approximately uniform.</span>
+<span class="sd">    - ``matrix`` specifies the matrix to be sketched (default ``None``). If not provided,</span>
+<span class="sd">      the sketching matrix construction is deferred when ``matrix_sketch`` gets called.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        .. [#f7]  P. Drineas, M. Magdon-Ismail, M. W. Mahoney, D. P. Woodruff, `Fast</span>
+<span class="sd">          Approximation of Matrix Coherence and Statistical Leverage</span>
+<span class="sd">          &lt;https://jmlr.org/papers/v13/drineas12a.html&gt;`_, Journal of Machine Learning</span>
+<span class="sd">          Research, 13(111):3475–3506, 2012.</span>
+
+<span class="sd">        - \M. Dereziński, Z. Liao, E. Dobriban, and M. W. Mahoney, `Sparse sketches with</span>
+<span class="sd">          small inversion bias &lt;https://proceedings.mlr.press/v134/derezinski21a&gt;`_,</span>
+<span class="sd">          Proceedings of 34\ :sup:`th` Conference on Learning Theory, PMLR 134:1467–1510</span>
+<span class="sd">          , 2021.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">sketch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span>
+        <span class="n">compute_leverage_scores</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">matrix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Right-sketching with LESS is not supported.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_leverage_scores</span> <span class="o">=</span> <span class="n">compute_leverage_scores</span>
+        <span class="c1"># matrix is not needed with the data oblivious approach</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_leverage_scores</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">dim</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sketch_size</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="c1"># defer sketching if matrix is not provided at initialization</span>
+        <span class="k">if</span> <span class="n">matrix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_generate_sketching</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Matrix input dimension is not provided. Please initialize LESS embedding with a matrix or call matrix_sketch first.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># split keys</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">sub_key_1</span><span class="p">,</span> <span class="n">sub_key_2</span><span class="p">,</span> <span class="n">sub_key_3</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="c1"># use the leverage score approximation approach</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_leverage_scores</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Matrix to be sketched is not provided. Please initialize LESS embedding with a matrix or call matrix_sketch first.&quot;</span>
+                <span class="p">)</span>
+            <span class="c1"># perform SVD of the sketched matrix</span>
+            <span class="n">SA</span> <span class="o">=</span> <span class="n">SJLT</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">bits</span><span class="p">(</span><span class="n">sub_key_1</span><span class="p">))</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">matrix_sketch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">matrix</span><span class="p">)</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">svals</span><span class="p">,</span> <span class="n">rsvecs</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">SA</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">())</span>
+            <span class="c1"># compute approximate orthogonal basis of the matrix</span>
+            <span class="n">AR_inv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span> <span class="o">@</span> <span class="n">rsvecs</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">svals</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># approximate leverage scores using squared row-norms of the orthogonal matrix</span>
+            <span class="n">lev_scores</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">AR_inv</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># compute sampling probability according to approximate leverage scores</span>
+            <span class="n">probs</span> <span class="o">=</span> <span class="n">lev_scores</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">lev_scores</span><span class="p">)</span>
+            <span class="c1"># draw multinomial random variables</span>
+            <span class="c1"># JAX random module does not support multinomial yet</span>
+            <span class="c1"># we use less performant workaround for now</span>
+            <span class="c1"># see https://github.com/jax-ml/jax/issues/13327 for a discussion on this</span>
+            <span class="n">cat_samples</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">categorical</span><span class="p">(</span>
+                <span class="n">sub_key_2</span><span class="p">,</span> <span class="n">logits</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">probs</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">bincount_1d_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">M</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+            <span class="n">samples</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">bincount_1d_fun</span><span class="p">,</span> <span class="mi">0</span><span class="p">)(</span><span class="n">cat_samples</span><span class="p">)</span>
+            <span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">*</span> <span class="n">probs</span><span class="p">)</span>
+            <span class="c1"># assemble LESS embedding</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sketching</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                <span class="n">samples</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span>
+            <span class="p">)</span> <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rademacher</span><span class="p">(</span><span class="n">sub_key_3</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">))</span>
+        <span class="c1"># use the pre-processing approach that uniformizes the leverage scores</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># generate random sign flips for the Hadamard transform</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rademacher</span><span class="p">(</span><span class="n">sub_key_1</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,))</span>
+            <span class="c1"># use uniformly sparsified sketching matrix</span>
+            <span class="n">cat_samples</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">categorical</span><span class="p">(</span>
+                <span class="n">sub_key_2</span><span class="p">,</span>
+                <span class="n">logits</span><span class="o">=-</span><span class="n">jnp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">)</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">),</span>
+                <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">bincount_1d_fun</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">M</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">)</span>
+            <span class="n">samples</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">bincount_1d_fun</span><span class="p">,</span> <span class="mi">0</span><span class="p">)(</span><span class="n">cat_samples</span><span class="p">)</span>
+            <span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">)</span>
+            <span class="c1"># assemble LESS embedding</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sketching</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                <span class="n">samples</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span>
+            <span class="p">)</span> <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rademacher</span><span class="p">(</span><span class="n">sub_key_3</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sketch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">as_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_leverage_scores</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketching</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="mf">1.0</span>
+                <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">)</span>
+                <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketching</span>
+                <span class="o">@</span> <span class="n">hadamard_transform</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">,</span>
+                    <span class="n">jnp</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+                        <span class="p">[</span>
+                            <span class="n">jnp</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span><span class="p">),</span>
+                            <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">)),</span>
+                        <span class="p">]</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">matrix_sketch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">matrix</span><span class="p">:</span> <span class="n">AbstractLinearOperator</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractLinearOperator</span><span class="p">:</span>
+        <span class="c1"># check dimension</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">out_size</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Output dimension of the linear operator does not match the input dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">()</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Input dimension of the linear operator does not match the output dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># generate new sketching matrix if needed</span>
+        <span class="k">if</span> <span class="n">new_sketch</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;sketching&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_leverage_scores</span><span class="p">:</span>
+                <span class="c1"># set new matrix</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+        <span class="c1"># return composed operator</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_leverage_scores</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">MatrixLinearOperator</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sketching</span> <span class="o">@</span> <span class="n">matrix</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+                <span class="p">)</span> <span class="o">@</span> <span class="n">IdentityLinearOperator</span><span class="p">(</span>
+                    <span class="n">jax</span><span class="o">.</span><span class="n">ShapeDtypeStruct</span><span class="p">(</span>
+                        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">(),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">default_floating_dtype</span><span class="p">()</span>
+                    <span class="p">),</span>
+                    <span class="n">matrix</span><span class="o">.</span><span class="n">in_structure</span><span class="p">(),</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># transform the matrix to make leverage scores approximately uniform</span>
+                <span class="n">SA</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="n">jnp</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">matrix</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()),</span>
+                        <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">())),</span>
+                    <span class="p">]</span>
+                <span class="p">)</span>
+                <span class="n">SA</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="mf">1.0</span>
+                    <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">)</span>
+                    <span class="o">*</span> <span class="n">hadamard_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">,</span> <span class="n">SA</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="c1"># apply sketching to the transformed matrix</span>
+                <span class="k">return</span> <span class="n">MatrixLinearOperator</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">sketching</span> <span class="o">@</span> <span class="n">SA</span>
+                <span class="p">)</span> <span class="o">@</span> <span class="n">IdentityLinearOperator</span><span class="p">(</span>
+                    <span class="n">jax</span><span class="o">.</span><span class="n">ShapeDtypeStruct</span><span class="p">(</span>
+                        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">in_size</span><span class="p">(),),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">default_floating_dtype</span><span class="p">()</span>
+                    <span class="p">),</span>
+                    <span class="n">matrix</span><span class="o">.</span><span class="n">in_structure</span><span class="p">(),</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Right-sketching with LESS is not supported.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">vector_sketch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">new_sketch</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+        <span class="c1"># check mode</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Sketch a vector with a right-sketching matrix is not allowed.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># ravel input vector</span>
+        <span class="n">unraveled</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">ravel_tree</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+        <span class="c1"># check dimension</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unraveled</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Vector length does not match the input dimension of the sketching matrix.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">new_sketch</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;sketching&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_generate_sketching</span><span class="p">()</span>
+        <span class="c1"># compute sketched vector</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_leverage_scores</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketching</span> <span class="o">@</span> <span class="n">unraveled</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">)</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">at</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sign_flip</span> <span class="o">*</span> <span class="n">unraveled</span><span class="p">)</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="mf">1.0</span>
+                <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">)</span>
+                <span class="o">*</span> <span class="n">hadamard_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">padded_dim</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sketching</span> <span class="o">@</span> <span class="n">v</span></div>
+
+
+
+<div class="viewcode-block" id="UniformRowSampling">
+<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.UniformRowSampling">[docs]</a>
+<span class="k">class</span> <span class="nc">UniformRowSampling</span><span class="p">(</span><span class="n">Sketching</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Uniform row sampling sketching matrix.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        - \M. B. Cohen, Y. T. Lee, C. [Cameron] Musco, C. [Christopher] Musco, R. Peng,</span>
+<span class="sd">          A. Sidford, `Uniform Sampling for Matrix Approximation</span>
+<span class="sd">          &lt;https://doi.org/10.1145/2688073.2688113&gt;`_, Proceedings of the 2015</span>
+<span class="sd">          Conference on Innovations in Theoretical Computer Science, Association for</span>
+<span class="sd">          Computing Machinery 181–190, 2015.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="RowNormSampling">
+<a class="viewcode-back" href="../../api/sketchyopts.sketching.html#sketchyopts.sketching.RowNormSampling">[docs]</a>
+<span class="k">class</span> <span class="nc">RowNormSampling</span><span class="p">(</span><span class="n">Sketching</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Row-norm sampling sketching matrix.&quot;&quot;&quot;</span></div>
 
 
 
 <span class="c1"># Mapping of sketch types to sketching classes</span>
 <span class="n">SKETCH_TYPE_OPTIONS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;gaussian&quot;</span><span class="p">:</span> <span class="n">GaussianEmbedding</span><span class="p">,</span>
-    <span class="s2">&quot;srft&quot;</span><span class="p">:</span> <span class="n">SRTT</span><span class="p">,</span>
-    <span class="s2">&quot;sparse-sign&quot;</span><span class="p">:</span> <span class="n">SparseSignEmbedding</span><span class="p">,</span>
+    <span class="s2">&quot;orthonormal&quot;</span><span class="p">:</span> <span class="n">OrthonormalEmbedding</span><span class="p">,</span>
+    <span class="s2">&quot;sjlt&quot;</span><span class="p">:</span> <span class="n">SJLT</span><span class="p">,</span>
+    <span class="s2">&quot;srtt&quot;</span><span class="p">:</span> <span class="n">SRTT</span><span class="p">,</span>
+    <span class="s2">&quot;srht&quot;</span><span class="p">:</span> <span class="n">SRHT</span><span class="p">,</span>
+    <span class="s2">&quot;less&quot;</span><span class="p">:</span> <span class="n">LESS</span><span class="p">,</span>
+    <span class="s2">&quot;row&quot;</span><span class="p">:</span> <span class="n">UniformRowSampling</span><span class="p">,</span>
+    <span class="s2">&quot;row_norm&quot;</span><span class="p">:</span> <span class="n">RowNormSampling</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -769,8 +1215,8 @@ By Author name not set
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

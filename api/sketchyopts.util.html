@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,8 +27,8 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
@@ -39,10 +39,10 @@
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=9a799264" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
@@ -163,7 +163,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.linear_solve.html">Linear Solve</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sketchyopts.nystrom.html">Nyström Approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sketchyopts.low_rank_approx.html">Low-rank Approximation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.sketching.html">Sketching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.base.html">Base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sketchyopts.operator.html">Operator</a></li>
@@ -178,9 +178,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -352,6 +357,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sketching-utilities">Sketching Utilities</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.sample_indices"><code class="docutils literal notranslate"><span class="pre">sample_indices()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.form_dense_vector"><code class="docutils literal notranslate"><span class="pre">form_dense_vector()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.hadamard_transform"><code class="docutils literal notranslate"><span class="pre">hadamard_transform()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -420,14 +426,22 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.is_array" title="sketchyopts.util.is_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_array</span></code></a>(item)</p></td>
 <td><p>Check if the input is an array.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.sample_indices" title="sketchyopts.util.sample_indices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_indices</span></code></a>(num_indices, num_samples, key)</p></td>
-<td><p>Sample indices without replacement.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.form_dense_vector" title="sketchyopts.util.form_dense_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">form_dense_vector</span></code></a>(indices, values, num_indices)</p></td>
-<td><p>Form a dense vector from sparse representation.</p></td>
-</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.frozenset" title="sketchyopts.util.frozenset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frozenset</span></code></a>(x)</p></td>
 <td><p>Convert the input to a frozenset.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.util.sample_indices" title="sketchyopts.util.sample_indices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_indices</span></code></a>(num_indices, num_samples, key)</p></td>
+<td><p>Sample indices without replacement.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sketchyopts.util.form_dense_vector" title="sketchyopts.util.form_dense_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">form_dense_vector</span></code></a>(indices, values, num_indices)</p></td>
+<td><p>Form a dense vector from sparse representation.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sketchyopts.sketching.hadamard_transform" title="sketchyopts.sketching.hadamard_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hadamard_transform</span></code></a>(n, M)</p></td>
+<td><p>Hadamard transform of a matrix.</p></td>
 </tr>
 </tbody>
 </table>
@@ -828,6 +842,36 @@ scalar to a strongly-typed one.</p>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="sketchyopts.sketching.hadamard_transform">
+<span class="sig-prename descclassname"><span class="pre">sketchyopts.sketching.</span></span><span class="sig-name descname"><span class="pre">hadamard_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">M</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sketchyopts/sketching.html#hadamard_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sketchyopts.sketching.hadamard_transform" title="Link to this definition">#</a></dt>
+<dd><p>Hadamard transform of a matrix.</p>
+<p>The function computes the unscaled (without the <span class="math">\(n^{-1/2}\)</span> factor) Hadamard
+transform <span class="math">\(H_n M\)</span> using recursive construction (<em>i.e.</em> fast Walsh–Hadamard
+transform or Sylvester’s construction).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The function is intended for internal use, as it lacks validation for the value
+of <code class="docutils literal notranslate"><span class="pre">n</span></code> and the size of the matrix <code class="docutils literal notranslate"><span class="pre">M</span></code>. The sketching matrix classes
+<a class="reference internal" href="sketchyopts.sketching.html#sketchyopts.sketching.SRHT" title="sketchyopts.sketching.SRHT"><code class="xref py py-class docutils literal notranslate"><span class="pre">SRHT</span></code></a> and <a class="reference internal" href="sketchyopts.sketching.html#sketchyopts.sketching.LESS" title="sketchyopts.sketching.LESS"><code class="xref py py-class docutils literal notranslate"><span class="pre">LESS</span></code></a>, which use this function, additionally handle
+validation, padding, and scaling.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Order of the Hadamard matrix. The value needs to be a power of 2.</p></li>
+<li><p><strong>M</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a></span>) – 2-dimensional array the transformation applies to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Transformed 2-dimensional array.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
@@ -904,6 +948,7 @@ scalar to a strongly-typed one.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sketching-utilities">Sketching Utilities</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.sample_indices"><code class="docutils literal notranslate"><span class="pre">sample_indices()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.util.form_dense_vector"><code class="docutils literal notranslate"><span class="pre">form_dense_vector()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sketchyopts.sketching.hadamard_transform"><code class="docutils literal notranslate"><span class="pre">hadamard_transform()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -947,8 +992,8 @@ By Author name not set
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
